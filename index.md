@@ -1,8 +1,6 @@
 <font size = "6"><b>I'm DaCubeKing.</b></font>  
 <font size = "4">That's my pen name; IRL people call me Varun. </font>
 
-<br>
-
 Hey 👋, you probably don't know me, but if you do, it's probably from [my youtube videos](youtube.com/dacubeking)
 or in relation to [my FRC team](https://github.com/FRC3476/AutoBuilder).
 
