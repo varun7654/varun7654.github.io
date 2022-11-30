@@ -12,11 +12,10 @@ Apart from that, my hobbies include reading and playing video games (mainly Mine
 I'm currently reading [Her Name in the Sky by Kelly Quindlen](https://www.goodreads.com/book/show/20886492-her-name-in-the-sky).
 
 
-# 
+---
 
-<font size = "5"><b>Find me Elsewhere<font size = "5"></b>
+<font size = "5"><b>Find me Elsewhere</b><font size = "5">
 
-<font color = "black">
 <font size = "3"><b>
     <a href="https://github.com/varun7654">
         <img style="vertical-align:middle" src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/96cafbd73ec4339b8c73c36673ce1518db82cc5c/svgs/brands/github.svg" alt="Github Logo" height="25"/> GitHub
