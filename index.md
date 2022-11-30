@@ -1,4 +1,4 @@
-<font size = "6"><b>I'm DaCubeKing.</font></b>  
+<font size = "6"><b>I'm DaCubeKing.</b></font><br>
 <font size = "4">That's my pen name; IRL people call me Varun. </font>
 
 
@@ -13,6 +13,7 @@ I'm currently reading [Her Name in the Sky by Kelly Quindlen](https://www.goodre
 
 
 # 
+
 <font size = "5"><b>Find me Elsewhere<font size = "5"></b>
 
 <font color = "black">
