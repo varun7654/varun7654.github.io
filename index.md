@@ -1,5 +1,3 @@
-<script src="https://kit.fontawesome.com/363956f17e.js" crossorigin="anonymous"></script>
-
 <font size = "6"><b>I'm DaCubeKing.</font></b>  
 <font size = "4">That's my pen name; IRL people call me Varun. </font>
 
