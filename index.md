@@ -1,5 +1,4 @@
-<font size = "6"><b>I'm DaCubeKing.</b></font>
-<br>
+<font size = "6"><b>I'm DaCubeKing.</b></font>  
 <font size = "4">That's my pen name; IRL people call me Varun. </font>
 
 <br>
