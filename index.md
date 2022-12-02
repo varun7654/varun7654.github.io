@@ -1,7 +1,3 @@
----
-layout: page
----
-
 <font size = "8"><b>I'm DaCubeKing.</b></font>
 <div style="line-height:5%;">
     <br>
