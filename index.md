@@ -1,4 +1,4 @@
-<font size = "8"><b>I'm Da​Cube​King.</b></font>
+<font size = "8"><b>I'm DaCubeKing.</b></font>
 <div style="line-height:5%;">
     <br>
 </div>
