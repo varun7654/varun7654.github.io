@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Coding Projects I've Worked On
+title: My Programming Projects
 ---
 
 ## FRC
