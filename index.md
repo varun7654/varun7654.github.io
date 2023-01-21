@@ -14,7 +14,7 @@ I'm an 18-year-old High School student from California. I love coding and everyt
 I'm currently the programming lead for my [FRC team, Team 3476 - Code Orange](http://teamcodeorange.com/).
 
 Apart from that, my hobbies include reading and playing video games (mainly Minecraft).
-I'm currently reading [Her Name in the Sky by Kelly Quindlen](https://www.goodreads.com/book/show/20886492-her-name-in-the-sky).
+I'm currently reading [The Charm Offensive by Alison Cochrun](https://www.goodreads.com/book/show/56898248-the-charm-offensive).
 
 
 ---
