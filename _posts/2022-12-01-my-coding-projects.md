@@ -1,9 +1,7 @@
 ---
-layout: page
-title: Blog Archive
+layout: post
+title: The Coding Projects I've Worked On
 ---
-
-# The Coding Projects I've Worked On
 
 ## FRC
 - [AutoBuilder](https://github.com/FRC3476/AutoBuilder)
