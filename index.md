@@ -14,7 +14,7 @@ I'm an 18-year-old High School student from California. I love coding and everyt
 I'm currently the programming lead for my [FRC team, Team 3476 - Code Orange](http://teamcodeorange.com/).
 
 Apart from that, my hobbies include reading and playing video games (mainly Minecraft).
-I'm currently reading [The Charm Offensive by Alison Cochrun](https://www.goodreads.com/book/show/56898248-the-charm-offensive).
+I'm currently reading [A Good Girl's Guide to Murder](https://www.goodreads.com/book/show/40916679-a-good-girl-s-guide-to-murder) & [Pride and Prejudice](https://www.goodreads.com/book/show/1885.Pride_and_Prejudice?ref=nav_sb_noss_l_13).
 
 If you're looking for my maven repository that's [here](https://maven.dacubeking.com).
 
