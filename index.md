@@ -13,8 +13,25 @@ or in relation to [my FRC team](https://github.com/FRC3476/AutoBuilder).
 I'm an 18-year-old High School student from California. I love coding and everything about computers. 
 I'm currently the programming lead for my [FRC team, Team 3476 - Code Orange](http://teamcodeorange.com/).
 
-Apart from that, my hobbies include reading and playing video games (mainly Minecraft).
-I'm currently reading [A Good Girl's Guide to Murder](https://www.goodreads.com/book/show/40916679-a-good-girl-s-guide-to-murder) & [Pride and Prejudice](https://www.goodreads.com/book/show/1885.Pride_and_Prejudice?ref=nav_sb_noss_l_13).
+<div id="currentlyReading">
+Apart from that, my hobbies include reading and playing video games (mainly Minecraft). 
+</div>
+
+<script>
+	fetch(
+		'https://books.api.dacubeking.com/currentlyreading',
+	)
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        document.getElementById("currentlyReading").innerHTML +=  html
+        console.log(html);
+    })
+</script>
+
+<p></p>
 
 If you're looking for my maven repository that's [here](https://maven.dacubeking.com).
 
