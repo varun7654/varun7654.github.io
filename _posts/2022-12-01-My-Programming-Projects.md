@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: posts
 title: My Programming Projects
 ---
 # My Programming Projects
