@@ -27,7 +27,6 @@ Apart from that, my hobbies include reading and playing video games (mainly Mine
     })
     .then(function(html) {
         document.getElementById("currentlyReading").innerHTML +=  html
-        console.log(html);
     })
 </script>
 
