@@ -11,7 +11,7 @@ title: Reading Log
 <div id=books>
 </div>
 
-Thanks to the [OpenLibrary](openlibrary.org) for providing the data powering this page 
+Thanks to the [Open Library](https://openlibrary.org/) for providing the data powering this page 
 
 <script>
     fetch(
