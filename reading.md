@@ -22,12 +22,23 @@ Thanks to the [OpenLibrary](openlibrary.org) for providing the data powering thi
         return response.json()
     })
     .then(function(json) {
-        json.forEach(function(bookData) {
+        async function fetchImage(url) {
+            const img = new Image();
+            return new Promise((res, rej) => {
+                img.onload = () => res(img);
+                img.onerror = e => rej(e);
+                img.src = url;
+            });
+        }
 
+        
+        json.forEach(function(bookData) {
             var authorHtml = 
                 bookData.authors.map(
                     (author, index) => `<a href="${bookData.authorLinks[index]}">${author}</a>`
                 )
+
+            fetchImage(bookData.coverLink)
             var html = `
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">
@@ -48,7 +59,6 @@ Thanks to the [OpenLibrary](openlibrary.org) for providing the data powering thi
                     </div>
                 </div>
             `
-
 
             document.getElementById("books").innerHTML +=  html
         });
