@@ -1,7 +1,8 @@
 .book img {
-    max-height: 300px;
-    min-height: 300px;
-    margin-left: 10px;
+    max-width: 200px;
+    min-width: 200px;
+    min-height: 100px;
+    margin-right: 10px;
     margin-bottom: 5px;
 }
 
@@ -21,4 +22,12 @@
     font-weight: normal;
     font-size: large;
     margin-bottom: 0px;
+}
+
+.book {
+    margin-bottom: 20px;
+}
+
+.book a {
+    color: #000000;
 }
