@@ -23,6 +23,6 @@ Title:
         var data = JSON.stringify(bookData);
         var cover = url.searchParams.get('cover');
 
-        window.location.href =  "https://books.api.dacubeking.com/updateBookOverride?workId=" + workId + "&overrideData=" + encodeURIComponent(data) + "&cover=" + cover;
+        window.location.href =  "https://books.api.dacubeking.com/bestedition/edit?workId=" + workId + "&overrideData=" + encodeURIComponent(data) + "&cover=" + cover;
     }
 </script>
