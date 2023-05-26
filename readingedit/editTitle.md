@@ -23,14 +23,6 @@ Title:
         var data = JSON.stringify(bookData);
         var cover = url.searchParams.get('cover');
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://books.api.dacubeking.com/updateBookOverride?workId=" + workId + "&overrideData=" + encodeURIComponent(data) + "&cover=" + cover, true);
-        xhr.send();
-        xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log("Book Override Updated");
-                window.location.href = "/readingedit/reading";
-            }
-        };
+        window.location.href =  "https://books.api.dacubeking.com/updateBookOverride?workId=" + workId + "&overrideData=" + encodeURIComponent(data) + "&cover=" + cover;
     }
 </script>
