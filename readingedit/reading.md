@@ -1,6 +1,6 @@
 ---
-layout: page
-title: Reading Log
+layout: default
+title: Reading Log (Edit Mode)
 ---
 
 <head>
@@ -42,13 +42,13 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
             var html = `
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">
-                        <a href="${bookData.link}">
-                            <img src="${bookData.coverLink}" alt="Book Cover for, ${bookData.name}">
+                        <a href="https://books.api.dacubeking.com/bestedition?workId=${bookData.workId}&render=true">
+                            <img src="${bookData.coverLink}" alt="Edit Book Info for, ${bookData.name}">
                         </a>
                     </div>
                     <div style="display:inline-block;vertical-align:bottom;">
                         <div class="book-title">
-                            <a href="${bookData.link}">${bookData.name}</a>
+                            <a href="https://books.api.dacubeking.com/bestedition?workId=${bookData.workId}&render=true">${bookData.name}</a>
                         </div>
                         <div class="author">
                             ${authorHtml}
@@ -64,5 +64,3 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
         });
     })
 </script>
-
-[Edit This](/readingedit/reading)

@@ -37,3 +37,7 @@ defaults:
       type: post
     values:
       tags: Other
+
+header_pages:
+  - reading.md
+  - archive.html
