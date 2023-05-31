@@ -42,7 +42,7 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
             var html = `
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">
-                        <a href="https://books.api.dacubeking.com/bestedition?workId=${bookData.workId}&render=true">
+                        <a href="https://books.api.dacubeking.com/bestedition?workId=${bookData.workId}&render=true&bypassCache=true">
                             <img src="${bookData.coverLink}" alt="Edit Book Info for, ${bookData.name}">
                         </a>
                     </div>
