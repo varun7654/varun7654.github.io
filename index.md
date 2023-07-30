@@ -1,6 +1,11 @@
 ---
 layout: home
 ---
+<head>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+
 
 <font size = "8"><b>I'm DaCubeKing.</b></font>
 <div style="line-height:5%;">
