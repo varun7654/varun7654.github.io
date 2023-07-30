@@ -39,6 +39,12 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                 )
 
             fetchImage(bookData.coverLink)
+
+            var currentlyReadingHtml = ""
+            if (bookData.list === "Currently Reading") {
+                currentlyReadingHtml = `<div class="currently-reading">Currently Reading - ${Math.round(bookData.percentComplete * 100)}%</div>`
+            }
+
             var html = `
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">
@@ -47,6 +53,7 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                         </a>
                     </div>
                     <div style="display:inline-block;vertical-align:bottom;">
+                        ${currentlyReadingHtml}
                         <div class="book-title">
                             <a href="${bookData.link}">${bookData.name}</a>
                         </div>

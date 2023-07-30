@@ -6,6 +6,11 @@
     margin-bottom: 5px;
 }
 
+.currently-reading {
+    font-weight: lighter;
+    font-size: large;
+    margin-bottom: -7px;
+}
 .book-title {
     font-weight: bold;
     font-size: x-large;
