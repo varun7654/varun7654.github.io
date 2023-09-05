@@ -22,12 +22,22 @@ title: Update Reading Progress
         books = books.filter(book => book.list === "Currently Reading");
         console.log(books);
 
+        const url = new URL(window.location.href);
+        const jsonData = decodeURI(url.searchParams.get('overrideJson'));
+        const overrideData = JSON.parse(jsonData);
+
         for (book of books) {
 
             var authorHtml =
                 book.authors.map(
                     (author, index) => `<a href="${book.authorLinks[index]}">${author}</a>`
             )
+            
+            if (overrideData != null && overrideData.workId === book.workId) {
+                book.percentComplete = overrideData.percent;
+                book.pages = overrideData.totalPages;
+                console.log(book); 
+            }
 
             var html = `
                 <div class="book">
