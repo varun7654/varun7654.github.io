@@ -32,11 +32,14 @@ title: Update Reading Progress
                 book.authors.map(
                     (author, index) => `<a href="${book.authorLinks[index]}">${author}</a>`
             )
-            
-            if (overrideData != null && overrideData.workId === book.workId) {
-                book.percentComplete = overrideData.percent;
-                book.pages = overrideData.totalPages;
-                console.log(book); 
+            try {
+                if (overrideData != null && overrideData.workId === book.workId) {
+                    book.percentComplete = overrideData.percent;
+                    book.pages = overrideData.totalPages;
+                    console.log(book); 
+                }
+            } catch (e) {
+                console.log(e);
             }
 
             var html = `
@@ -62,7 +65,7 @@ title: Update Reading Progress
                                 <b>
                                     Pages Read:
                                 </b>
-                                <input type="number" name="pages" id="${book.workId}pages" min="0" max="${book.pages}" value="${book.percentComplete * book.pages}" onInput="pagesChange('${book.workId}')">
+                                <input type="number" name="pages" id="${book.workId}pages" min="0" max="${book.pages}" value="${Math.round(book.percentComplete * book.pages)}" onInput="pagesChange('${book.workId}')">
                                 <b>
                                     /
                                 </b>
