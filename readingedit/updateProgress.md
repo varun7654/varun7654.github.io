@@ -75,7 +75,7 @@ title: Update Reading Progress
                                 <b>
                                     Percent Complete:
                                 </b>
-                                <input type="number" name="percent" id="${book.workId}percent" min="0" max="100" step="1" value="${book.percentComplete * 100}" onInput="percentChange('${book.workId}')" >
+                                <input type="number" name="percent" id="${book.workId}percent" min="0" max="100" step="1" value="${Math.round(book.percentComplete * 100)}" onInput="percentChange('${book.workId}')" >
                                 <b>
                                     %
                                 </b>
