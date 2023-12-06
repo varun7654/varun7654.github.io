@@ -1,15 +1,15 @@
 ---
 layout: post
-title: Your iPhone Can Take Pretty Cool Photos of The Night Sky
+title: Your iPhone can do Astrophotography
 ---
 
-![Milky Way Photo Taken on an iPhone](/assets/night_sky_photos/IMG_2102.webp)
+![Photo of the Milky Way Taken on an iPhone 14 Pro](/assets/night_sky_photos/IMG_2102.webp)
 
 A Picture I took on an iPhone 14 Pro of the Milky Way
 
 # How?
 
-Well, you can't really do this anywhere. You still need a dark environment with little light pollution (I took the picture above at [Bryce Canyon National Park](https://www.nps.gov/brca/index.htm)), but if you have a dark sky in front of you here's how you take a picture like the one above.
+Well, you can't do this anywhere. You still need a dark environment with little light pollution (I took the picture above at [Bryce Canyon National Park](https://www.nps.gov/brca/index.htm)), but if you have a dark sky in front of you here's how you take a picture like the one above.
 
 1. Enable night mode
 
@@ -17,17 +17,17 @@ Well, you can't really do this anywhere. You still need a dark environment with 
 
     Swipe away from the camera shutter and click on the night mode button.
 
-    ![Night mode at the longest expose setting](/assets/night_sky_photos/IMG_4180.PNG)
+    ![Night mode set at the longest Exposure Setting](/assets/night_sky_photos/IMG_4180.PNG)
 
     Change the expose duration to whatever `Max` is. (Don't worry about the specific duration right now) 
     
 2. Getting a 30-second exposure
 
-    Your iPhone won't always let you do a 30-second Night Mode exposure. To get this option your phone needs to be still, & you need to in a *really* dark environment.
+    Your iPhone won't always let you do a 30-second Night Mode exposure. To get this option your phone needs to be still, & you need to be in a _really_ dark environment.
     
     In practice, you'll want to use a tripod (I used the tripod that was part of a selfie stick we had), but in a pinch, you can hang your phone off the edge of a bench (just make sure no one is sitting on the bench).
 
-    If there is some lighting around you (even some dim lights can cause issues) try using some pillows and blankets to block the excess light from reaching the phone.
+    If there is some lighting around you (even some dim lights can cause issues) try using some pillows and blankets to block the excess light from reaching your phone.
 
     Once you get your conditions right you should see the Night Mode slide read `Max (30s)`.
 
@@ -42,7 +42,7 @@ Well, you can't really do this anywhere. You still need a dark environment with 
     And finally, while you patiently wait for your 30s exposure be mindful about vibrations that could shake your camera.
     
     
-With that, you now have some pretty cool photos you can share. Obviously, you could still get much better photos with a DLSR (they have an unfair sensor/lens size advantage), but I think these photos still look pretty cool.
+With that, you now have some pretty cool photos you can share. Obviously, you could still get much better photos with a DLSR Camera (they have an unfair sensor/lens size advantage), but I think these photos still look pretty cool.
 
 -----
 
