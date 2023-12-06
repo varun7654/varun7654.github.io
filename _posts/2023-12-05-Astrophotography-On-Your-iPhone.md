@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Your iPhone can do Astrophotography
+title: Your iPhone Can Do Astrophotography
 ---
 
 ![Photo of the Milky Way Taken on an iPhone 14 Pro](/assets/night_sky_photos/IMG_2102.webp)
