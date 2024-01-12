@@ -11,7 +11,7 @@ title: Reading Log
 <div id=books>
 </div>
 
-Thanks to the [Open Library](https://openlibrary.org/) for providing the data powering this page 
+Thanks to the [Open Library](https://openlibrary.org/) for providing the data powering this page. The backend is run on Cloudflare Workers with the source [here](https://github.com/varun7654/Workers-Books-Api)
 
 <script>
     fetch(
