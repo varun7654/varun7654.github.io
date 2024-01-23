@@ -11,16 +11,18 @@ title: My Programming Projects
     - A IDE that I created for developing and testing autonomous routines for FRC
 - [2022 FRC Robot](https://github.com/FRC3476/FRC-2022)
     - [TBA (Event Statistics/Results)](https://www.thebluealliance.com/team/3476/2022)
-
-- [2020/2021 FRC Robot](https://github.com/FRC3476/FRC-2020)
-    - [TBA (Event Statistics/Results)](https://www.thebluealliance.com/team/3476/2021)
     - [Robot Reveal](https://youtu.be/sENzTtd2u-4?si=sy6iKiOx9PQ8F8MX)
     - [Pre Camps Highlight](https://youtu.be/nkH3cWh3aaQ?si=7G2HqcnQYptRMW_P)
     - [Post Season Recap](https://youtu.be/yWqOs5D42iM?si=f03J6xR_TmcbQS1o)
+
+- [2020/2021 FRC Robot](https://github.com/FRC3476/FRC-2020)
+    - [TBA (Event Statistics/Results)](https://www.thebluealliance.com/team/3476/2021)
+
+
 ## Minecraft
 - Client Side Noteblocks. [Modrinth](https://modrinth.com/mod/clientsidenoteblocks), [Curseforge](https://www.curseforge.com/minecraft/mc-mods/client-side-noteblocks)
     - A Minecraft mod to reduce audio latency when playing noteblocks in Minecraft. Works by processing inputs on the client instead of waiting for the server to play the sound.
-    - >100k downloads
+    - 100k+ downloads
 - To Do List. [Spigot](https://www.spigotmc.org/resources/to-do-list.94596/)
     - Simple Plugin for Spigot that holds a To Do List on your Minecraft server.
 - Quick Report [Hypixel](https://hypixel.net/threads/forge-1-8-9-quickreport-a-mod-for-quickly-reporting-cheaters-on-hypixel.3428305/)
