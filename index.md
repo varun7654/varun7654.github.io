@@ -19,10 +19,9 @@ layout: home
 Hey 👋, you probably don't know me, but if you do, it's probably from [my youtube videos](yt)
 or in relation to the [FRC team](https://github.com/FRC3476/AutoBuilder) that I was on.
 
-I'm an 19-year-old college freshmen from California. I love coding and everything about computers.
-In High School I was the programming lead for the FRC team, [3476 - Code Orange](http://teamcodeorange.com/).
+I'm a 19-year-old college freshman from California. I love coding and everything about computers. In High School, I was the programming lead for the FRC team, [3476 - Code Orange](http://teamcodeorange.com/).
 
-Check our the stuff that I've worked on [here](/2022/12/01/My-Programming-Projects.html)
+Check the stuff that I've worked on [here](/2022/12/01/My-Programming-Projects.html)
 
 <div id="currentlyReading">
 Apart from that, my hobbies include reading and playing video games (mainly Minecraft).
