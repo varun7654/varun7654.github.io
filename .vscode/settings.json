@@ -5,10 +5,5 @@
             "scheme": "file"
         }
     ],
-    "cSpell.words": [
-        "Curseforge",
-        "Hypixel",
-        "Modrinth",
-        "Noteblocks"
-    ]
+    "cSpell.words": ["Curseforge", "dynmap", "Hypixel", "Modrinth", "Noteblocks", "tickrates"]
 }
