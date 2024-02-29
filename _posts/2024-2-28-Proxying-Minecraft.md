@@ -3,6 +3,7 @@ layout: post
 title: Using Cloudflare Tunnels to Proxy Minecraft Server Traffic (For Free!)
 ---
 
+# Using Cloudflare Tunnels to Proxy Minecraft Server Traffic (For Free!)
 
 # Why
 For a while now I've been hosting my own Minecraft server at home. 
