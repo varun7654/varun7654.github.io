@@ -23,8 +23,11 @@ I'm a 19-year-old college freshman from California. I love coding and everything
 
 Check the stuff that I've worked on [here](/2022/12/01/My-Programming-Projects.html)
 
-<div id="currentlyReading">
-Apart from that, my hobbies include reading and playing video games (mainly Minecraft).
+<div>
+    <span>
+    Apart from that, my hobbies include reading and playing video games (mainly Minecraft).
+    </span>
+    <span id="currentlyReading"> </span>
 </div>
 
 <script>
@@ -41,9 +44,6 @@ Apart from that, my hobbies include reading and playing video games (mainly Mine
 </script>
 
 <p></p>
-
-If you're looking for my maven repository that's [here](https://maven.dacubeking.com).
-
 ---
 <div style="line-height:120%;">
     <br>
