@@ -38,6 +38,8 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                     (author, index) => `<a href="${bookData.authorLinks[index]}">${author}</a>`
                 )
 
+            authorHtml = authorHtml.join(", ");
+
             fetchImage(bookData.coverLink)
 
             var currentlyReadingHtml = ""
