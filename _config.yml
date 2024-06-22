@@ -40,4 +40,4 @@ defaults:
 
 header_pages:
   - reading.md
-  - archive.html
+  - archive.md
