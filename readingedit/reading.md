@@ -35,7 +35,7 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
         json.forEach(function(bookData) {
             var authorHtml = 
                 bookData.authors.map(
-                    (author, index) => `<a href="${bookData.authorLinks[index]}">${author}</a>`
+                    (author, index) => `${author}`
                 )
 
             fetchImage(bookData.coverLink)
