@@ -51,7 +51,7 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">
                         <a href="${bookData.link}">
-                            <img src="${bookData.coverLink}" alt="Book Cover for, ${bookData.name}">
+                            <img src="${bookData.coverLink}" loading="lazy" alt="Book Cover for, ${bookData.name}">
                         </a>
                     </div>
                     <div style="display:inline-block;vertical-align:bottom;">
