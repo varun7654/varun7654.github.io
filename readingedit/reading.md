@@ -38,7 +38,7 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                     (author, index) => `${author}`
                 )
 
-            fetchImage(bookData.coverLink)
+            fetchImage(bookData.coverLink + "&fife=w800")
             var html = `
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">

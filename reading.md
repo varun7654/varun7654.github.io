@@ -11,7 +11,7 @@ title: Reading Log
 <div id=books>
 </div>
 
-Thanks to the [Open Library](https://openlibrary.org/) for providing the data powering this page. The backend is run on Cloudflare Workers with the source [here](https://github.com/varun7654/Workers-Books-Api)
+Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https://books.google.com/) for providing the data powering this page. The backend is run on Cloudflare Workers with the source [here](https://github.com/varun7654/Workers-Books-Api)
 
 <script>
     fetch(
@@ -40,7 +40,7 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
 
             authorHtml = authorHtml.join(", ");
 
-            fetchImage(bookData.coverLink)
+            fetchImage(bookData.coverLink + "&fife=w800")
 
             var currentlyReadingHtml = ""
             if (bookData.list === "Currently Reading") {
@@ -49,7 +49,7 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
 
             var html = `
                 <div class="book">
-                    <div style="display:inline-block;vertical-align:top;">
+                    <div style="display:inline-block;vertical-align:top;min-h">
                         <a href="${bookData.link}">
                             <img src="${bookData.coverLink}" loading="lazy" alt="Book Cover for, ${bookData.name}">
                         </a>
