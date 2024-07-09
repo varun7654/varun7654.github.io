@@ -40,7 +40,11 @@ Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https:
 
             authorHtml = authorHtml.join(", ");
 
-            let imageLink = bookData.coverLink + "&fife=w800";
+            let imageLink = bookData.coverLink;
+
+            if (imageLink.contains("books.google.com")) {
+                imageLink = imageLink + "&fife=w800"
+            }
 
             fetchImage(imageLink)
 

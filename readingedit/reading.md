@@ -38,7 +38,12 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                     (author, index) => `${author}`
                 )
 
-            let imageLink = bookData.coverLink + "&fife=w800";
+            let imageLink = bookData.coverLink;
+
+            if (imageLink.includes("books.google.com")) {
+                imageLink = imageLink + "&fife=w800"
+            }
+
             fetchImage(imageLink)
             var html = `
                 <div class="book">
