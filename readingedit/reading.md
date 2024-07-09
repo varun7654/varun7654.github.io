@@ -38,12 +38,13 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                     (author, index) => `${author}`
                 )
 
-            fetchImage(bookData.coverLink + "&fife=w800")
+            let imageLink = bookData.coverLink + "&fife=w800";
+            fetchImage(imageLink)
             var html = `
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">
                         <a href="https://books.api.dacubeking.com/bestedition?workId=${bookData.workId}&render=true&bypassCache=true">
-                            <img src="${bookData.coverLink}" alt="Edit Book Info for, ${bookData.name}">
+                            <img src="${imageLink}" alt="Edit Book Info for, ${bookData.name}">
                         </a>
                     </div>
                     <div style="display:inline-block;vertical-align:bottom;">

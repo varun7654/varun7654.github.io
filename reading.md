@@ -40,7 +40,9 @@ Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https:
 
             authorHtml = authorHtml.join(", ");
 
-            fetchImage(bookData.coverLink + "&fife=w800")
+            let imageLink = bookData.coverLink + "&fife=w800";
+
+            fetchImage(imageLink)
 
             var currentlyReadingHtml = ""
             if (bookData.list === "Currently Reading") {
@@ -51,7 +53,7 @@ Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https:
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;min-h">
                         <a href="${bookData.link}">
-                            <img src="${bookData.coverLink}" loading="lazy" alt="Book Cover for, ${bookData.name}">
+                            <img src="${imageLink}" loading="lazy" alt="Book Cover for, ${bookData.name}">
                         </a>
                     </div>
                     <div style="display:inline-block;vertical-align:bottom;">
