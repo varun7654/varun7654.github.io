@@ -14,6 +14,8 @@ title: Reading Log
 Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https://books.google.com/) for providing the data powering this page. The backend is run on Cloudflare Workers with the source [here](https://github.com/varun7654/Workers-Books-Api)
 
 <script>
+    const sizes = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600]
+
     fetch(
 		'https://books.api.dacubeking.com/read',
 	)
@@ -41,12 +43,14 @@ Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https:
             authorHtml = authorHtml.join(", ");
 
             let imageLink = bookData.coverLink;
-
-            if (imageLink.includes("books.google.com")) {
-                imageLink = imageLink + "&fife=w800"
+            let imageSources = "";
+            for (size of sizes) {
+                if (imageLink.includes("books.google.com")) {
+                    imageSources += imageLink + "&fife=w" + size + " " + size + "w, "
+                }
             }
-
-            fetchImage(imageLink)
+            
+            //fetchImage(imageLink)
 
             var currentlyReadingHtml = ""
             if (bookData.list === "Currently Reading") {
@@ -57,7 +61,7 @@ Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https:
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;min-h">
                         <a href="${bookData.link}">
-                            <img src="${imageLink}" loading="lazy" alt="Book Cover for, ${bookData.name}">
+                            <img src="${imageLink}" srcset="${imageSources}" loading="lazy" alt="Book Cover for, ${bookData.name}">
                         </a>
                     </div>
                     <div style="display:inline-block;vertical-align:bottom;">
