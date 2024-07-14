@@ -42,7 +42,7 @@ Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https:
 
             let imageLink = bookData.coverLink;
 
-            if (imageLink.contains("books.google.com")) {
+            if (imageLink.includes("books.google.com")) {
                 imageLink = imageLink + "&fife=w800"
             }
 
