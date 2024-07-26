@@ -27,7 +27,7 @@ Check out some of the stuff that I've worked on [here](/2022/12/01/My-Programmin
 
 <div>
     <span>
-    When I'm not working or writing some code you may find me reading. Take a look at what I've read [here](/reading.md).
+    When I'm not working or writing some code you may find me reading. Take a look at what I've read <a href="/reading.html">here</a>.
     </span>
     <span id="currentlyReading"> </span>. 
 </div>
