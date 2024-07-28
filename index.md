@@ -27,10 +27,11 @@ Check out some of the stuff that I've worked on [here](/2022/12/01/My-Programmin
 
 <div>
     <span>
-    When I'm not working or writing some code you may find me reading. Take a look at what I've read <a href="/reading.html">here</a>.
+    When I'm not working or writing some code you may find me reading.
     </span>
     <span id="currentlyReading"> </span>. 
 </div>
+<p></p>
 
 If I'm not reading you'll likely find me playing video games. I'm currently playing though [Alan Wake 2](https://www.alanwake.com/), 
 but I also continue to come back to [Minecraft](https://dynmap.dacubeking.com/) & [Valorant](https://playvalorant.com/en-us/).
@@ -44,7 +45,11 @@ but I also continue to come back to [Minecraft](https://dynmap.dacubeking.com/) 
         return response.text()
     })
     .then(function(html) {
-        document.getElementById("currentlyReading").innerHTML +=  html
+        if (html.length > 0) {
+            document.getElementById("currentlyReading").innerHTML +=  html
+        } else {
+            document.getElementById("currentlyReading").innerHTML += `Take a look at what I've read <a href="/reading.html">here</a>.`
+        }
     })
 </script>
 
