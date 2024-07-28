@@ -6,22 +6,16 @@ layout: home
 </head>
 
 
-
-<font size = "8"><b>I'm DaCubeKing.</b></font>
-<div style="line-height:5%;">
-    <br>
+<div style = "line-height: 0.9">
+<p style="font-family: 'Dancing Script'; font-size: 5em; font-weight: 700;">I'm DaCubeKing.</p>
+<p style="font-family: 'Zeyada'; font-size: 2em;">That's my pen name, irl people know me as Varun. </p>
 </div>
-<font size = "5">That's my pen name. IRL people call me Varun. </font>
 
-<div style="line-height:100%;">
-    <br>
-</div>
-Hey 👋, you probably don't know me, but if you do, it's probably from [my youtube videos](yt)
+Hey 👋, you probably don't know me, but if you do, it's likely from [my youtube videos](yt)
 or in relation to the [FRC team](https://github.com/FRC3476/AutoBuilder) that I was on.
 
 I'm a 19-year-old college sophomore from California that loves coding and everything about computers. 
-In High School, I was the programming lead for the FRC team, [3476 - Code Orange](http://teamcodeorange.com/).
-I'm majoring in Computer Science with a Math minor @ Penn Sate.
+In High School, I was the programming lead for the FRC team, [3476 - Code Orange](http://teamcodeorange.com/) and I'm majoring in Computer Science with a Math minor @ Penn Sate.
 
 Check out some of the stuff that I've worked on [here](/2022/12/01/My-Programming-Projects.html).
 
