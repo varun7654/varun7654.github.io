@@ -12,7 +12,7 @@ title: Update Reading Progress
 
 <script>
     fetch(
-		'https://books.api.dacubeking.com/read',
+		'https://books.api.dacubeking.com/read?bypassCache=true',
 	)
     .then(function(response) {
         // When the page is loaded convert it to text
