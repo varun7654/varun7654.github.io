@@ -112,7 +112,8 @@ title: Update Reading Progress
     function totalPagesChange(workId, pages) {
         console.log("totalPagesChange");
         var totalPages = document.getElementById(workId + "totalPages").value;
-        document.getElementById(workId + "percent").value = Math.round(pages / totalPages * 100);
+        var pagesRead = document.getElementById(workId + "pages").value;
+        document.getElementById(workId + "percent").value = Math.round(pagesRead / totalPages * 100);
     }
 
     function updateProgress(workId, pages) {
