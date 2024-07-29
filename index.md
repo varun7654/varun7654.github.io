@@ -3,8 +3,8 @@ layout: home
 ---
 <head>
   <link rel="stylesheet" href="/css/index.css">
-  <link rel="preload" href="https://fonts.gstatic.com/s/dancingscript/v25/If2RXTr6YS-zF4S-kcSWSVi_szLgiuE.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="https://fonts.gstatic.com/s/zeyada/v19/11hAGpPTxVPUbgZzM2ys.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="https://dacubeking.com/cf-fonts/v/dancing-script/5.0.16/latin/wght/normal.woff2" as="font" type="font/woff2">
+  <link rel="preload" href="https://dacubeking.com/cf-fonts/s/zeyada/5.0.18/latin/400/normal.woff2" as="font" type="font/woff2">
   <link rel="preload" href="https://books.api.dacubeking.com/currentlyreading" as="fetch" crossorigin="anonymous">
 </head>
 
