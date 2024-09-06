@@ -47,3 +47,10 @@ hr {
 body {
   font-family: "Noto Sans", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.note-text-rendered {
+  max-width: 10em;
+  font-family: 'Zeyada', serif;
+  font-size: 1.6em;
+  line-height: 0.8;
+}
