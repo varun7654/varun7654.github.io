@@ -77,23 +77,41 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 parentBoundRect = new DOMRect(parentBoundRect.x, extraCanvasHeight / 2, parentBoundRect.width, parentBoundRect.height);
 
+                let randomRoatation = random(index) * maxRotation * 2 - maxRotation;
+                textElement.style.transform = "rotate(" + randomRoatation + "rad)"
 
-                ctx.beginPath();
-                ctx.moveTo(boundingRect.x, boundingRect.y + boundingRect.height / 2);
-                ctx.lineTo(parentBoundRect.x + parentBoundRect.width, 100);
-                ctx.stroke();
-
-                textElement.style.transform = "rotate(" + (random(index) * maxRotation * 2 - maxRotation) + "rad)"
-                textElementBoundingBox = textElement.getBoundingClientRect();
-
-                let leftSide = random(index * 3) > 0.5;
-                textElement.style.top = (yOffset + 10) + "px"
+                let leftSide = true; //random(index + 3 ) > 0.5;
+                textElement.style.top = (yOffset + 20) + "px"
 
                 if (leftSide) {
                     textElement.style.left = "20px"
                 } else {
                     textElement.style.left = (parentBoundRect.right +  20) + "px"
                 }
+
+                textElementBoundingBox = textElement.getBoundingClientRect();
+                let height = textElementBoundingBox.height * Math.cos(randomRoatation)
+                let width = textElementBoundingBox.width * Math.sin(randomRoatation);
+                console.log(textElementBoundingBox.x, textElementBoundingBox.y, textElementBoundingBox.width, textElementBoundingBox.height);
+                let endY = random(index + 10) * Math.min(height - 20, parentBoundRect.height + 10);
+                console.log("endy", endY)
+                let endXOffset = Math.tan(randomRoatation) * endY;
+                let endX;
+                if (leftSide) {
+                    console.log("offset", Math.sin(randomRoatation) * width);
+                    endY += Math.sin(randomRoatation) * textElementBoundingBox.width / 2;
+                    endX = textElementBoundingBox.right + endXOffset + 5;
+
+                } else {
+                    endX = textElementBoundingBox.x - endXOffset - 5;
+                }
+
+                console.log(endX, endY);
+
+                drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY + 20, index);
+
+
+
             } else {
                 console.log("Screen too small")
             }
@@ -186,7 +204,6 @@ function getPixelRatio(context) {
 
 function getCanvasCtx(x, y, height) {
     let width = window.innerWidth;
-    console.log(width)
     const canvas = getCanvas(x, y, width, height);
     const ctx = canvas.getContext("2d");
     let pixelRatio = getPixelRatio(ctx);
@@ -208,13 +225,20 @@ function random(index) {
     if (randoms.length > index) {
         return randoms[index];
     } else {
-        for (let i = 0; i < index - randoms.length + 1; i++) {
+        for (let i = randoms.length; i <= index; i++) {
             randoms.push(Math.random());
         }
         return randoms[index]
     }
 }
 
-function drawArrow (ctx, startX, startY, endX, endY) {
-    
+function drawArrow(ctx, startX, startY, endX, endY, index) {
+    let middleX = (endX + startX) / 2
+    let middleY = (endY + startY) / 2
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+
+
+    ctx.quadraticCurveTo(middleX, middleY + random(index) * 300 - 150, endX, endY );
+    ctx.stroke();
 }
