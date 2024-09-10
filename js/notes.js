@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const observer = new MutationObserver(callback);
 
     window.addEventListener('resize', updateNoteElements);
-    document.fonts.load("Zeyada").then(() => {
+    document.fonts.load("2em Zeyada").then(() => {
         noteFontLoaded = true;
         if (fontsLoaded) {
             updateNoteElements();
