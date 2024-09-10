@@ -67,67 +67,99 @@ document.addEventListener("DOMContentLoaded", function(event) {
             let noteWidth = textElementBoundingBox.width;
             let noteHeight = textElementBoundingBox.height;
 
-
-            let maxRotation = Math.min(degToRad(10), Math.atan2(17, textElementBoundingBox.height));
-
+            let canPlaceOnSide = spaceOnLeft > noteWidth + 40 && spaceOnRight > noteWidth + 40
 
 
-            if (spaceOnLeft > noteWidth + 40 && spaceOnRight > noteWidth + 40) {
-                let yOffset = parentBoundRect.y - extraCanvasHeight / 2;
-                let ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + extraCanvasHeight);
-                // modify the bounding rects to be in the canvas space
-                boundingRect = new DOMRect(boundingRect.x,
-                    boundingRect.y - yOffset,
-                    boundingRect.width, boundingRect.height);
+            let maxRotation;
+            if (canPlaceOnSide) {
+                maxRotation = Math.min(degToRad(10), Math.atan2(17, textElementBoundingBox.height));
+            } else {
+                maxRotation = Math.min(degToRad(5), Math.atan2(17, textElementBoundingBox.height));
+            }
+
+            let randomRotation = random(index, 0) * maxRotation * 2 - maxRotation;
+            textElementParent.style.transform = "rotate(" + randomRotation + "rad)"
+            let yOffset;
+            let ctx;
+            let leftSide;
+            if (canPlaceOnSide) {
+                yOffset = parentBoundRect.y - extraCanvasHeight / 2;
+                ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + extraCanvasHeight);
 
                 parentBoundRect = new DOMRect(parentBoundRect.x, extraCanvasHeight / 2, parentBoundRect.width, parentBoundRect.height);
 
-                let randomRotation = random(index, 0) * maxRotation * 2 - maxRotation;
-                textElementParent.style.transform = "rotate(" + randomRotation + "rad)"
-
-                let leftSide = random(index, 5) > 0.5;
+                leftSide = random(index, 5) > 0.5;
                 textElementParent.style.top = (yOffset + 60) + "px"
 
                 if (leftSide) {
                     textElementParent.style.left = (spaceOnLeft - noteWidth - 20) + "px"
                 } else {
-                    textElementParent.style.left = (parentBoundRect.right +  20) + "px"
+                    textElementParent.style.left = (parentBoundRect.right + 20) + "px"
                 }
+            } else {
+                document.body.removeChild(textElementParent);
+                parent.insertAdjacentElement("afterend", textElementParent);
+                textElementParent.style.position = "relative"
 
-                textElementBoundingBox = textElement.getBoundingClientRect();
-                let teBB = new DOMRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
+                let space = parent.parentElement.getBoundingClientRect().width - textElementParent.getBoundingClientRect().width - 2;
 
-                //ctx.strokeRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
+                textElementParent.style.paddingLeft = (random(index, 5) * space) + "px";
 
-                let topLeft;
-                let topRight;
-                let bottomLeft;
-                let bottomRight;
 
-                if (randomRotation > 0) {
-                    topLeft = new Point(teBB.left + Math.sin(randomRotation) * noteHeight, teBB.top);
+                let textAlignRandom = random(index, 10);
+                let textAlign;
+                if (textAlignRandom < 0.33) {
+                    textAlign = "left";
+                } else if (textAlignRandom < 0.66) {
+                    textAlign = "center";
                 } else {
-                    topLeft = new Point(teBB.left, teBB.top - Math.sin(randomRotation) * noteWidth);
+                    textAlign = "right";
                 }
-                topRight = topLeft.addAngle(noteWidth, 0, randomRotation);
-                bottomLeft = topLeft.addAngle(0, noteHeight, randomRotation);
-                bottomRight = topLeft.addAngle(noteWidth, noteHeight, randomRotation);
+                textElementParent.style.textAlign = textAlign;
+                ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElementParent.getBoundingClientRect().width + extraCanvasHeight);
+                yOffset = parentBoundRect.y - extraCanvasHeight / 2;
+            }
+            // modify the bounding box to be in the canvas space
+            boundingRect = new DOMRect(boundingRect.x,
+                boundingRect.y - yOffset,
+                boundingRect.width, boundingRect.height);
+
+            textElementBoundingBox = textElement.getBoundingClientRect();
+            let teBB = new DOMRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
+
+            //ctx.strokeRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
+
+            let topLeft;
+            let topRight;
+            let bottomLeft;
+            let bottomRight;
+
+            if (randomRotation > 0) {
+                topLeft = new Point(teBB.left + Math.sin(randomRotation) * noteHeight, teBB.top);
+            } else {
+                topLeft = new Point(teBB.left, teBB.top - Math.sin(randomRotation) * noteWidth);
+            }
+            topRight = topLeft.addAngle(noteWidth, 0, randomRotation);
+            bottomLeft = topLeft.addAngle(0, noteHeight, randomRotation);
+            bottomRight = topLeft.addAngle(noteWidth, noteHeight, randomRotation);
 
 
 
 
 
-                // ctx.beginPath();
-                // ctx.moveTo(topLeft.x,topLeft.y);
-                // ctx.lineTo(bottomLeft.x,bottomLeft.y);
-                // ctx.lineTo(bottomRight.x,bottomRight.y);
-                // ctx.lineTo(topRight.x, topRight.y);
-                // ctx.closePath();
-                // ctx.stroke()
+            // ctx.beginPath();
+            // ctx.moveTo(topLeft.x,topLeft.y);
+            // ctx.lineTo(bottomLeft.x,bottomLeft.y);
+            // ctx.lineTo(bottomRight.x,bottomRight.y);
+            // ctx.lineTo(topRight.x, topRight.y);
+            // ctx.closePath();
+            // ctx.stroke()
 
-                let alpha = random(index, 6) * 0.5 + 0.15;
-                let endX;
-                let endY;
+            let alpha = random(index, 6) * 0.5 + 0.15;
+            let endX;
+            let endY;
+            let rotationBias;
+            if (canPlaceOnSide) {
                 if (leftSide) {
                     endX = lerp(topRight.x, bottomRight.x, alpha);
                     endY = lerp(topRight.y, bottomRight.y, alpha);
@@ -135,14 +167,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     endX = lerp(topLeft.x, bottomLeft.x, alpha);
                     endY = lerp(topLeft.y, bottomLeft.y, alpha);
                 }
-
-                drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY, index, randomRotation, true);
-
-
-
+                rotationBias = randomRotation;
             } else {
-                console.log("Screen too small")
+                endX = lerp(topLeft.x, topRight.x, alpha);
+                endY = lerp(topLeft.y, topRight.y, alpha);
+                rotationBias = randomRotation + Math.PI;
             }
+
+            drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY, index, rotationBias, canPlaceOnSide);
+
         })
     };
 
@@ -315,7 +348,7 @@ function drawArrow(ctx , startX, startY, endX, endY, index, endAngleBias, connec
     let cp1x = angleCos * enterMag + startX;
     let cp1y = angleSin * enterMag + startY;
 
-    let angle2 = isLeft? endAngleBias : endAngleBias + Math.PI;
+    let angle2 = (isLeft && connectedToSide)? endAngleBias : endAngleBias + Math.PI;
     if (connectedToSide) {
         angle2 += random(index, 4) * 0.2
     } else  {
@@ -339,7 +372,7 @@ function drawArrow(ctx , startX, startY, endX, endY, index, endAngleBias, connec
     endY = endY - reextendAmount * Math.sin(angle2);
 
 
-    let exitMag = 0.4 * distance;
+    let exitMag = 0.4 * (connectedToSide ? distance : 200);
     let cp2x =  Math.cos(angle2) * exitMag + endX;
     let cp2y =  Math.sin(angle2) * exitMag + endY;
 
