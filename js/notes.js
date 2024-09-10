@@ -1,10 +1,12 @@
 "use strict"
 
-const extraCanvasHeight = 400;
+const extraCanvasHeight = 100;
 const noteTextClassName = "note-text-rendered"
 
 
 let fontsLoaded = false;
+let noteFontLoaded = false;
+
 // Notes are surrounded by %$ ... $% and should be displayed as an arrow with hand-written text
 let noteElementIds = [];
 let canvasElementIds = [];
@@ -115,15 +117,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
-                ctx.beginPath();
-                ctx.moveTo(topLeft.x,topLeft.y);
-                ctx.lineTo(bottomLeft.x,bottomLeft.y);
-                ctx.lineTo(bottomRight.x,bottomRight.y);
-                ctx.lineTo(topRight.x, topRight.y);
-                ctx.closePath();
-                ctx.stroke()
+                // ctx.beginPath();
+                // ctx.moveTo(topLeft.x,topLeft.y);
+                // ctx.lineTo(bottomLeft.x,bottomLeft.y);
+                // ctx.lineTo(bottomRight.x,bottomRight.y);
+                // ctx.lineTo(topRight.x, topRight.y);
+                // ctx.closePath();
+                // ctx.stroke()
 
-                let alpha = random(index, 6) * 0.5 + 0.25;
+                let alpha = random(index, 6) * 0.5 + 0.15;
                 let endX;
                 let endY;
                 if (leftSide) {
@@ -133,8 +135,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     endX = lerp(topLeft.x, bottomLeft.x, alpha);
                     endY = lerp(topLeft.y, bottomLeft.y, alpha);
                 }
-
-                console.log(teBB, topLeft, topRight, bottomLeft, bottomRight);
 
                 drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY, index, randomRotation, true);
 
@@ -148,12 +148,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Callback function to execute when mutations are observed
     const callback = (mutationList /* @type {MutationRecord[]} */, observer) => {
-        if (!fontsLoaded) return;
+        if (!fontsLoaded || !noteFontLoaded) return;
         for (const mutation of mutationList) {
             if (mutation.type === "childList") {
                 let hasNonTextNode = Array.from(mutation.addedNodes).some(node => node.className !== noteTextClassName)
                 if (hasNonTextNode) {
-                    console.log("A child node has been added or removed.", mutation.target);
                     updateNoteElements();
                 }
             }
@@ -164,9 +163,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const observer = new MutationObserver(callback);
 
     window.addEventListener('resize', updateNoteElements);
+    document.fonts.load("Zeyada").then(() => {
+        noteFontLoaded = true;
+        if (fontsLoaded) {
+            updateNoteElements();
+        }
+    });
     document.fonts.ready.then(() => {
         fontsLoaded = true;
-        updateNoteElements();
+        if (noteFontLoaded) {
+            updateNoteElements();
+        }
     });
 
     // Start observing the target node for configured mutations
@@ -238,8 +245,8 @@ function getCanvasCtx(x, y, height) {
     canvas.width = width * pixelRatio;
     canvas.height = height * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
-    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-    ctx.strokeStyle = "blue";
+    ctx.strokeStyle = "e7e1d3";
+    ctx.lineWidth = 0.7;
     return ctx;
 }
 
@@ -304,12 +311,9 @@ function drawArrow(ctx , startX, startY, endX, endY, index, endAngleBias, connec
         angleSin = -angleSin;
     }
 
-    angle = Math.atan2(angleSin, angleCos);
-
     let enterMag = .12 * distance;
     let cp1x = angleCos * enterMag + startX;
     let cp1y = angleSin * enterMag + startY;
-
 
     let angle2 = isLeft? endAngleBias : endAngleBias + Math.PI;
     if (connectedToSide) {
@@ -318,13 +322,33 @@ function drawArrow(ctx , startX, startY, endX, endY, index, endAngleBias, connec
         angle2 += Math.atan2(isUp ? -1 : 1, random(index, 4) * 0.4 - 0.2);
     }
 
+    let backOffAmount = -20;
+    endX = endX - backOffAmount * Math.cos(angle2);
+    endY = endY - backOffAmount * Math.sin(angle2);
+
+    let arrowOrigin = new Point(endX, endY).addAngle(-4 + (-6) * random(index, 5), 0 , angle2);
+    let arrowPoint = arrowOrigin.addAngle(-10, 0, angle2);
+    let arrowLeft = arrowOrigin.addAngle(3, 5 + (3) * random(index, 9), angle2);
+    let arrowLeftControl = arrowOrigin.addAngle(-3, 2 + (3) * random(index, 6), angle2);
+    let arrowRight = arrowOrigin.addAngle(3, -5 + (-3) * random(index, 10), angle2);
+    let arrowRightControl = arrowOrigin.addAngle(-3, -2 + (-3) * random(index, 7), angle2);
+
+
+    let reextendAmount = random(index, 8) * 15;
+    endX = endX - reextendAmount * Math.cos(angle2);
+    endY = endY - reextendAmount * Math.sin(angle2);
+
+
     let exitMag = 0.4 * distance;
     let cp2x =  Math.cos(angle2) * exitMag + endX;
     let cp2y =  Math.sin(angle2) * exitMag + endY;
 
-    console.log(radToDeg(angle), radToDeg(angle2))
-
     ctx.beginPath();
+
+    ctx.moveTo(arrowLeft.x, arrowLeft.y);
+    ctx.quadraticCurveTo(arrowLeftControl.x, arrowLeftControl.y, arrowPoint.x, arrowPoint.y);
+    ctx.quadraticCurveTo(arrowRightControl.x, arrowRightControl.y, arrowRight.x, arrowRight.y);
+
     ctx.moveTo(startX, startY);
 
     ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, endY);

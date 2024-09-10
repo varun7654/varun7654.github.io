@@ -11,8 +11,9 @@ layout: home
 
 <div style = "line-height: 0.9">
 <p style="font-family: 'Dancing Script', serif; font-size: 5em; font-weight: 700;">I'm DaCubeKing.</p>
-<p style="font-family: 'Zeyada', serif; font-size: 2em;">That's my pen name, irl people know me as Varun. </p>
+That's my pen name, irl people know me as Varun.
 </div>
+<p></p>
 
 Hey 👋, you probably don't know me, but if you do, it's likely from [my youtube videos](yt)
 or in relation to the [FRC team](https://github.com/FRC3476/AutoBuilder) that I was on.
@@ -44,8 +45,6 @@ but I also continue to come back to [Minecraft](https://dynmap.dacubeking.com/) 
     .then(function(html) {
         if (html.length > 0) {
             document.getElementById("currentlyReading").innerHTML +=  html
-        } else {
-            document.getElementById("currentlyReading").innerHTML += `Take a look at what I've read <a href="/reading.html">here</a>.`
         }
     })
 </script>

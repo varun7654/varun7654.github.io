@@ -52,6 +52,10 @@ body {
   max-width: 10em;
   box-sizing: content-box;
   font-family: 'Zeyada', serif;
-  font-size: 1.6em;
+  font-size: 1.7em;
   line-height: 0.8;
+}
+
+.hidden {
+  display: none;
 }
