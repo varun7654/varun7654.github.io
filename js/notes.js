@@ -12,6 +12,11 @@ let noteElementIds = [];
 let canvasElementIds = [];
 let placedNotePos = new Map();
 let noteTextElementIds = []
+
+function toGlobalBounds(boundingClientRect) {
+    return new DOMRect(boundingClientRect.x + window.scrollX, boundingClientRect.y + window.scrollY, boundingClientRect.width, boundingClientRect.height);
+}
+
 // Find all the notes and replace them with a div containing the note text
 document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -44,10 +49,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         noteElementIds.forEach(function(noteElementId, index) {
             const noteElement = document.getElementById(noteElementId)
-            let boundingRect /* @type {DOMRect} */ = noteElement.getBoundingClientRect()
+            let boundingRect /* @type {DOMRect} */ = toGlobalBounds(noteElement.getBoundingClientRect());
             // Find a parent paragraph element
             let parent = noteElement.closest("p");
-            let parentBoundRect = parent.getBoundingClientRect();
+            let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
             let spaceOnLeft = parentBoundRect.x;
             let spaceOnRight = window.innerWidth - (parentBoundRect.x + parentBoundRect.width);
 
@@ -63,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             textElementParent.appendChild(textElement);
 
-            let textElementBoundingBox = textElement.getBoundingClientRect();
+            let textElementBoundingBox = toGlobalBounds(textElement.getBoundingClientRect());
             let noteWidth = textElementBoundingBox.width;
             let noteHeight = textElementBoundingBox.height;
 
@@ -86,8 +91,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 yOffset = parentBoundRect.y - extraCanvasHeight / 2;
                 ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + extraCanvasHeight);
 
-                parentBoundRect = new DOMRect(parentBoundRect.x, extraCanvasHeight / 2, parentBoundRect.width, parentBoundRect.height);
-
                 leftSide = random(index, 5) > 0.5;
                 textElementParent.style.top = (yOffset + 60) + "px"
 
@@ -101,7 +104,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 parent.insertAdjacentElement("afterend", textElementParent);
                 textElementParent.style.position = "relative"
 
-                let space = parent.parentElement.getBoundingClientRect().width - textElementParent.getBoundingClientRect().width - 2;
+                let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
+                let space = toGlobalBounds(parent.parentElement.getBoundingClientRect()).width - textElemParentBoundingBox.width - 2;
 
                 textElementParent.style.paddingLeft = (random(index, 5) * space) + "px";
 
@@ -116,15 +120,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     textAlign = "right";
                 }
                 textElementParent.style.textAlign = textAlign;
-                ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElementParent.getBoundingClientRect().width + extraCanvasHeight);
+                ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElemParentBoundingBox.width + extraCanvasHeight);
                 yOffset = parentBoundRect.y - extraCanvasHeight / 2;
             }
+
             // modify the bounding box to be in the canvas space
             boundingRect = new DOMRect(boundingRect.x,
                 boundingRect.y - yOffset,
                 boundingRect.width, boundingRect.height);
 
-            textElementBoundingBox = textElement.getBoundingClientRect();
+            textElementBoundingBox = toGlobalBounds(textElement.getBoundingClientRect());
             let teBB = new DOMRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
 
             //ctx.strokeRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
@@ -196,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const observer = new MutationObserver(callback);
 
     window.addEventListener('resize', updateNoteElements);
+
     document.fonts.load("2em Zeyada").then(() => {
         noteFontLoaded = true;
         if (fontsLoaded) {
@@ -233,6 +239,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 });
 
+
+let canvasWidthShrink = 50;
 
 let canvasCount = 0;
 function getCanvas(x, y, width, height) {
@@ -274,13 +282,14 @@ function getPixelRatio(context) {
 
 function getCanvasCtx(x, y, height) {
     let width = window.innerWidth;
-    const canvas = getCanvas(x, y, width, height);
+    const canvas = getCanvas(x, y, width - canvasWidthShrink, height);
     const ctx = canvas.getContext("2d");
     let pixelRatio = getPixelRatio(ctx);
-    canvas.width = width * pixelRatio;
+    canvas.width = (width - canvasWidthShrink) * pixelRatio;
     canvas.height = height * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
     ctx.strokeStyle = "e7e1d3";
+
     ctx.lineWidth = 0.7;
     return ctx;
 }
