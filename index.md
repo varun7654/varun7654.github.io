@@ -18,16 +18,16 @@ Hey 👋, you probably don't know me, but if you do, it's likely from [my youtub
 or in relation to the [FRC team](https://github.com/FRC3476/AutoBuilder) that I was on.
 
 I'm a 19-year-old college sophomore from California that loves coding and everything about computers. 
-In High School, I was the programming lead for the FRC team, [3476 - Code Orange](http://teamcodeorange.com/) and I'm majoring in Computer Science with a Math minor @ Penn Sate. %$a little short note!$%
+In High School, I was the programming lead for the FRC team, [3476 - Code Orange](http://teamcodeorange.com/), and I'm majoring in Computer Science with a Math minor @ Penn Sate.
 
 Check out some of the stuff that I've worked on [here](/2022/12/01/My-Programming-Projects.html).
 
-<div>
+<p>
     <span>
-    When I'm not working or writing some code you may find me reading.
+    When I'm not working or writing some code you may find me reading. %$Take a look at what I've read <a href="/reading.html">here</a>.$%
     </span>
     <span id="currentlyReading"> </span>. 
-</div>
+</p>
 <p></p>
 
 If I'm not reading you'll likely find me playing video games. I'm currently playing though [Alan Wake 2](https://www.alanwake.com/), 

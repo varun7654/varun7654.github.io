@@ -1,6 +1,6 @@
 "use strict"
 
-const extraCanvasHeight = 50;
+const extraCanvasHeight = 400;
 const noteTextClassName = "note-text-rendered"
 
 
@@ -49,21 +49,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
             let spaceOnLeft = parentBoundRect.x;
             let spaceOnRight = window.innerWidth - (parentBoundRect.x + parentBoundRect.width);
 
-            let textElement = document.createElement("div");
-            textElement.id = noteElementId + "-note-text";
-            textElement.style.position = "absolute";
-            textElement.className = noteTextClassName;
-            textElement.textContent = noteElement.getAttribute("data-note-text");
-            noteTextElementIds.push(textElement.id);
-            document.body.appendChild(textElement);
+            let textElementParent = document.createElement("div");
+            textElementParent.id = noteElementId + "-note-text";
+            textElementParent.style.position = "absolute";
+            textElementParent.className = noteTextClassName;
+            noteTextElementIds.push(textElementParent.id);
+            document.body.appendChild(textElementParent);
+
+            let textElement = document.createElement("span");
+            textElement.innerHTML = noteElement.getAttribute("data-note-text");
+
+            textElementParent.appendChild(textElement);
 
             let textElementBoundingBox = textElement.getBoundingClientRect();
             let noteWidth = textElementBoundingBox.width;
+            let noteHeight = textElementBoundingBox.height;
 
 
             let maxRotation = Math.min(degToRad(10), Math.atan2(17, textElementBoundingBox.height));
-            console.log(radToDeg(maxRotation));
-
 
 
 
@@ -77,38 +80,63 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 parentBoundRect = new DOMRect(parentBoundRect.x, extraCanvasHeight / 2, parentBoundRect.width, parentBoundRect.height);
 
-                let randomRoatation = random(index) * maxRotation * 2 - maxRotation;
-                textElement.style.transform = "rotate(" + randomRoatation + "rad)"
+                let randomRotation = random(index, 0) * maxRotation * 2 - maxRotation;
+                textElementParent.style.transform = "rotate(" + randomRotation + "rad)"
 
-                let leftSide = true; //random(index + 3 ) > 0.5;
-                textElement.style.top = (yOffset + 20) + "px"
+                let leftSide = random(index, 5) > 0.5;
+                textElementParent.style.top = (yOffset + 60) + "px"
 
                 if (leftSide) {
-                    textElement.style.left = "20px"
+                    textElementParent.style.left = (spaceOnLeft - noteWidth - 20) + "px"
                 } else {
-                    textElement.style.left = (parentBoundRect.right +  20) + "px"
+                    textElementParent.style.left = (parentBoundRect.right +  20) + "px"
                 }
 
                 textElementBoundingBox = textElement.getBoundingClientRect();
-                let height = textElementBoundingBox.height * Math.cos(randomRoatation)
-                let width = textElementBoundingBox.width * Math.sin(randomRoatation);
-                console.log(textElementBoundingBox.x, textElementBoundingBox.y, textElementBoundingBox.width, textElementBoundingBox.height);
-                let endY = random(index + 10) * Math.min(height - 20, parentBoundRect.height + 10);
-                console.log("endy", endY)
-                let endXOffset = Math.tan(randomRoatation) * endY;
-                let endX;
-                if (leftSide) {
-                    console.log("offset", Math.sin(randomRoatation) * width);
-                    endY += Math.sin(randomRoatation) * textElementBoundingBox.width / 2;
-                    endX = textElementBoundingBox.right + endXOffset + 5;
+                let teBB = new DOMRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
 
+                //ctx.strokeRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
+
+                let topLeft;
+                let topRight;
+                let bottomLeft;
+                let bottomRight;
+
+                if (randomRotation > 0) {
+                    topLeft = new Point(teBB.left + Math.sin(randomRotation) * noteHeight, teBB.top);
                 } else {
-                    endX = textElementBoundingBox.x - endXOffset - 5;
+                    topLeft = new Point(teBB.left, teBB.top - Math.sin(randomRotation) * noteWidth);
+                }
+                topRight = topLeft.addAngle(noteWidth, 0, randomRotation);
+                bottomLeft = topLeft.addAngle(0, noteHeight, randomRotation);
+                bottomRight = topLeft.addAngle(noteWidth, noteHeight, randomRotation);
+
+
+
+
+
+                ctx.beginPath();
+                ctx.moveTo(topLeft.x,topLeft.y);
+                ctx.lineTo(bottomLeft.x,bottomLeft.y);
+                ctx.lineTo(bottomRight.x,bottomRight.y);
+                ctx.lineTo(topRight.x, topRight.y);
+                ctx.closePath();
+                ctx.stroke()
+
+                let alpha = random(index, 6) * 0.5 + 0.25;
+                let endX;
+                let endY;
+                if (leftSide) {
+                    endX = lerp(topRight.x, bottomRight.x, alpha);
+                    endY = lerp(topRight.y, bottomRight.y, alpha);
+                } else {
+                    endX = lerp(topLeft.x, bottomLeft.x, alpha);
+                    endY = lerp(topLeft.y, bottomLeft.y, alpha);
                 }
 
-                console.log(endX, endY);
+                console.log(teBB, topLeft, topRight, bottomLeft, bottomRight);
 
-                drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY + 20, index);
+                drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY, index, randomRotation, true);
 
 
 
@@ -221,24 +249,110 @@ const radToDeg = rad => (rad * 180.0) / Math.PI;
 
 let randoms = []
 
-function random(index) {
+function random(index, index2) {
+    let arr1;
     if (randoms.length > index) {
-        return randoms[index];
+        arr1 = randoms[index];
     } else {
         for (let i = randoms.length; i <= index; i++) {
-            randoms.push(Math.random());
+            randoms.push([]);
         }
-        return randoms[index]
+        arr1 = randoms[index];
+    }
+    if (arr1.length > index2) {
+        return arr1[index2];
+    } else {
+        for (let i = arr1.length; i <= index2; i++) {
+            arr1.push(Math.random());
+        }
+        return arr1[index2];
     }
 }
 
-function drawArrow(ctx, startX, startY, endX, endY, index) {
+/**
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} startX
+ * @param {number} startY
+ * @param {number} endX
+ * @param {number} endY
+ * @param {number} index
+ * @param {number} endAngleBias
+ * @param {boolean} connectedToSide
+ */
+function drawArrow(ctx , startX, startY, endX, endY, index, endAngleBias, connectedToSide) {
     let middleX = (endX + startX) / 2
     let middleY = (endY + startY) / 2
+
+    let distance = Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY));
+    let isUp;
+    if (Math.abs(startY - endY) < 5) {
+        isUp = random(index, 2) < 0.5;
+    }  else {
+        isUp = endY > startY;
+    }
+
+    let isLeft = endX < startX;
+
+    // generate an angle between 30 - 60 degrees in rad
+    let angle = random(index, 3) * (Math.PI / 6) + (Math.PI / 6);
+    let angleCos = Math.cos(angle);
+    let angleSin = Math.sin(angle);
+    if (isLeft) {
+        angleCos = -angleCos;
+    }
+    if (!isUp) {
+        angleSin = -angleSin;
+    }
+
+    angle = Math.atan2(angleSin, angleCos);
+
+    let enterMag = .12 * distance;
+    let cp1x = angleCos * enterMag + startX;
+    let cp1y = angleSin * enterMag + startY;
+
+
+    let angle2 = isLeft? endAngleBias : endAngleBias + Math.PI;
+    if (connectedToSide) {
+        angle2 += random(index, 4) * 0.2
+    } else  {
+        angle2 += Math.atan2(isUp ? -1 : 1, random(index, 4) * 0.4 - 0.2);
+    }
+
+    let exitMag = 0.4 * distance;
+    let cp2x =  Math.cos(angle2) * exitMag + endX;
+    let cp2y =  Math.sin(angle2) * exitMag + endY;
+
+    console.log(radToDeg(angle), radToDeg(angle2))
+
     ctx.beginPath();
     ctx.moveTo(startX, startY);
 
-
-    ctx.quadraticCurveTo(middleX, middleY + random(index) * 300 - 150, endX, endY );
+    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, endY);
     ctx.stroke();
 }
+
+function lerp(a, b, alpha) {
+    return a + (b - a) * alpha;
+}
+
+class Point {
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    add(x, y) {
+        return new Point(this.x + x, this.y + y);
+    }
+
+    addAngle(x, y, theta) {
+        let sin = Math.sin(theta);
+        let cos = Math.cos(theta);
+        return new Point(this.x + cos * x - sin * y, this.y + sin * x + cos * y);
+    }
+}
+

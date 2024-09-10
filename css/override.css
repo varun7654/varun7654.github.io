@@ -50,6 +50,7 @@ body {
 
 .note-text-rendered {
   max-width: 10em;
+  box-sizing: content-box;
   font-family: 'Zeyada', serif;
   font-size: 1.6em;
   line-height: 0.8;
