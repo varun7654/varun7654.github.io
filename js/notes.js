@@ -246,6 +246,8 @@ function getCanvas(x, y, width, height) {
     canvas.style.position = "absolute";
     canvas.style.top = y + "px";
     canvas.style.left = x + "px";
+    canvas.style.right = "0px"
+    canvas.style.zIndex = "-1"
     canvas.style.zIndex = "-1";
     document.body.appendChild(canvas);
 
