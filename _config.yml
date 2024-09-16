@@ -26,6 +26,7 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-minifier
 
 titles_from_headings:
   strip_title: true
@@ -41,3 +42,7 @@ defaults:
 header_pages:
   - reading.md
   - archive.md
+
+jekyll-minifier:
+  uglifier_args:
+    harmony: true

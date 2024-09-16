@@ -17,4 +17,5 @@ group :jekyll_plugins do
   gem "jekyll-theme-minimal"
   gem "minima"
   gem "jekyll-sitemap"
+  gem "jekyll-minifier"
 end
