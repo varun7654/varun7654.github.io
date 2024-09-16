@@ -13,7 +13,6 @@ group :jekyll_plugins do
   gem "jekyll-default-layout"
   gem "jekyll-feed"
   gem "jekyll-gist"
-  gem "jekyll-github-metadata"
   gem "jekyll-paginate"
   gem "jekyll-theme-minimal"
   gem "minima"

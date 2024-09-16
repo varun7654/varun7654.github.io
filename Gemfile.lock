@@ -72,9 +72,6 @@ GEM
       jekyll (>= 3.7, < 5.0)
     jekyll-gist (1.5.0)
       octokit (~> 4.2)
-    jekyll-github-metadata (2.16.1)
-      jekyll (>= 3.4, < 5.0)
-      octokit (>= 4, < 7, != 4.4.0)
     jekyll-paginate (1.1.0)
     jekyll-sass-converter (3.0.0)
       sass-embedded (~> 1.54)
@@ -149,7 +146,6 @@ DEPENDENCIES
   jekyll-default-layout
   jekyll-feed
   jekyll-gist
-  jekyll-github-metadata
   jekyll-paginate
   jekyll-sitemap
   jekyll-theme-minimal
