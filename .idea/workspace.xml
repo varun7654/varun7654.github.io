@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba6241f0-22e4-4715-a748-8474c5762597" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/varun7654.github.io.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/varun7654.github.io.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ba6241f0-22e4-4715-a748-8474c5762597" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1726451214653</updated>
       <workItem from="1726451216499" duration="2560000" />
-      <workItem from="1726453825129" duration="513000" />
+      <workItem from="1726453825129" duration="867000" />
     </task>
     <servers />
   </component>
