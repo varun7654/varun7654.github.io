@@ -219,23 +219,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     observer.observe(pageContent, config);
 
 
-    let wrapper = pageContent.getElementsByClassName("wrapper")[0];
-
-
-    const notes = wrapper.innerHTML.match(/%\$[\s\S]*?\$%/g);
-    if (notes) {
-        notes.forEach(function(note) {
-            const noteText = note.slice(2, -2);
-            const noteElement = document.createElement("span");
-            const noteId = "note-" + noteElementIds.length;
-            noteElement.id = noteId;
-            noteElement.className = "note";
-            // hide the note text in the data of the element
-            noteElement.dataset.noteText = noteText;
-            wrapper.innerHTML = wrapper.innerHTML.replace(note, noteElement.outerHTML);
-
-            noteElementIds.push(noteId);
-        });
+    let notes = pageContent.getElementsByClassName("note");
+    for (let i = 0; i < notes.length; i++) {
+        const note = notes[i];
+        noteElementIds.push(note.id);
     }
 });
 
