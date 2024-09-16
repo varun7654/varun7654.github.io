@@ -26,7 +26,7 @@ Check out some of the stuff that I've worked on [here](/2022/12/01/My-Programmin
     <span>
     When I'm not working or writing some code you may find me reading. %$Take a look at what I've read <a href="/reading.html">here</a>.$%
     </span>
-    <span id="currentlyReading"> </span>. 
+    <span id="currentlyReading"> </span>
 </p>
 <p></p>
 
@@ -39,7 +39,7 @@ but I also continue to come back to [Minecraft](https://dynmap.dacubeking.com/) 
 	)
     .then(function(response) {
         // When the page is loaded convert it to text
-        return response.text()
+        return response.text() + "."
     })
     .then(function(html) {
         if (html.length > 0) {
