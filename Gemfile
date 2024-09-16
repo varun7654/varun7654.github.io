@@ -1,0 +1,21 @@
+# Gemfile
+
+source 'https://rubygems.org'
+
+gem "jekyll", "~> 4.2"
+gem "base64"
+
+group :jekyll_plugins do
+  gem "jekyll-avatar"
+  gem "jekyll-coffeescript"
+  gem "jekyll-commonmark"
+  gem "jekyll-commonmark-ghpages"
+  gem "jekyll-default-layout"
+  gem "jekyll-feed"
+  gem "jekyll-gist"
+  gem "jekyll-github-metadata"
+  gem "jekyll-paginate"
+  gem "jekyll-theme-minimal"
+  gem "minima"
+  gem "jekyll-sitemap"
+end
