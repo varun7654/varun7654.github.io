@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba6241f0-22e4-4715-a748-8474c5762597" name="Changes" comment="" />
+    <list default="true" id="ba6241f0-22e4-4715-a748-8474c5762597" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.ruby-version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/jekyll.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/jekyll.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,7 +56,7 @@
       <option name="presentableId" value="Default" />
       <updated>1726451214653</updated>
       <workItem from="1726451216499" duration="2560000" />
-      <workItem from="1726453825129" duration="867000" />
+      <workItem from="1726453825129" duration="1579000" />
     </task>
     <servers />
   </component>
