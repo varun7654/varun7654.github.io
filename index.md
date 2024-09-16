@@ -39,11 +39,11 @@ but I also continue to come back to [Minecraft](https://dynmap.dacubeking.com/) 
 	)
     .then(function(response) {
         // When the page is loaded convert it to text
-        return response.text() + "."
+        return response.text()
     })
     .then(function(html) {
         if (html.length > 0) {
-            document.getElementById("currentlyReading").innerHTML +=  html
+            document.getElementById("currentlyReading").innerHTML +=  html + "."
         }
     })
 </script>
