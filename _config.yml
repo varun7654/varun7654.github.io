@@ -45,4 +45,4 @@ header_pages:
 
 jekyll-minifier:
   uglifier_args:
-    harmony: true
+    harmony: true # use es6
