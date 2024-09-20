@@ -46,3 +46,12 @@ header_pages:
 jekyll-minifier:
   uglifier_args:
     harmony: true # use es6
+
+exclude:
+  - Gemfile
+  - packages.json
+  - tsconfig.json
+  - package-lock.json
+  - ts/
+exclude_from_watch:
+  - ts_out/

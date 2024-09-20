@@ -7,7 +7,6 @@ const noteTextClassName = "note-text-rendered"
 let fontsLoaded = false;
 let noteFontLoaded = false;
 
-// Notes are surrounded by %$ ... $% and should be displayed as an arrow with hand-written text
 let noteElementIds = [];
 let canvasElementIds = [];
 let placedNotePos = new Map();
@@ -25,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.body.removeChild(canvas);
     canvasElementIds = [];
 
-    console.log("DOM fully loaded and parsed");
     const pageContent = document.getElementsByClassName("page-content")[0];
 
     // Select the node that will be observed for mutations

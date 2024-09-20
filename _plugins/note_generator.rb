@@ -31,7 +31,6 @@ module Jekyll
     end
 
     def self.escape_special_characters(text)
-      # Convert special characters to HTML entities (e.g., ' becomes &#39;)
       CGI.escapeHTML(text)
     end
   end

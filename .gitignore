@@ -1,3 +1,6 @@
 ﻿_site
 .history/
 oauth.json
+.idea/workspace.xml
+/ts_out/
+/node_modules/
