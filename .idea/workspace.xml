@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba6241f0-22e4-4715-a748-8474c5762597" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/_plugins/typescript_compiler.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ts/src/test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/jekyll.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/jekyll.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_includes/head.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/head.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_plugins/note_generator.rb" beforeDir="false" afterPath="$PROJECT_DIR$/_plugins/note_generator.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/notes.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/notes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_plugins/typescript_compiler.rb" beforeDir="false" afterPath="$PROJECT_DIR$/_plugins/typescript_compiler.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/notes.js" beforeDir="false" afterPath="$PROJECT_DIR$/_ts/src/notes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/src/test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +37,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/varun/Documents/GitHub/varun7654.github.io/ts/src",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -48,6 +50,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\varun\Documents\GitHub\varun7654.github.io\ts\src" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\varun\Documents\GitHub\varun7654.github.io\ts\src" />
     </key>
@@ -74,7 +79,7 @@
       <workItem from="1726536038294" duration="1259000" />
       <workItem from="1726623038254" duration="276000" />
       <workItem from="1726623325276" duration="2628000" />
-      <workItem from="1726869204851" duration="3047000" />
+      <workItem from="1726869204851" duration="5937000" />
     </task>
     <servers />
   </component>

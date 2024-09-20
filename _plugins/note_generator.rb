@@ -4,7 +4,7 @@ module Jekyll
     @@note_id_counter = 0  # Initialize a class variable to track note IDs
     # Register the post_render hook for both pages and posts
     Jekyll::Hooks.register [:pages, :posts], :post_render do |page|
-      puts "post render #{page.path}"
+      # puts "post render #{page.path}"
 
       if page.output  # Ensure output exists and is not nil
         page.output = process_notes(page.output)

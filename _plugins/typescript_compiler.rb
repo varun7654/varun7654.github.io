@@ -5,7 +5,11 @@ module Jekyll
     def generate(site)
       puts "Running TypeScript Compiler..."
       unless system("npx tsc")
-        raise "TypeScript compilation failed. Aborting Jekyll build."
+        if ENV['JEKYLL_ENV'] == 'production'
+          raise "TypeScript compilation failed. Aborting Jekyll build."
+        else
+          puts "TypeScript compilation failed."
+        end
       end
       puts "TypeScript compilation completed."
     end

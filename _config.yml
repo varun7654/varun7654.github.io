@@ -48,10 +48,10 @@ jekyll-minifier:
     harmony: true # use es6
 
 exclude:
-  - Gemfile
   - packages.json
   - tsconfig.json
   - package-lock.json
-  - ts/
-exclude_from_watch:
-  - ts_out/
+  - ts_out
+
+keep_files:
+  - ts_out

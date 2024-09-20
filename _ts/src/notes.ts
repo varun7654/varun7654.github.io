@@ -7,12 +7,12 @@ const noteTextClassName = "note-text-rendered"
 let fontsLoaded = false;
 let noteFontLoaded = false;
 
-let noteElementIds = [];
-let canvasElementIds = [];
+let noteElementIds: string[] = [];
+let canvasElementIds: string[] = [];
 let placedNotePos = new Map();
-let noteTextElementIds = []
+let noteTextElementIds: string[] = [];
 
-function toGlobalBounds(boundingClientRect) {
+function toGlobalBounds(boundingClientRect: DOMRect) {
     return new DOMRect(boundingClientRect.x + window.scrollX, boundingClientRect.y + window.scrollY, boundingClientRect.width, boundingClientRect.height);
 }
 
@@ -35,21 +35,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const updateNoteElements = () => {
         canvasElementIds.forEach(id => {
             let element = document.getElementById(id);
+            if (!element) return;
             element.remove();
         });
         canvasElementIds = [];
 
         noteTextElementIds.forEach(id => {
             let element = document.getElementById(id);
+            if (!element) return;
             element.remove()
         })
         noteTextElementIds = []
 
         noteElementIds.forEach(function(noteElementId, index) {
             const noteElement = document.getElementById(noteElementId)
+            if (!noteElement) {
+                console.error("Couldn't find element: " + noteElementId);
+                return;
+            }
             let boundingRect /* @type {DOMRect} */ = toGlobalBounds(noteElement.getBoundingClientRect());
             // Find a parent paragraph element
             let parent = noteElement.closest("p");
+            if (!parent) {
+                console.error("Couldn't find p parent for: " + noteElementId);
+                return;
+            }
+
             let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
             let spaceOnLeft = parentBoundRect.x;
             let spaceOnRight = window.innerWidth - (parentBoundRect.x + parentBoundRect.width);
@@ -62,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             document.body.appendChild(textElementParent);
 
             let textElement = document.createElement("span");
-            textElement.innerHTML = noteElement.getAttribute("data-note-text");
+            textElement.innerHTML = noteElement.getAttribute("data-note-text") as string;
 
             textElementParent.appendChild(textElement);
 
@@ -388,21 +399,20 @@ function lerp(a, b, alpha) {
     return a + (b - a) * alpha;
 }
 
+
 class Point {
-    /**
-     * @param {number} x
-     * @param {number} y
-     */
-    constructor(x, y) {
+    x: number;
+    y: number;
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
     }
 
-    add(x, y) {
+    add(x: number, y: number) {
         return new Point(this.x + x, this.y + y);
     }
 
-    addAngle(x, y, theta) {
+    addAngle(x: number, y: number, theta: number) {
         let sin = Math.sin(theta);
         let cos = Math.cos(theta);
         return new Point(this.x + cos * x - sin * y, this.y + sin * x + cos * y);
