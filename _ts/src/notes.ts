@@ -17,7 +17,7 @@ function toGlobalBounds(boundingClientRect: DOMRect) {
 }
 
 // Find all the notes and replace them with a div containing the note text
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function (event) {
 
     let canvas = getCanvas(1, 1, 1, 1);
     if (!canvas) return;
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // Select the node that will be observed for mutations
 
     // Options for the observer (which mutations to observe)
-    const config = { attributes: true, childList: true, subtree: true };
+    const config = {attributes: true, childList: true, subtree: true};
 
 
     const updateNoteElements = () => {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         })
         noteTextElementIds = []
 
-        noteElementIds.forEach(function(noteElementId, index) {
+        noteElementIds.forEach(function (noteElementId, index) {
             const noteElement = document.getElementById(noteElementId)
             if (!noteElement) {
                 console.error("Couldn't find element: " + noteElementId);
@@ -158,9 +158,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             bottomRight = topLeft.addAngle(noteWidth, noteHeight, randomRotation);
 
 
-
-
-
             // ctx.beginPath();
             // ctx.moveTo(topLeft.x,topLeft.y);
             // ctx.lineTo(bottomLeft.x,bottomLeft.y);
@@ -240,6 +237,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 let canvasWidthShrink = 50;
 
 let canvasCount = 0;
+
 function getCanvas(x: number, y: number, width: number, height: number) {
     // Add a canvas behind the page content to draw the notes on
     const canvas = document.createElement("canvas");
@@ -255,7 +253,6 @@ function getCanvas(x: number, y: number, width: number, height: number) {
     canvas.style.zIndex = "-1"
     canvas.style.zIndex = "-1";
     document.body.appendChild(canvas);
-
 
 
     if (!canvas.getContext) {
@@ -302,7 +299,7 @@ const radToDeg = (rad: number) => (rad * 180.0) / Math.PI;
 
 let randoms: number[][] = []
 
-function random(index: number, index2:number) {
+function random(index: number, index2: number) {
     let arr1;
     if (randoms.length > index) {
         arr1 = randoms[index];
@@ -340,7 +337,7 @@ function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number
     let isUp;
     if (Math.abs(startY - endY) < 5) {
         isUp = random(index, 2) < 0.5;
-    }  else {
+    } else {
         isUp = endY > startY;
     }
 
@@ -361,10 +358,10 @@ function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number
     let cp1x = angleCos * enterMag + startX;
     let cp1y = angleSin * enterMag + startY;
 
-    let angle2 = (isLeft && connectedToSide)? endAngleBias : endAngleBias + Math.PI;
+    let angle2 = (isLeft && connectedToSide) ? endAngleBias : endAngleBias + Math.PI;
     if (connectedToSide) {
         angle2 += random(index, 4) * 0.2
-    } else  {
+    } else {
         angle2 += Math.atan2(isUp ? -1 : 1, random(index, 4) * 0.4 - 0.2);
     }
 
@@ -372,7 +369,7 @@ function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number
     endX = endX - backOffAmount * Math.cos(angle2);
     endY = endY - backOffAmount * Math.sin(angle2);
 
-    let arrowOrigin = new Point(endX, endY).addAngle(-4 + (-6) * random(index, 5), 0 , angle2);
+    let arrowOrigin = new Point(endX, endY).addAngle(-4 + (-6) * random(index, 5), 0, angle2);
     let arrowPoint = arrowOrigin.addAngle(-10, 0, angle2);
     let arrowLeft = arrowOrigin.addAngle(3, 5 + (3) * random(index, 9), angle2);
     let arrowLeftControl = arrowOrigin.addAngle(-3, 2 + (3) * random(index, 6), angle2);
@@ -386,8 +383,8 @@ function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number
 
 
     let exitMag = 0.4 * (connectedToSide ? distance : 200);
-    let cp2x =  Math.cos(angle2) * exitMag + endX;
-    let cp2y =  Math.sin(angle2) * exitMag + endY;
+    let cp2x = Math.cos(angle2) * exitMag + endX;
+    let cp2y = Math.sin(angle2) * exitMag + endY;
 
     ctx.beginPath();
 
@@ -409,6 +406,7 @@ function lerp(a: number, b: number, alpha: number) {
 class Point {
     x: number;
     y: number;
+
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
