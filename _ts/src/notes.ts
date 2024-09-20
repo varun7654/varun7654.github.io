@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 textElementParent.style.position = "relative"
 
                 let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
-                let space = toGlobalBounds(parent.parentElement.getBoundingClientRect()).width - textElemParentBoundingBox.width - 2;
+                let space = toGlobalBounds(parent.parentElement!.getBoundingClientRect()).width - textElemParentBoundingBox.width - 2;
 
                 textElementParent.style.paddingLeft = (random(index, 5) * space) + "px";
 
@@ -194,10 +194,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
 
     // Callback function to execute when mutations are observed
-    const callback = (mutationList /* @type {MutationRecord[]} */, observer) => {
+    const callback = (mutationList: MutationRecord[], observer: MutationObserver) => {
         if (!fontsLoaded || !noteFontLoaded) return;
         for (const mutation of mutationList) {
             if (mutation.type === "childList") {
+                // @ts-ignore
                 let hasNonTextNode = Array.from(mutation.addedNodes).some(node => node.className !== noteTextClassName)
                 if (hasNonTextNode) {
                     updateNoteElements();
@@ -239,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 let canvasWidthShrink = 50;
 
 let canvasCount = 0;
-function getCanvas(x, y, width, height) {
+function getCanvas(x: number, y: number, width: number, height: number) {
     // Add a canvas behind the page content to draw the notes on
     const canvas = document.createElement("canvas");
     canvas.id = "notes-canvas-" + canvasCount;
@@ -265,21 +266,26 @@ function getCanvas(x, y, width, height) {
     return canvas;
 }
 
-function getPixelRatio(context) {
+function getPixelRatio(context: CanvasRenderingContext2D) {
     let dpr = window.devicePixelRatio || 1,
+        // @ts-ignore
         bsr = context.webkitBackingStorePixelRatio ||
+            // @ts-ignore
             context.mozBackingStorePixelRatio ||
+            // @ts-ignore
             context.msBackingStorePixelRatio ||
+            // @ts-ignore
             context.oBackingStorePixelRatio ||
+            // @ts-ignore
             context.backingStorePixelRatio || 1;
 
     return dpr / bsr;
 }
 
-function getCanvasCtx(x, y, height) {
+function getCanvasCtx(x: number, y: number, height: number) {
     let width = window.innerWidth;
-    const canvas = getCanvas(x, y, width - canvasWidthShrink, height);
-    const ctx = canvas.getContext("2d");
+    const canvas = getCanvas(x, y, width - canvasWidthShrink, height)!;
+    const ctx = canvas.getContext("2d")!;
     let pixelRatio = getPixelRatio(ctx);
     canvas.width = (width - canvasWidthShrink) * pixelRatio;
     canvas.height = height * pixelRatio;
@@ -290,13 +296,13 @@ function getCanvasCtx(x, y, height) {
     return ctx;
 }
 
-const degToRad = deg => (deg * Math.PI) / 180.0;
-const radToDeg = rad => (rad * 180.0) / Math.PI;
+const degToRad = (deg: number) => (deg * Math.PI) / 180.0;
+const radToDeg = (rad: number) => (rad * 180.0) / Math.PI;
 
 
-let randoms = []
+let randoms: number[][] = []
 
-function random(index, index2) {
+function random(index: number, index2:number) {
     let arr1;
     if (randoms.length > index) {
         arr1 = randoms[index];
@@ -326,7 +332,7 @@ function random(index, index2) {
  * @param {number} endAngleBias
  * @param {boolean} connectedToSide
  */
-function drawArrow(ctx , startX, startY, endX, endY, index, endAngleBias, connectedToSide) {
+function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number, index: number, endAngleBias: number, connectedToSide: boolean) {
     let middleX = (endX + startX) / 2
     let middleY = (endY + startY) / 2
 
@@ -395,7 +401,7 @@ function drawArrow(ctx , startX, startY, endX, endY, index, endAngleBias, connec
     ctx.stroke();
 }
 
-function lerp(a, b, alpha) {
+function lerp(a: number, b: number, alpha: number) {
     return a + (b - a) * alpha;
 }
 
