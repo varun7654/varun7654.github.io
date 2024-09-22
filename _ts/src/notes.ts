@@ -9,7 +9,6 @@ let noteFontLoaded = false;
 
 let noteElementIds: string[] = [];
 let canvasElementIds: string[] = [];
-let placedNotePos = new Map();
 let noteTextElementIds: string[] = [];
 
 function toGlobalBounds(boundingClientRect: DOMRect) {
@@ -48,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         noteTextElementIds = []
 
         noteElementIds.forEach(function (noteElementId, index) {
+            let placedNotePos = new Map();
             const noteElement = document.getElementById(noteElementId)
             if (!noteElement) {
                 console.error("Couldn't find element: " + noteElementId);
@@ -101,6 +101,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + extraCanvasHeight);
 
                 leftSide = random(index, 5) > 0.5;
+                if (boundingRect.x > parentBoundRect.x + 0.6 * parentBoundRect.width) {
+                    leftSide = false;
+                } else if (boundingRect.x < parentBoundRect.x + 0.4 * parentBoundRect.width) {
+                    leftSide = true;
+                }
                 textElementParent.style.top = (yOffset + 60) + "px"
 
                 if (leftSide) {
@@ -114,9 +119,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 textElementParent.style.position = "relative"
 
                 let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
-                let space = toGlobalBounds(parent.parentElement!.getBoundingClientRect()).width - textElemParentBoundingBox.width - 2;
+                let parentParentBoundRect = toGlobalBounds(parent.parentElement!.getBoundingClientRect());
 
-                textElementParent.style.paddingLeft = (random(index, 5) * space) + "px";
+                let space = parentParentBoundRect.width - textElemParentBoundingBox.width - 2;
+
+                let placingRandomSpace = space * 0.25;
+                let leftOffset = boundingRect.x - parentParentBoundRect.x - textElemParentBoundingBox.width;
+
+                textElementParent.style.paddingLeft = (random(index, 5) * placingRandomSpace + leftOffset) + "px";
 
 
                 let textAlignRandom = random(index, 10);
@@ -234,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });
 
 
-let canvasWidthShrink = 50;
+let canvasWidthShrink = 0;
 
 let canvasCount = 0;
 
@@ -280,7 +290,8 @@ function getPixelRatio(context: CanvasRenderingContext2D) {
 }
 
 function getCanvasCtx(x: number, y: number, height: number) {
-    let width = window.innerWidth;
+    let width = document.getElementsByClassName("page-content")[0].getBoundingClientRect().width;
+
     const canvas = getCanvas(x, y, width - canvasWidthShrink, height)!;
     const ctx = canvas.getContext("2d")!;
     let pixelRatio = getPixelRatio(ctx);
@@ -319,16 +330,7 @@ function random(index: number, index2: number) {
     }
 }
 
-/**
- * @param {CanvasRenderingContext2D} ctx
- * @param {number} startX
- * @param {number} startY
- * @param {number} endX
- * @param {number} endY
- * @param {number} index
- * @param {number} endAngleBias
- * @param {boolean} connectedToSide
- */
+
 function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number, index: number, endAngleBias: number, connectedToSide: boolean) {
     let middleX = (endX + startX) / 2
     let middleY = (endY + startY) / 2
