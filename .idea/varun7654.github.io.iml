@@ -76,7 +76,6 @@
     <orderEntry type="library" scope="PROVIDED" name="uglifier (v4.2.0, ruby-3.3.4-p94) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v2.6.0, ruby-3.3.4-p94) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="uri (v0.13.1, ruby-3.3.4-p94) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="wdm (v0.2.0, ruby-3.3.4-p94) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webrick (v1.8.1, ruby-3.3.4-p94) [gem]" level="application" />
   </component>
 </module>

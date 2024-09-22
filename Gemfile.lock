@@ -142,7 +142,6 @@ GEM
       execjs (>= 0.3.0, < 3)
     unicode-display_width (2.6.0)
     uri (0.13.1)
-    wdm (0.2.0)
     webrick (1.8.1)
 
 PLATFORMS
@@ -165,7 +164,6 @@ DEPENDENCIES
   jekyll-sitemap
   jekyll-theme-minimal
   minima
-  wdm (>= 0.1.0)
 
 BUNDLED WITH
    2.5.16
