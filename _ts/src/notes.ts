@@ -63,7 +63,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
 
             let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
-            let spaceOnLeft = parentBoundRect.left;
+
+            let parentForLeftSpacing = noteElement.closest("p,ul,ol")!;
+            let spaceOnLeft = toGlobalBounds(parentForLeftSpacing.getBoundingClientRect()).left -
+                parseFloat(<string>window.getComputedStyle(parentForLeftSpacing).marginLeft);
             let spaceOnRight = window.innerWidth - toGlobalBounds(parent.children.item(0)!.getBoundingClientRect()).right;
             let maxRightPos = parentBoundRect.right;
 
@@ -109,14 +112,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 let maxRightBound = window.innerWidth - noteWidth - 60;
                 let topY = parentBoundRect.y - 30
                 textElementParent.style.top = (topY + Math.sin(randomRotation) * (noteWidth / 2)) + "px"
+
                 let centerness = boundingRect.x - leftBound - (rightBound - leftBound) / 2; // Where the note origin is based on it's parent bounds
                 if (Math.abs(centerness) > 50) {
                     leftSide = centerness < 0;
                 }
-
-
+                
                 if (leftSide) {
-                    textElementParent.style.left = (spaceOnLeft - noteWidth - 20) + "px"
+                    textElementParent.style.left = (spaceOnLeft - noteWidth - 30) + "px"
                 } else {
                     let noteBottomY = noteHeight + topY + 25;
                     let spaceNeededBelow = noteHeight;
@@ -246,9 +249,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
             let rotationBias;
             if (canPlaceOnSide) {
                 if (leftSide) {
+                    let alpha2 = invLerp(topRight.y, bottomRight.y, parentBoundRect.bottom - yOffset + 30);
+                    if (alpha2 < 1) {
+                        alpha = lerp(0, alpha2, alpha);
+                    }
                     endX = lerp(topRight.x, bottomRight.x, alpha) + 3;
                     endY = lerp(topRight.y, bottomRight.y, alpha);
                 } else {
+                    let alpha2 = invLerp(topLeft.y, bottomLeft.y, parentBoundRect.bottom - yOffset + 30);
+                    if (alpha2 < 1) {
+                        alpha = lerp(0, alpha2, alpha);
+                    }
                     endX = lerp(topLeft.x, bottomLeft.x, alpha) ;
                     endY = lerp(topLeft.y, bottomLeft.y, alpha);
                 }
@@ -258,12 +269,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 let maxDeltaX = (avgY - boundingRect.y + boundingRect.height / 2) * 0.75;
                 let minX = Math.max(topLeft.x, boundingRect.x - maxDeltaX);
                 let maxX = Math.min(topRight.x, boundingRect.x + maxDeltaX);
-                endX = lerp(minX, maxX, alpha);
 
                 let minAlpha = invLerp(topLeft.x, topRight.x, minX);
                 let maxAlpha = invLerp(topLeft.x, topRight.x, maxX);
 
-                endY = lerp(topLeft.y, topRight.y, lerp(minAlpha, maxAlpha, alpha));
+                alpha = lerp(minAlpha, maxAlpha, alpha)
+                endX = lerp(minX, maxX, alpha);
+                endY = lerp(topLeft.y, topRight.y, alpha);
                 rotationBias = Math.atan2(boundingRect.y + boundingRect.height / 2 - endY, boundingRect.x - endX) - Math.PI / 2;
             }
 
@@ -291,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     window.addEventListener('resize', updateNoteElements);
 
     // Wait for fonts to load before rendering. We'll get misaligned notes if we don't
-    document.fonts.load("2em Zeyada").then(() => {
+    document.fonts.load("2em Indie Flower").then(() => {
         noteFontLoaded = true;
         if (fontsLoaded) {
             updateNoteElements();
