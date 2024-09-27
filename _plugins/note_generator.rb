@@ -11,13 +11,12 @@ module Jekyll
       end
     end
 
-    # Define the process_notes method as a class method
     def self.process_notes(page)
       content = page.output
       return content unless content  # Ensure content is not nil
 
       # Find the %$...$% notes using regex in the HTML output
-      content.gsub(/%\$[\s\S]*?\$%/) do |note|
+      content.gsub!(/%\$[\s\S]*?\$%/) do |note|
         note_text = escape_special_characters(note[2..-3])
 
         # Increment the counter and create a unique ID for the note
@@ -28,6 +27,26 @@ module Jekyll
         puts "Found note: #{note_text} in #{page.path}"  # Debug output
 
         note_html
+      end
+
+      content.gsub!(/<p\b[^>]*>/) do |tag|
+        replace = tag + "<span>"
+        replace
+      end
+
+      content.gsub!(/<\/p\s*>/) do |tag|
+        replace = "</span>" + tag
+        replace
+      end
+
+      content.gsub!(/<li\b[^>]*>/) do |tag|
+        replace = tag + "<span>"
+        replace
+      end
+
+      content.gsub!(/<\/li\s*>/) do |tag|
+        replace = "</span>" + tag
+        replace
       end
     end
 

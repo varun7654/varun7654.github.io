@@ -54,6 +54,8 @@ body {
   font-family: 'Indie Flower', serif;
   font-size: 1.4em;
   line-height: 0.85;
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
 }
 
 .hidden {

@@ -47,17 +47,22 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 console.error("Couldn't find element: " + noteElementId);
                 return;
             }
-            let boundingRect /* @type {DOMRect} */ = toGlobalBounds(noteElement.getBoundingClientRect());
+            let boundingRect = toGlobalBounds(noteElement.getBoundingClientRect());
             // Find a parent paragraph element
-            let parent = noteElement.closest("p");
+            let parent: HTMLElement | null = noteElement.closest("p,li");
             if (!parent) {
                 console.error("Couldn't find p parent for: " + noteElementId);
                 return;
             }
 
+            if (parent.dataset.hasOwnProperty("originalMarginBottom")) {
+                parent.style.marginBottom = <string>parent.dataset.originalMarginBottom;
+            }
+
             let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
-            let spaceOnLeft = parentBoundRect.x;
-            let spaceOnRight = window.innerWidth - (parentBoundRect.x + parentBoundRect.width);
+            let spaceOnLeft = parentBoundRect.left;
+            let spaceOnRight = window.innerWidth - toGlobalBounds(parent.children.item(0)!.getBoundingClientRect()).right;
+            let maxRightPos = parentBoundRect.right;
 
             let textElementParent = document.createElement("div");
             textElementParent.id = noteElementId + "-note-text";
@@ -75,8 +80,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
             let noteWidth = textElementBoundingBox.width;
             let noteHeight = textElementBoundingBox.height;
 
-            let canPlaceOnSide = spaceOnLeft > noteWidth + 40 && spaceOnRight > noteWidth + 40
-
+            let canPlaceOnLeft = spaceOnLeft > noteWidth + 40;
+            let canPlaceOnRight = spaceOnRight > noteWidth + 40;
+            let canPlaceOnSide = canPlaceOnLeft || canPlaceOnRight
 
             let maxRotation;
             if (canPlaceOnSide) {
@@ -95,17 +101,76 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + extraCanvasHeight);
 
                 leftSide = random(index, 5) > 0.5;
-                if (boundingRect.x > parentBoundRect.x + 0.6 * parentBoundRect.width) {
-                    leftSide = false;
-                } else if (boundingRect.x < parentBoundRect.x + 0.4 * parentBoundRect.width) {
-                    leftSide = true;
+                let leftBound = spaceOnLeft;
+                let rightBound = window.innerWidth - spaceOnRight;
+                let originalRightBound = rightBound;
+                let topY = parentBoundRect.y - 30
+                textElementParent.style.top = topY + "px"
+                let centerness = boundingRect.x - leftBound - (rightBound - leftBound) / 2; // Where the note origin is based on it's parent bounds
+                if (Math.abs(centerness) > 50) {
+                    leftSide = centerness < 0;
                 }
-                textElementParent.style.top = (yOffset + 60) + "px"
+
 
                 if (leftSide) {
                     textElementParent.style.left = (spaceOnLeft - noteWidth - 20) + "px"
                 } else {
-                    textElementParent.style.left = (parentBoundRect.right + 20) + "px"
+                    let noteBottomY = noteHeight + topY;
+                    let elem: Element | null = parent;
+                    while (true) {
+                        if (!elem) break;
+                        let next : Element | null = null;
+                        if (elem instanceof HTMLUListElement || elem instanceof HTMLOListElement) {
+                            // traverse into the list
+                            next = elem.children[0];
+                        } else if (elem instanceof HTMLLIElement) {
+                            // traverse deeper in the list, all lists should have <span></span> inside them
+                            let next: Element | null = elem.children[0].children[0];
+                            if (!next || !(next instanceof HTMLLIElement)) {
+                                // no children, try next element
+                                next = elem.nextElementSibling;
+                            }
+                            if (!next) {
+                                // end of sublist traverse up
+                                next = elem.closest("li, ul, ol, p")!.nextElementSibling;
+                            }
+                        }
+                        if (!next) {
+                            next = elem.nextElementSibling;
+                        }
+                        elem = next;
+
+                        if (elem instanceof HTMLUListElement || elem instanceof HTMLOListElement) {
+                            continue;
+                        }
+                        if (!elem) break;
+                        // all of the elems should have a span inside them.
+                        let span = elem.children[0] as HTMLSpanElement;
+                        if (!(span instanceof HTMLSpanElement)) {
+                            console.log(elem)
+                            console.error("No span inside! Something is wrong!");
+                        }
+                        let bounds = toGlobalBounds(span.getBoundingClientRect());
+
+
+                        if (bounds.top > noteBottomY + 25) {
+                            break;
+                        }
+                        if (rightBound < bounds.right) {
+                            console.log(bounds.right)
+                            rightBound = bounds.right;
+                        }
+                    }
+
+                    if (rightBound + noteWidth + 60 > window.innerWidth ) {
+                        rightBound = originalRightBound;
+                        parent.dataset.originalMarginBottom = parent.style.marginBottom;
+                        parent.style.marginBottom = (noteHeight - parentBoundRect.height) + "px";
+                    }
+
+                    let leftPos = lerp(rightBound + 25, Math.max(rightBound + 25, maxRightPos - noteWidth - 20), random(index, 6));
+
+                    textElementParent.style.left = (leftPos) + "px"
                 }
             } else {
                 document.body.removeChild(textElementParent);
@@ -122,12 +187,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
                 textElementParent.style.paddingLeft = (random(index, 5) * placingRandomSpace + leftOffset) + "px";
 
-
-
                 textElementParent.style.textAlign = "left";
                 ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElemParentBoundingBox.width + extraCanvasHeight);
                 yOffset = parentBoundRect.y - extraCanvasHeight / 2;
             }
+
+
+
 
             // modify the bounding box to be in the canvas space
             boundingRect = new DOMRect(boundingRect.x,
@@ -168,10 +234,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
             let rotationBias;
             if (canPlaceOnSide) {
                 if (leftSide) {
-                    endX = lerp(topRight.x, bottomRight.x, alpha);
+                    endX = lerp(topRight.x, bottomRight.x, alpha) + 3;
                     endY = lerp(topRight.y, bottomRight.y, alpha);
                 } else {
-                    endX = lerp(topLeft.x, bottomLeft.x, alpha);
+                    endX = lerp(topLeft.x, bottomLeft.x, alpha) ;
                     endY = lerp(topLeft.y, bottomLeft.y, alpha);
                 }
                 rotationBias = randomRotation;
@@ -246,8 +312,7 @@ function getCanvas(x: number, y: number, width: number, height: number) {
     canvas.style.top = y + "px";
     canvas.style.left = x + "px";
     canvas.style.right = "0px"
-    canvas.style.zIndex = "-1"
-    canvas.style.zIndex = "-1";
+    canvas.style.zIndex = "1"
     document.body.appendChild(canvas);
 
 
@@ -284,9 +349,9 @@ function getCanvasCtx(x: number, y: number, height: number) {
     canvas.width = (width - canvasWidthShrink) * pixelRatio;
     canvas.height = height * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
-    ctx.strokeStyle = "e7e1d3";
+    ctx.strokeStyle = "706b67";
 
-    ctx.lineWidth = 0.7;
+    ctx.lineWidth = 1.2;
     return ctx;
 }
 
@@ -318,9 +383,6 @@ function random(index: number, index2: number) {
 
 
 function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number, index: number, endAngleBias: number, connectedToSide: boolean) {
-    let middleX = (endX + startX) / 2
-    let middleY = (endY + startY) / 2
-
     let distance = Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY));
     let isUp;
     if (Math.abs(startY - endY) < 5) {
@@ -370,7 +432,7 @@ function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number
     endY = endY - reextendAmount * Math.sin(angle2);
 
 
-    let exitMag = 0.4 * (connectedToSide ? distance : 200);
+    let exitMag = 0.4 * (connectedToSide ? distance : Math.min(distance,200));
     let cp2x = Math.cos(angle2) * exitMag + endX;
     let cp2y = Math.sin(angle2) * exitMag + endY;
 
