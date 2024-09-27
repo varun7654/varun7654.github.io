@@ -15,21 +15,15 @@ function toGlobalBounds(boundingClientRect: DOMRect) {
     return new DOMRect(boundingClientRect.x + window.scrollX, boundingClientRect.y + window.scrollY, boundingClientRect.width, boundingClientRect.height);
 }
 
-// Find all the notes and replace them with a div containing the note text
 document.addEventListener("DOMContentLoaded", function (event) {
 
     let canvas = getCanvas(1, 1, 1, 1);
-    if (!canvas) return;
+    if (!canvas) return; // Canvas not supported. Give up in this case
     document.body.removeChild(canvas);
     canvasElementIds = [];
 
+    // Main wrapper for the parts of the website we care about
     const pageContent = document.getElementsByClassName("page-content")[0];
-
-    // Select the node that will be observed for mutations
-
-    // Options for the observer (which mutations to observe)
-    const config = {attributes: true, childList: true, subtree: true};
-
 
     const updateNoteElements = () => {
         canvasElementIds.forEach(id => {
@@ -129,16 +123,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 textElementParent.style.paddingLeft = (random(index, 5) * placingRandomSpace + leftOffset) + "px";
 
 
-                let textAlignRandom = random(index, 10);
-                let textAlign;
-                if (textAlignRandom < 0.33) {
-                    textAlign = "left";
-                } else if (textAlignRandom < 0.66) {
-                    textAlign = "center";
-                } else {
-                    textAlign = "right";
-                }
-                textElementParent.style.textAlign = textAlign;
+
+                textElementParent.style.textAlign = "left";
                 ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElemParentBoundingBox.width + extraCanvasHeight);
                 yOffset = parentBoundRect.y - extraCanvasHeight / 2;
             }
@@ -214,11 +200,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     };
 
-    // Create an observer instance linked to the callback function
     const observer = new MutationObserver(callback);
 
     window.addEventListener('resize', updateNoteElements);
 
+    // Wait for fonts to load before rendering. We'll get misaligned notes if we don't
     document.fonts.load("2em Zeyada").then(() => {
         noteFontLoaded = true;
         if (fontsLoaded) {
@@ -232,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     });
 
-    // Start observing the target node for configured mutations
+    const config = {attributes: true, childList: true, subtree: true};
     observer.observe(pageContent, config);
 
 

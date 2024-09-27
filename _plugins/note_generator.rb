@@ -4,15 +4,16 @@ module Jekyll
     @@note_id_counter = 0  # Initialize a class variable to track note IDs
     # Register the post_render hook for both pages and posts
     Jekyll::Hooks.register [:pages, :posts], :post_render do |page|
-      # puts "post render #{page.path}"
-
-      if page.output  # Ensure output exists and is not nil
-        page.output = process_notes(page.output)
+      if page.path.end_with? '.md'
+        if page.output  # Ensure output exists and is not nil
+          page.output = process_notes(page)
+        end
       end
     end
 
     # Define the process_notes method as a class method
-    def self.process_notes(content)
+    def self.process_notes(page)
+      content = page.output
       return content unless content  # Ensure content is not nil
 
       # Find the %$...$% notes using regex in the HTML output
@@ -24,7 +25,7 @@ module Jekyll
         @@note_id_counter += 1
 
         note_html = "<span class='note' id='#{note_id} 'data-note-text='#{note_text}'></span>"
-        puts "Found note: #{note_html}"  # Debug output
+        puts "Found note: #{note_text} in #{page.path}"  # Debug output
 
         note_html
       end

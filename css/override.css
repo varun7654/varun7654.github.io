@@ -49,11 +49,11 @@ body {
 }
 
 .note-text-rendered {
-  max-width: 10em;
+  max-width: 9.5em;
   box-sizing: content-box;
-  font-family: 'Zeyada', serif;
-  font-size: 1.7em;
-  line-height: 0.8;
+  font-family: 'Indie Flower', serif;
+  font-size: 1.4em;
+  line-height: 0.85;
 }
 
 .hidden {
