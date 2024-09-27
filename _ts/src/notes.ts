@@ -10,6 +10,7 @@ let noteFontLoaded = false;
 let noteElementIds: string[] = [];
 let canvasElementIds: string[] = [];
 let noteTextElementIds: string[] = [];
+let modifiedMarginsElementIds: string[] = [];
 
 function toGlobalBounds(boundingClientRect: DOMRect) {
     return new DOMRect(boundingClientRect.x + window.scrollX, boundingClientRect.y + window.scrollY, boundingClientRect.width, boundingClientRect.height);
@@ -40,6 +41,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
         })
         noteTextElementIds = []
 
+        modifiedMarginsElementIds.forEach(id => {
+            let element = document.getElementById(id);
+            if (!element) return;
+            element.style.marginBottom = <string>element.dataset.originalMarginBottom;
+        })
+
         noteElementIds.forEach(function (noteElementId, index) {
             let placedNotePos = new Map();
             const noteElement = document.getElementById(noteElementId)
@@ -53,10 +60,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             if (!parent) {
                 console.error("Couldn't find p parent for: " + noteElementId);
                 return;
-            }
-
-            if (parent.dataset.hasOwnProperty("originalMarginBottom")) {
-                parent.style.marginBottom = <string>parent.dataset.originalMarginBottom;
             }
 
             let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
@@ -80,8 +83,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             let noteWidth = textElementBoundingBox.width;
             let noteHeight = textElementBoundingBox.height;
 
-            let canPlaceOnLeft = spaceOnLeft > noteWidth + 40;
-            let canPlaceOnRight = spaceOnRight > noteWidth + 40;
+            let canPlaceOnLeft = spaceOnLeft > noteWidth + 60;
+            let canPlaceOnRight = spaceOnRight > noteWidth + 60;
             let canPlaceOnSide = canPlaceOnLeft || canPlaceOnRight
 
             let maxRotation;
@@ -103,9 +106,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 leftSide = random(index, 5) > 0.5;
                 let leftBound = spaceOnLeft;
                 let rightBound = window.innerWidth - spaceOnRight;
+                let maxRightBound = window.innerWidth - noteWidth - 60;
                 let originalRightBound = rightBound;
                 let topY = parentBoundRect.y - 30
-                textElementParent.style.top = topY + "px"
+                textElementParent.style.top = (topY + Math.sin(randomRotation) * (noteWidth / 2)) + "px"
                 let centerness = boundingRect.x - leftBound - (rightBound - leftBound) / 2; // Where the note origin is based on it's parent bounds
                 if (Math.abs(centerness) > 50) {
                     leftSide = centerness < 0;
@@ -115,7 +119,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 if (leftSide) {
                     textElementParent.style.left = (spaceOnLeft - noteWidth - 20) + "px"
                 } else {
-                    let noteBottomY = noteHeight + topY;
+                    let noteBottomY = noteHeight + topY + 25;
+                    let spaceNeededBelow = noteHeight;
                     let elem: Element | null = parent;
                     while (true) {
                         if (!elem) break;
@@ -153,19 +158,27 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         let bounds = toGlobalBounds(span.getBoundingClientRect());
 
 
-                        if (bounds.top > noteBottomY + 25) {
+                        if (bounds.top > noteBottomY) {
+                            spaceNeededBelow = 0;
                             break;
                         }
                         if (rightBound < bounds.right) {
-                            console.log(bounds.right)
-                            rightBound = bounds.right;
+                            if (bounds.right > maxRightBound) {
+                                spaceNeededBelow = noteBottomY - bounds.top;
+                                break;
+                            } else {
+                                rightBound = bounds.right;
+                            }
                         }
                     }
 
-                    if (rightBound + noteWidth + 60 > window.innerWidth ) {
-                        rightBound = originalRightBound;
+                    if (spaceNeededBelow > 0) {
                         parent.dataset.originalMarginBottom = parent.style.marginBottom;
-                        parent.style.marginBottom = (noteHeight - parentBoundRect.height) + "px";
+                        if (!parent.id) {
+                            parent.id = guidGenerator();
+                        }
+                        modifiedMarginsElementIds.push(parent.id);
+                        parent.style.marginBottom = (spaceNeededBelow) + "px";
                     }
 
                     let leftPos = lerp(rightBound + 25, Math.max(rightBound + 25, maxRightPos - noteWidth - 20), random(index, 6));
@@ -242,9 +255,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 }
                 rotationBias = randomRotation;
             } else {
-                endX = lerp(topLeft.x, topRight.x, alpha);
-                endY = lerp(topLeft.y, topRight.y, alpha);
-                rotationBias = randomRotation + Math.PI;
+                let avgY = (topLeft.y + topRight.y) / 2;
+                let maxDeltaX = (avgY - boundingRect.y + boundingRect.height / 2) * 0.75;
+                let minX = Math.max(topLeft.x, boundingRect.x - maxDeltaX);
+                let maxX = Math.min(topRight.x, boundingRect.x + maxDeltaX);
+                endX = lerp(minX, maxX, alpha);
+
+                let minAlpha = invLerp(topLeft.x, topRight.x, minX);
+                let maxAlpha = invLerp(topLeft.x, topRight.x, maxX);
+
+                endY = lerp(topLeft.y, topRight.y, lerp(minAlpha, maxAlpha, alpha));
+                rotationBias = Math.atan2(boundingRect.y + boundingRect.height / 2 - endY, boundingRect.x - endX) - Math.PI / 2;
             }
 
             drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY, index, rotationBias, canPlaceOnSide);
@@ -450,6 +471,23 @@ function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number
 
 function lerp(a: number, b: number, alpha: number) {
     return a + (b - a) * alpha;
+}
+
+/**
+ * @return alpha value to get c when used in lerp
+ * @param a
+ * @param b
+ * @param c
+ */
+function invLerp(a: number, b: number, c: number) {
+    return (c - a) / (b - a);
+}
+
+function guidGenerator() {
+    let S4 = function() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
 
