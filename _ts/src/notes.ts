@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 let leftBound = spaceOnLeft;
                 let rightBound = window.innerWidth - spaceOnRight;
                 let maxRightBound = window.innerWidth - noteWidth - 60;
-                let originalRightBound = rightBound;
                 let topY = parentBoundRect.y - 30
                 textElementParent.style.top = (topY + Math.sin(randomRotation) * (noteWidth / 2)) + "px"
                 let centerness = boundingRect.x - leftBound - (rightBound - leftBound) / 2; // Where the note origin is based on it's parent bounds
@@ -253,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     endX = lerp(topLeft.x, bottomLeft.x, alpha) ;
                     endY = lerp(topLeft.y, bottomLeft.y, alpha);
                 }
-                rotationBias = randomRotation;
+                rotationBias = Math.sign(randomRotation) * (Math.abs(randomRotation) + degToRad(5));
             } else {
                 let avgY = (topLeft.y + topRight.y) / 2;
                 let maxDeltaX = (avgY - boundingRect.y + boundingRect.height / 2) * 0.75;
@@ -406,8 +405,8 @@ function random(index: number, index2: number) {
 function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number, index: number, endAngleBias: number, connectedToSide: boolean) {
     let distance = Math.sqrt((startX - endX) * (startX - endX) + (startY - endY) * (startY - endY));
     let isUp;
-    if (Math.abs(startY - endY) < 5) {
-        isUp = random(index, 2) < 0.5;
+    if (Math.abs(startY - endY) < 8) {
+        isUp = endAngleBias < 0;
     } else {
         isUp = endY > startY;
     }
@@ -415,7 +414,7 @@ function drawArrow(ctx: CanvasRenderingContext2D, startX: number, startY: number
     let isLeft = endX < startX;
 
     // generate an angle between 30 - 60 degrees in rad
-    let angle = random(index, 3) * (Math.PI / 6) + (Math.PI / 6);
+    let angle = random(index, 3) * (Math.PI / 6) + (Math.PI / 3);
     let angleCos = Math.cos(angle);
     let angleSin = Math.sin(angle);
     if (isLeft) {
