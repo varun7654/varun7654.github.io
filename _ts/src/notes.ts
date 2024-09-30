@@ -344,7 +344,7 @@ function getCanvas(x: number, y: number, width: number, height: number) {
     canvas.style.top = y + "px";
     canvas.style.left = x + "px";
     canvas.style.right = "0px"
-    canvas.style.zIndex = "1"
+    canvas.style.zIndex = "-1"
     document.body.appendChild(canvas);
 
 
