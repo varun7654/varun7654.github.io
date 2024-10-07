@@ -99,6 +99,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             let randomRotation = random(index, 0) * maxRotation * 2 - maxRotation;
             textElementParent.style.transform = "rotate(" + randomRotation + "rad)"
+
+            let rotatedNoteHeight = noteHeight + Math.max(0,Math.sin(randomRotation) * noteWidth);
+
             let yOffset;
             let ctx;
             let leftSide;
@@ -117,12 +120,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 if (Math.abs(centerness) > 50) {
                     leftSide = centerness < 0;
                 }
+
+                if (!canPlaceOnLeft) {
+                    leftSide = false;
+                }
+
+                if (!canPlaceOnRight) {
+                    leftSide = true;
+                }
                 
                 if (leftSide) {
                     textElementParent.style.left = (spaceOnLeft - noteWidth - 30) + "px"
                 } else {
-                    let noteBottomY = noteHeight + topY + 25;
-                    let spaceNeededBelow = noteHeight;
+                    let noteBottomY = rotatedNoteHeight + topY + 25;
+                    let spaceNeededBelow = rotatedNoteHeight;
                     let elem: Element | null = parent;
                     while (true) {
                         if (!elem) break;
@@ -152,11 +163,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         }
                         if (!elem) break;
                         // all of the elems should have a span inside them.
-                        let span = elem.children[0] as HTMLSpanElement;
-                        if (!(span instanceof HTMLSpanElement)) {
-                            console.log(elem)
-                            console.error("No span inside! Something is wrong!");
+                        let span = elem.children[0] as HTMLElement
+                        let needToStop = false;
+                        if (!span) {
+                            // We ran into something not surronded by a span. Process this event and then stop
+                            span = elem as HTMLElement;
+                            needToStop = true;
+
                         }
+
                         let bounds = toGlobalBounds(span.getBoundingClientRect());
 
 
@@ -164,8 +179,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
                             spaceNeededBelow = 0;
                             break;
                         }
-                        if (rightBound < bounds.right) {
-                            if (bounds.right > maxRightBound) {
+                        if (rightBound < bounds.right || needToStop) {
+                            if (bounds.right > maxRightBound || needToStop) {
                                 spaceNeededBelow = noteBottomY - bounds.top;
                                 break;
                             } else {

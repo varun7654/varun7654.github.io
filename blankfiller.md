@@ -13,10 +13,10 @@ title: Blank Filler App
 # Template:
 
 Add fillable elements to your template by writing them as `[label]`
+%$ If you need to use brackets, escape the first one by changing the `[` to `\[` $%
 
 Capitalize the first letter in the label name to force the first letter to always be capital. Keep it lowercase to keep the casing entered.
 
-If you need to use brackets, escape the first one by changing the `[` to `\[`
 
 <textarea title="Template" class="template" id="templateText" ></textarea>
 
