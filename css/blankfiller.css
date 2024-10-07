@@ -2,5 +2,8 @@
     min-width: 50em;
     min-height: 10em;
     text-align: left;
+}
 
+.fill-label {
+    padding-right: 0.5em;
 }

@@ -11,8 +11,10 @@ function extractFillableElements(input: string): FillableElement[] {
 
     while ((match = regex.exec(input)) !== null) {
         // `match.index` is the position of the match in the string
-        const before = input.slice(lastIndex, match.index); // Everything before the fillable element
+        let before = input.slice(lastIndex, match.index); // Everything before the fillable element
         const fillKey = match[1]; // The captured group for the element name inside []
+
+        before = before.replace(/\\\[/g, "["); //unescape the \[
 
         result.push({ before, fillKey });
 
@@ -21,7 +23,7 @@ function extractFillableElements(input: string): FillableElement[] {
 
     // If there is anything after the last match, include it in the final object with an empty element
     if (lastIndex < input.length) {
-        result.push({ before: input.slice(lastIndex), fillKey: '' });
+        result.push({ before: input.slice(lastIndex).replace(/\\\[/g, "["), fillKey: '' });
     }
 
     return result;
@@ -61,7 +63,7 @@ function templateChanged(element: HTMLTextAreaElement) {
 
                     let label = document.createElement("label");
                     label.htmlFor = "lowerFillKey"
-                    label.innerText = lowerFillKey;
+                    label.innerText = lowerFillKey + ":";
                     label.className = "fill-label"
 
                     let textInput = document.createElement("input");
