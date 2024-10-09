@@ -48,6 +48,22 @@ module Jekyll
         replace = "</span>" + tag
         replace
       end
+
+      (1..6).each do |i|
+        # Opening heading tag (e.g., <h1>, <h2>, ...)
+        content.gsub!(/<h#{i}\b[^>]*>/) do |tag|
+          replace = tag + "<span>"
+          replace
+        end
+
+        # Closing heading tag (e.g., </h1>, </h2>, ...)
+        content.gsub!(/<\/h#{i}\s*>/) do |tag|
+          replace = "</span>" + tag
+          replace
+        end
+      end
+
+      content
     end
 
     def self.escape_special_characters(text)
