@@ -16,7 +16,7 @@ I started this project with the following goals:
 - Make creating new notes really easy
 - Have them also work on mobile and small displays
 - They should work automatically. I don't want to have to run extra commands to generate everything.
-- Arrows should look hand-drawn (ish). I don't want every arrow to look the same. %$Does this work on lists???$%
+- Arrows should look hand-drawn (ish). I don't want every arrow to look the same. %$Getting notes to place properly in lists took a bunch of effort$%
 
 Source [here](https://github.com/varun7654/varun7654.github.io/blob/main/_ts/src/notes.ts)
 
