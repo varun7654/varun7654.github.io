@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+
+{%- include head.html -%}
+
+<body>
+
+<div class="intro-bg">
+    <div class="intro">
+        <div class="inner-intro">
+            <div style="line-height: 0.9">
+                <p style="font-family: 'Dancing Script', serif; font-size: 5em; font-weight: 700;">
+                    <span class="dacubeking">I'm</span>
+                    <span class="dacubeking">Da​Cube​King.</span>
+                </p>
+                That's my pen name, irl people know me as Varun.
+            </div>
+            <p></p>
+            <p>
+                Hey 👋, you probably don't know me, but if you do, it's likely from <a href="/yt.html">my youtube videos</a>
+                or in relation to the <a href="https://github.com/FRC3476/AutoBuilder">FRC team</a> that I was on.
+            </p>
+            <p>
+                I'm a 20-year-old college sophomore from California that loves coding and everything about computers.
+                In High School, I was the programming lead for the FRC team, <a href="http://teamcodeorange.com/">3476 - Code Orange</a>,
+                and I'm majoring in Computer Science with a Math minor @ Penn Sate.
+            </p>
+            <p>
+                Check out some of the stuff that I've worked on <a href="/2022/12/01/My-Programming-Projects.html">here</a>.
+            </p>
+            <p>
+                When I'm not working or writing some code you may find me reading.
+                %$Take a look at what I've read <a href="/reading.html">here</a>.$%
+                <span id="currentlyReading"> </span>
+            </p>
+
+            If I'm not reading you'll likely find me playing video games.
+            I recently finished playing though <a href="https://www.alanwake.com/">Alan Wake 2</a>
+            and am now playing through <a href="https://www.celestegame.com/">Celeste</a>,
+            but I also continue to come back to <a href="https://dynmap.dacubeking.com/)">Minecraft</a> &
+            <a href="https://playvalorant.com/">Valorant</a>.
+
+            <script>
+                fetch(
+                    'https://books.api.dacubeking.com/currentlyreading',
+                )
+                    .then(function (response) {
+                        // When the page is loaded convert it to text
+                        return response.text()
+                    })
+                    .then(function (html) {
+                        if (html.length > 0) {
+                            document.getElementById("currentlyReading").innerHTML += html + "."
+                        }
+                    })
+            </script>
+        </div>
+    </div>
+</div>
+
+<main class="page-content" aria-label="Content">
+    <div class="wrapper">
+        <div class="home">
+            {%- if page.title -%}
+            <h1 class="page-heading">{{ page.title }}</h1>
+            {%- endif -%}
+
+            {{ content }}
+
+
+            {% if site.paginate %}
+            {% assign posts = paginator.posts %}
+            {% else %}
+            {% assign posts = site.posts %}
+            {% endif %}
+
+
+            {%- if posts.size > 0 -%}
+            {%- if page.list_title -%}
+            <h2 class="post-list-heading">{{ page.list_title }}</h2>
+            {%- endif -%}
+            <ul class="post-list">
+                {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+                {%- for post in posts -%}
+                <li>
+                    <span class="post-meta">{{ post.date | date: date_format }}</span>
+                    <h3>
+                        <a class="post-link" href="{{ post.url | relative_url }}">
+                            {{ post.title | escape }}
+                        </a>
+                    </h3>
+                    {%- if site.show_excerpts -%}
+                    {{ post.excerpt }}
+                    {%- endif -%}
+                </li>
+                {%- endfor -%}
+            </ul>
+
+            {% if site.paginate %}
+            <div class="pager">
+                <ul class="pagination">
+                    {%- if paginator.previous_page %}
+                    <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{
+                        paginator.previous_page }}</a></li>
+                    {%- else %}
+                    <li>
+                        <div class="pager-edge">•</div>
+                    </li>
+                    {%- endif %}
+                    <li>
+                        <div class="current-page">{{ paginator.page }}</div>
+                    </li>
+                    {%- if paginator.next_page %}
+                    <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page
+                        }}</a></li>
+                    {%- else %}
+                    <li>
+                        <div class="pager-edge">•</div>
+                    </li>
+                    {%- endif %}
+                </ul>
+            </div>
+            {%- endif %}
+
+            {%- endif -%}
+
+        </div>
+    </div>
+</main>
+
+{%- include footer.html -%}
+
+</body>
+
+</html>
