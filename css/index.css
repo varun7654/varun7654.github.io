@@ -10,6 +10,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    overflow: hidden
 }
 
 @media screen and (min-width: 690px) {
@@ -35,6 +36,9 @@ span.dacubeking {
     .intro-title {
         font-size: 5em;
     }
+    .intro-boarder {
+        height: 10em;
+    }
 }
 @media screen and (max-width: 799px) {
     .inner-intro {
@@ -44,6 +48,9 @@ span.dacubeking {
     }
     .intro-title {
         font-size: 4em;
+    }
+    .intro-boarder {
+        height: 6em;
     }
 }
 
@@ -102,10 +109,8 @@ span.dacubeking {
 
 .intro-boarder {
     position: absolute;
-    height: 10em;
     width: 100%;
-    min-width: 900px;
-    object-fit: fill;
-    bottom: 0;
+    bottom: -1px;
     z-index: 3;
+    min-width: 800px;
 }
