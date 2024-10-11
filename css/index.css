@@ -89,14 +89,14 @@ span.dacubeking {
     backdrop-filter: brightness(60%) blur(5px);
     mask: linear-gradient(
             to right,
-            hsla(0, 0%, 0%, 1) 40em,
-            hsla(0, 0%, 0%, 0.97) 42em,
-            hsla(0, 0%, 0%, 0.9) 44em,
-            hsla(0, 0%, 0%, 0.65) 48em,
-            hsla(0, 0%, 0%, 0.35) 52em,
-            hsla(0, 0%, 0%, 0.1) 56em,
-            hsla(0, 0%, 0%, 0.03) 58em,
-            hsla(0, 0%, 0%, 0) 60em
+            #000000FF 40em,
+            #000000F7 42em,
+            #000000E6 44em,
+            #000000A6 48em,
+            #00000059 52em,
+            #0000001A 56em,
+            #00000008 58em,
+            #00000000 60em
     );
 }
 
