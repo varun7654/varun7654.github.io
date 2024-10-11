@@ -4,6 +4,7 @@ title: Reading Log
 ---
 
 <head>
+  <link rel="preload" href="/css/books.css" as="style">
   <link rel="stylesheet" href="/css/books.css">
   <link rel="preload" href="https://books.api.dacubeking.com/read" as="fetch" crossorigin="anonymous">
 </head>

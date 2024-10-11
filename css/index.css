@@ -5,19 +5,28 @@
 
 
 .intro-bg {
-    background-image: url("/assets/home/index_bg_hq.webp");
+    min-height: calc(100vh - 15em);
+    background-image: url("/assets/home/index_bg_lq.webp");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    overflow: hidden
+    overflow: hidden;
+    margin-bottom: 3em;
 }
 
-@media screen and (min-width: 690px) {
-    .intro-bg {
-        height: calc(100vh - 2em);
-    }
-}
+/*@media {*/
+/*    .intro-bg {*/
+/*        background-image:  url("/assets/home/index_bg_hq.webp") !important*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 690px) {*/
+/*    .intro-bg {*/
+/*        height: calc(100vh - 2em);*/
+/*    }*/
+/*}*/
+
 
 span.dacubeking {
     display: inline-block;
@@ -32,12 +41,13 @@ span.dacubeking {
 @media screen and (min-width: 800px) {
     .inner-intro {
         padding-left: 5em;
+        padding-bottom: calc(14vh + 2em);
     }
     .intro-title {
         font-size: 5em;
     }
     .intro-boarder {
-        height: 10em;
+        height: 14vh;
     }
 }
 @media screen and (max-width: 799px) {
@@ -45,17 +55,19 @@ span.dacubeking {
         padding-left: 1em;
         padding-right: 1em;
         align-content: center;
+        padding-bottom: calc(9vh + 2em);
     }
     .intro-title {
         font-size: 4em;
     }
     .intro-boarder {
-        height: 6em;
+        height: 9vh;
     }
 }
 
 .inner-intro {
-    padding-top: 1em;
+    min-height: inherit;
+    padding-top: 2em;
     vertical-align: middle;
     max-width: 40em;
     a {
@@ -71,10 +83,10 @@ span.dacubeking {
             text-decoration: underline;
         }
     }
-    padding-bottom: calc(12em);
 }
 
 .intro {
+    min-height: inherit;
     position: relative;
     max-width: 60em;
     margin-right: auto;
@@ -113,4 +125,8 @@ span.dacubeking {
     bottom: -1px;
     z-index: 3;
     min-width: 800px;
+}
+
+.post-title {
+    margin-bottom: 1em;
 }
