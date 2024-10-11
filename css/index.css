@@ -9,29 +9,46 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: calc(100vh - 2em);
     position: relative;
+}
+
+@media screen and (min-width: 690px) {
+    .intro-bg {
+        height: calc(100vh - 2em);
+    }
 }
 
 span.dacubeking {
     display: inline-block;
-    margin-top: 0.5em;
+    margin-top: 10px;
+}
+
+.intro-title {
+    font-family: 'Dancing Script', serif;
+    font-weight: 700;
 }
 
 @media screen and (min-width: 800px) {
     .inner-intro {
         padding-left: 5em;
     }
+    .intro-title {
+        font-size: 5em;
+    }
 }
 @media screen and (max-width: 799px) {
     .inner-intro {
         padding-left: 1em;
         padding-right: 1em;
+        align-content: center;
+    }
+    .intro-title {
+        font-size: 4em;
     }
 }
 
 .inner-intro {
-    padding-top: 5em;
+    padding-top: 1em;
     vertical-align: middle;
     max-width: 40em;
     a {
@@ -47,30 +64,26 @@ span.dacubeking {
             text-decoration: underline;
         }
     }
+    padding-bottom: calc(12em);
 }
-
-.intro-boarder {
-    position: absolute;
-    background-size: 5em 100vw;
-    bottom: 0;
-    z-index: 3;
-}
-
 
 .intro {
     position: relative;
     max-width: 60em;
     margin-right: auto;
     margin-left: 0;
-    height: calc(100%);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
     color: white;
     z-index: 1;
-
 }
 
 .intro::after {
     content: "";
     position: absolute;
+    height: 100%;
     inset: 0;
     z-index: -1;
     backdrop-filter: brightness(60%) blur(5px);
@@ -85,5 +98,14 @@ span.dacubeking {
             hsla(0, 0%, 0%, 0.03) 58em,
             hsla(0, 0%, 0%, 0) 60em
     );
+}
 
+.intro-boarder {
+    position: absolute;
+    height: 10em;
+    width: 100%;
+    min-width: 900px;
+    object-fit: fill;
+    bottom: 0;
+    z-index: 3;
 }
