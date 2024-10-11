@@ -1,5 +1,6 @@
 .reading-percentage {
-    color: #9D9D9D
+    color: #dddddd;
+    font-style: italic;
 }
 
 
@@ -8,7 +9,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100vh;
+    height: calc(100vh - 2em);
+    position: relative;
 }
 
 span.dacubeking {
@@ -32,7 +34,28 @@ span.dacubeking {
     padding-top: 5em;
     vertical-align: middle;
     max-width: 40em;
+    a {
+        color: #cef0fd;
+        text-decoration: none;
+
+        &:visited {
+            color: #a7e3fb;
+        }
+
+        &:hover {
+            color: white;
+            text-decoration: underline;
+        }
+    }
 }
+
+.intro-boarder {
+    position: absolute;
+    background-size: 5em 100vw;
+    bottom: 0;
+    z-index: 3;
+}
+
 
 .intro {
     position: relative;
@@ -50,14 +73,14 @@ span.dacubeking {
     position: absolute;
     inset: 0;
     z-index: -1;
-    backdrop-filter: brightness(70%) blur(5px);
+    backdrop-filter: brightness(60%) blur(5px);
     mask: linear-gradient(
             to right,
             hsla(0, 0%, 0%, 1) 40em,
             hsla(0, 0%, 0%, 0.97) 42em,
             hsla(0, 0%, 0%, 0.9) 44em,
-            hsla(0, 0%, 0%, 0.7) 48em,
-            hsla(0, 0%, 0%, 0.3) 52em,
+            hsla(0, 0%, 0%, 0.65) 48em,
+            hsla(0, 0%, 0%, 0.35) 52em,
             hsla(0, 0%, 0%, 0.1) 56em,
             hsla(0, 0%, 0%, 0.03) 58em,
             hsla(0, 0%, 0%, 0) 60em
