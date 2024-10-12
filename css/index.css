@@ -3,7 +3,6 @@
     font-style: italic;
 }
 
-
 .intro-bg {
     min-height: calc(100vh - 15em);
     background-image: url("/assets/home/index_bg_lq.webp");
@@ -14,19 +13,6 @@
     overflow: hidden;
     margin-bottom: 3em;
 }
-
-/*@media {*/
-/*    .intro-bg {*/
-/*        background-image:  url("/assets/home/index_bg_hq.webp") !important*/
-/*    }*/
-/*}*/
-
-/*@media screen and (min-width: 690px) {*/
-/*    .intro-bg {*/
-/*        height: calc(100vh - 2em);*/
-/*    }*/
-/*}*/
-
 
 span.dacubeking {
     display: inline-block;
@@ -50,6 +36,7 @@ span.dacubeking {
         height: 14vh;
     }
 }
+
 @media screen and (max-width: 799px) {
     .inner-intro {
         padding-left: 1em;

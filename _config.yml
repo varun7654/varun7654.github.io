@@ -44,6 +44,7 @@ header_pages:
   - archive.md
 
 jekyll-minifier:
+  exclude: 'css/index.css'
   uglifier_args:
     harmony: true # use es6
 
