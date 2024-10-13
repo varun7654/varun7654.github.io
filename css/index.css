@@ -4,7 +4,7 @@
 }
 
 .intro-bg {
-    min-height: calc(100vh - 15em);
+    min-height: calc(100vh - 22em);
     background-image: url("/assets/home/index_bg_lq.webp");
     background-position: center;
     background-repeat: no-repeat;
@@ -25,9 +25,13 @@ span.dacubeking {
 }
 
 @media screen and (min-width: 800px) {
+    .intro-bg {
+        min-height: calc(100vh - 22em);
+    }
     .inner-intro {
         padding-left: 5em;
         padding-bottom: calc(14vh + 2em);
+        padding-top: 5em;
     }
     .intro-title {
         font-size: 5em;
@@ -35,14 +39,17 @@ span.dacubeking {
     .intro-boarder {
         height: 14vh;
     }
+
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 800px) {
+    .intro-bg {
+        min-height: calc(100vh - 16em);
+    }
     .inner-intro {
-        padding-left: 1em;
-        padding-right: 1em;
         align-content: center;
-        padding-bottom: calc(9vh + 2em);
+        padding: 2em 1em calc(9vh + 2em);
+        justify-self: center;
     }
     .intro-title {
         font-size: 4em;
@@ -54,7 +61,6 @@ span.dacubeking {
 
 .inner-intro {
     min-height: inherit;
-    padding-top: 2em;
     vertical-align: middle;
     max-width: 40em;
     a {
@@ -75,15 +81,12 @@ span.dacubeking {
 .intro {
     min-height: inherit;
     position: relative;
-    max-width: 60em;
-    margin-right: auto;
+    max-width: 65em;
     margin-left: 0;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
     color: white;
     z-index: 1;
+    display: grid;
 }
 
 .intro::after {
@@ -95,14 +98,14 @@ span.dacubeking {
     backdrop-filter: brightness(60%) blur(5px);
     mask: linear-gradient(
             to right,
-            #000000FF 40em,
-            #000000F7 42em,
-            #000000E6 44em,
-            #000000A6 48em,
-            #00000059 52em,
-            #0000001A 56em,
-            #00000008 58em,
-            #00000000 60em
+            #000000FF 44em,
+            #000000F7 46em,
+            #000000E6 48em,
+            #000000A6 52em,
+            #00000059 56em,
+            #0000001A 60em,
+            #00000008 62em,
+            #00000000 64em
     );
 }
 
