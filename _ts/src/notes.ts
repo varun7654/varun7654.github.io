@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     observer.observe(pageContent, config);
 
 
-    let notes = pageContent.getElementsByClassName("note");
+    let notes = document.getElementsByClassName("note");
     for (let i = 0; i < notes.length; i++) {
         const note = notes[i];
         noteElementIds.push(note.id);

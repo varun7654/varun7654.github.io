@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+{%- include head.html -%}
+
+<head>
+    <link rel="preload" href="/css/index.css" as="style">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="preload" href="https://dacubeking.com/cf-fonts/v/dancing-script/5.0.16/latin/wght/normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://books.api.dacubeking.com/currentlyreading" as="fetch" crossorigin="anonymous">
+    <link rel="preload" href="/assets/home/index_bg_lq.webp" as="image">
+</head>
+
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+
+
+
+<body>
+<div class="intro-bg" id="intro-bg">
+    <div class="intro">
+        <div class="inner-intro">
+            <div style="line-height: 0.9">
+                <p class="intro-title">
+                    <span class="dacubeking">Heyo!</span>
+                    <span class="dacubeking">
+                        <span class="dacubeking">I'm</span>
+                        <span class="dacubeking">Da​Cube​King.</span>
+                    </span>
+                </p>
+                That's my pen name, irl people know me as Varun.
+            </div>
+            <p></p>
+            <p>
+                I'm a 20-year-old college student from California who loves programming and tinkering with computers.
+                I learn by doing and am not afraid to tackle projects that push me to develop new skills—it's what led to this website and many of
+                <a href="/2022/12/01/My-Programming-Projects.html">my other projects</a>.
+            </p>
+            <p>
+                Naturally, I'm majoring in Computer Science with a Math minor,
+                but outside of coding, I also love exploring video production and photography, blending my creative side with tech.
+            </p>
+            <p>
+                In high school, I was the programming lead for the FRC team 3476 - Code Orange,
+                where I earned several programming awards and competition wins.
+                I also spent a good amount of time making <a href="/yt.html">YouTube videos</a>, mainly focused on Minecraft,
+                which became a fun outlet for my more creative and artistic side.
+            </p>
+            <p>
+                When I'm not working or coding, you might find me watching a rom-com, listening to a lecture on a niche topic, or reading a novel.
+                <span id="currentlyReading"> </span>
+                See what else I've read <a href="/reading">here</a>.
+            </p>
+            <p>
+                If I'm not doing the above, you'll likely find me playing video games.
+                I recently finished playing through <a href="https://www.alanwake.com/">Alan Wake 2</a>
+                and am now working my way through <a href="https://www.celestegame.com/">Celeste</a>.
+                I also continue to enjoy playing <a href="https://dynmap.dacubeking.com/">Minecraft</a> and <a href="https://playvalorant.com/">Valorant</a>.
+            </p>
+
+
+            <script>
+                fetch(
+                    'https://books.api.dacubeking.com/currentlyreading',
+                )
+                    .then(function (response) {
+                        // When the page is loaded convert it to text
+                        return response.text()
+                    })
+                    .then(function (html) {
+                        if (html.length > 0) {
+                            document.getElementById("currentlyReading").innerHTML += html + "."
+                        }
+                    })
+            </script>
+        </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 62" class="intro-boarder" preserveAspectRatio="none">
+        <path fill="#fdfdfd" d="M 446.349 44.811 C 470.785 44.262 496.544 41.664 518.252 30.431 C 529.372 24.677 500.553 51.817 500.553 51.817 L 501.752 78.734 L -5.254 79.103 C -5.254 79.103 -13.948 10.919 -6.084 27.481 C -1.033 38.118 10.642 46.901 22.308 48.498 C 44.472 51.531 64.693 26.197 84.993 24.531 C 119.724 21.68 140.63 62.776 181.969 60.667 C 218.623 58.797 254.41 28.156 290.376 20.844 C 341.923 10.364 393.761 45.992 446.349 44.811 Z"></path>
+    </svg>
+</div>
+
+<script>
+    window.addEventListener("load", (event) => {
+        // Preload the high-quality background image
+        const highQualityImage = new Image();
+        highQualityImage.src = "/assets/home/index_bg_hq.webp";
+
+        // Once the high-quality image is fully loaded, use it directly as a background
+        highQualityImage.onload = function() {
+            const introBgElement = document.getElementById("intro-bg");
+
+            // Set the background image using the preloaded image as a data URL
+            introBgElement.style.backgroundImage = `url(${highQualityImage.src})`;
+        };
+    });
+</script>
+
+<main class="page-content" aria-label="Content">
+    <div class="wrapper">
+        <div class="home">
+
+            <div class="post-title">
+                Blog Posts:
+            </div>
+            <p></p>
+            {% if site.paginate %}
+            {% assign posts = paginator.posts %}
+            {% else %}
+            {% assign posts = site.posts %}
+            {% endif %}
+
+
+            {%- if posts.size > 0 -%}
+            {%- if page.list_title -%}
+            <h2 class="post-list-heading">{{ page.list_title }}</h2>
+            {%- endif -%}
+            <ul class="post-list">
+                {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+                {%- for post in posts -%}
+                <li>
+                    <span class="post-meta">{{ post.date | date: date_format }}</span>
+                    <h3>
+                        <a class="post-link" href="{{ post.url | relative_url }}">
+                            {{ post.title | escape }}
+                        </a>
+                    </h3>
+                    {%- if site.show_excerpts -%}
+                    {{ post.excerpt }}
+                    {%- endif -%}
+                </li>
+                {%- endfor -%}
+            </ul>
+
+            {% if site.paginate %}
+            <div class="pager">
+                <ul class="pagination">
+                    {%- if paginator.previous_page %}
+                    <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{
+                        paginator.previous_page }}</a></li>
+                    {%- else %}
+                    <li>
+                        <div class="pager-edge">•</div>
+                    </li>
+                    {%- endif %}
+                    <li>
+                        <div class="current-page">{{ paginator.page }}</div>
+                    </li>
+                    {%- if paginator.next_page %}
+                    <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page
+                        }}</a></li>
+                    {%- else %}
+                    <li>
+                        <div class="pager-edge">•</div>
+                    </li>
+                    {%- endif %}
+                </ul>
+            </div>
+            {%- endif %}
+
+            {%- endif -%}
+
+        </div>
+    </div>
+</main>
+
+{%- include footer.html -%}
+
+</body>
+
+</html>
