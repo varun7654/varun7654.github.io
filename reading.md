@@ -63,10 +63,10 @@ Thanks to the [Open Library](https://openlibrary.org/) and [Google Books](https:
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;min-h">
                         <a href="${bookData.link}">
-                            <img src="${imageLink}" srcset="${imageSources}" loading="lazy" alt="Book Cover for, ${bookData.name}">
+                            <img src="${imageLink}" srcset="${imageSources}"   sizes="(max-width: 16em) 100vw, 16em" loading="lazy" alt="Book Cover for, ${bookData.name}">
                         </a>
                     </div>
-                    <div style="display:inline-block;vertical-align:bottom;">
+                    <div style="display:inline-block;vertical-align:bottom; width:20em; margin-top:0.3em">
                         ${currentlyReadingHtml}
                         <div class="book-title">
                             <a href="${bookData.link}">${bookData.name}</a>

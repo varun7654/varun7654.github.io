@@ -1,36 +1,34 @@
 .book img {
-    max-width: 200px;
-    min-width: 200px;
-    min-height: 200px;
-    margin-right: 10px;
-    margin-bottom: 5px;     
+    width: 16em;
+    padding-right: 1em;
+}
+
+.book {
+    margin-bottom: 1.5em;
 }
 
 .currently-reading {
     font-weight: lighter;
     font-size: large;
-    margin-bottom: -7px;
+    line-height: 1em;
 }
 .book-title {
+    margin-top: 0.1em;
     font-weight: bold;
     font-size: x-large;
-    margin-bottom: -10px;
+    line-height: 1em;
 }
 .author {
-    margin-top: 0px;
+    margin-top: 0.1em;
     font-weight: normal;
     font-size: x-large;
-    margin-bottom: -5px;
+    line-height: 1em;
 }
 .published {
-    margin-top: 0px;
+    margin-top: 0.1em;
     font-weight: normal;
     font-size: large;
-    margin-bottom: 0px;
-}
-
-.book {
-    margin-bottom: 20px;
+    line-height: 1em;
 }
 
 .book a {
