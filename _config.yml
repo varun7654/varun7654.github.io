@@ -43,11 +43,6 @@ header_pages:
   - reading.md
   - archive.md
 
-jekyll-minifier:
-  exclude: 'css/index.css'
-  uglifier_args:
-    harmony: true # use es6
-
 exclude:
   - packages.json
   - tsconfig.json
