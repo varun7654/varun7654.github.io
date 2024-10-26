@@ -43,6 +43,8 @@ header_pages:
   - reading.md
   - archive.md
 
+jekyll-minifier:
+  exclude:
 exclude:
   - packages.json
   - tsconfig.json
