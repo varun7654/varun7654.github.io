@@ -4,7 +4,7 @@ title: Making Little Handwritten Notes on My Website!
 ---
 
 <head>
-  <script type="text/javascript" src="/js/highlightjs/languages/javascript.js"></script>
+  <script type="text/javascript" src="/js/highlightjs/languages/javascript.min.js"></script>
 </head>
 I wanted to add some handwritten notes to my website %$That look like this!$%. Creating a few of these probably wouldn't be that hard.
 A little bit of html and css with some svg images I created beforehand would do.
