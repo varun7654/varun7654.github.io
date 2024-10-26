@@ -3,6 +3,9 @@ layout: post
 title: Making Little Handwritten Notes on My Website!
 ---
 
+<head>
+  <script type="text/javascript" src="/js/highlightjs/languages/javascript.js"></script>
+</head>
 I wanted to add some handwritten notes to my website %$That look like this!$%. Creating a few of these probably wouldn't be that hard.
 A little bit of html and css with some svg images I created beforehand would do.
 
@@ -58,6 +61,46 @@ I believe this happens because the bounding box is influenced by the styling.
 Putting a span (with no styling) inside the div gives me accurate bounding boxes (orange).
 
 I then do some math, utilizing the known rotation and orange bounding box to derive the green bounding box that I can finally use.
+
+## Randomness
+
+As far as I can tell javascript doesn't have a way to seed a random. 
+I, however, need consistent random values to prevent the page from experiencing seizures when its resized, so I present to you this piece of terrible code:
+
+```javascript
+let randoms: number[][] = []
+
+function random(index: number, index2: number) {
+    let arr1;
+    if (randoms.length > index) {
+        arr1 = randoms[index];
+    } else {
+        for (let i = randoms.length; i <= index; i++) {
+            randoms.push([]);
+        }
+        arr1 = randoms[index];
+    }
+    if (arr1.length > index2) {
+        return arr1[index2];
+    } else {
+        for (let i = arr1.length; i <= index2; i++) {
+            arr1.push(Math.random());
+        }
+        return arr1[index2];
+    }
+}
+```
+
+It lazily generates random values for each unique `(index, index2)` and guarantees calls to the same position will return the same random.
+
+I have it so that first index is the index of note in our list of notes. 
+The second index is a number that I increment on each random call I make.
+This keeps the specific code path a note took from effecting the random of other notes.
+(As the available space changes, notes can place themselves in different ways.)
+
+
+
+
 
 
 
