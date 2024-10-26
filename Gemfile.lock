@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/george-gca/jekyll-minifier.git
-  revision: 5faee87708000073e61c0ee706f41f4d9b5c8d68
+  remote: https://github.com/varun7654/jekyll-minifier.git
+  revision: 28522509b0198dc438b256e082c9d3fee5269d2b
   branch: terser
   specs:
     jekyll-minifier (0.1.8)
