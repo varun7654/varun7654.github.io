@@ -45,6 +45,7 @@ header_pages:
 
 jekyll-minifier:
   exclude:
+    - "css/index.css"
 exclude:
   - packages.json
   - tsconfig.json
