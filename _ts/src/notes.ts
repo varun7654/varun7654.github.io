@@ -141,14 +141,16 @@ function updateNoteElements() {
                         next = elem.children[0];
                     } else if (elem instanceof HTMLLIElement) {
                         // traverse deeper in the list, all lists should have <span></span> inside them
-                        let next: Element | null = elem.children[0].children[0];
+                        next = elem.children[0].children[0];
                         if (!next || !(next instanceof HTMLLIElement)) {
                             // no children, try next element
                             next = elem.nextElementSibling;
                         }
                         if (!next) {
                             // end of sublist traverse up
-                            next = elem.closest("li, ul, ol, p")!.nextElementSibling;
+                            let closest = elem.parentElement!.closest("li,ul,ol,p") as HTMLElement;
+                            next = closest!.nextElementSibling;
+                            console.log(next);
                         }
                     }
                     if (!next) {
@@ -168,10 +170,9 @@ function updateNoteElements() {
                     let span = elem.children[0] as HTMLElement
                     let needToStop = false;
                     if (!span) {
-                        // We ran into something not surronded by a span. Process this event and then stop
+                        // We ran into something not surrounded by a span. Process this event and then stop
                         span = elem as HTMLElement;
                         needToStop = true;
-
                     }
 
                     let bounds = toGlobalBounds(span.getBoundingClientRect());
@@ -290,7 +291,7 @@ function updateNoteElements() {
                 if (alpha2 < 1) {
                     alpha = lerp(0, alpha2, alpha);
                 }
-                endX = lerp(topLeft.x, bottomLeft.x, alpha) ;
+                endX = lerp(topLeft.x, bottomLeft.x, alpha);
                 endY = lerp(topLeft.y, bottomLeft.y, alpha);
             }
             rotationBias = Math.sign(randomRotation) * (Math.abs(randomRotation) + degToRad(5));

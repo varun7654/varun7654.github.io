@@ -96,7 +96,41 @@ It lazily generates random values for each unique `(index, index2)` and guarante
 I have it so that first index is the index of note in our list of notes. 
 The second index is a number that I increment on each random call I make.
 This keeps the specific code path a note took from effecting the random of other notes.
-(As the available space changes, notes can place themselves in different ways.)
+%$As the available space changes, notes can place themselves in different ways.$%
+
+# Adding Build Tooling
+
+At this point the project was mostly working. Yay! I however noticed that my preloads for some of my resources weren't working. 
+The browser was preloads the content like expected but wasn't actually using them.
+
+This was caused because of the way that I was searching for the notes in JS. 
+I was using regex to match the `%​$ ... $​%` pattern and then modified the html to replace the text with a span that had the text in a data field.
+This was causing scripts embedded in my html to get triggered when the html was modified which for some reason broke all my preloads!
+
+## Jekyll Plugins
+
+This site is a jekyll website and I was hosting it on Github Pages.
+
+So instead of searching for notes in the user's browser I wrote a small Jekyll plugin (in Ruby) to search for the notes at build time.
+All the rendering of the note is still done in the user's browser, but the I'm no longer modifying raw html on the browser which resolved my issues with preloads.
+
+To get my jekyll plugins to work I had to switch to the actions version for deploying to github pages instead of the classic version.
+The classic version is simpler, but it uses an old version of jekyll and is limited in how much you can customize it. 
+Since I was already messing around with build tooling I took the time to polish it up a bit more.
+
+I added support for using typescript and migrated all the code I'd previously written to it (What can I say a girl likes her types).
+I also added tooling to minify %$This turned out to be a massive headache since a lot of the preexisting tools are broken in subtle ways$%
+everything on my website and migrated to using Cloudflare Pages.
+
+## Shit is about to get so cursed
+
+At this point things were working
+
+
+
+
+
+
 
 
 
