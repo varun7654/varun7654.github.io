@@ -3,6 +3,14 @@
 const extraCanvasHeight = 100;
 const noteTextClassName = "note-text-rendered"
 
+const STROKE_STYLE = "#706b67";
+
+let showBoundingBoxes = false;
+
+function toggleShowBoundingBoxes() {
+    showBoundingBoxes = !showBoundingBoxes;
+    updateNoteElements();
+}
 
 let fontsLoaded = false;
 let noteFontLoaded = false;
@@ -16,6 +24,296 @@ function toGlobalBounds(boundingClientRect: DOMRect) {
     return new DOMRect(boundingClientRect.x + window.scrollX, boundingClientRect.y + window.scrollY, boundingClientRect.width, boundingClientRect.height);
 }
 
+function updateNoteElements() {
+    canvasElementIds.forEach(id => {
+        let element = document.getElementById(id);
+        if (!element) return;
+        element.remove();
+    });
+    canvasElementIds = [];
+
+    noteTextElementIds.forEach(id => {
+        let element = document.getElementById(id);
+        if (!element) return;
+        element.remove()
+    })
+    noteTextElementIds = []
+
+    modifiedMarginsElementIds.forEach(id => {
+        let element = document.getElementById(id);
+        if (!element) return;
+        element.style.marginBottom = <string>element.dataset.originalMarginBottom;
+    })
+
+    noteElementIds.forEach(function (noteElementId, index) {
+        let placedNotePos = new Map();
+        const noteElement = document.getElementById(noteElementId)
+        if (!noteElement) {
+            console.error("Couldn't find element: " + noteElementId);
+            return;
+        }
+        let boundingRect = toGlobalBounds(noteElement.getBoundingClientRect());
+        // Find a parent paragraph element
+        let parent: HTMLElement | null = noteElement.closest("p,li");
+        if (!parent) {
+            console.error("Couldn't find p parent for: " + noteElementId);
+            return;
+        }
+
+        let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
+
+        let parentForLeftSpacing = noteElement.closest("p,ul,ol")!;
+        let spaceOnLeft = toGlobalBounds(parentForLeftSpacing.getBoundingClientRect()).left -
+            parseFloat(<string>window.getComputedStyle(parentForLeftSpacing).marginLeft);
+        let spaceOnRight = window.innerWidth - toGlobalBounds(parent.children.item(0)!.getBoundingClientRect()).right;
+        let maxRightPos = parentBoundRect.right;
+
+        let textElementParent = document.createElement("div");
+        textElementParent.id = noteElementId + "-note-text";
+        textElementParent.style.position = "absolute";
+        textElementParent.className = noteTextClassName;
+        noteTextElementIds.push(textElementParent.id);
+        document.body.appendChild(textElementParent);
+
+        let textElement = document.createElement("span");
+        textElement.innerHTML = noteElement.getAttribute("data-note-text") as string;
+
+        textElementParent.appendChild(textElement);
+
+        let textElementBoundingBox = toGlobalBounds(textElement.getBoundingClientRect());
+        let noteWidth = textElementBoundingBox.width;
+        let noteHeight = textElementBoundingBox.height;
+
+        let canPlaceOnLeft = spaceOnLeft > noteWidth + 60;
+        let canPlaceOnRight = spaceOnRight > noteWidth + 60;
+        let canPlaceOnSide = canPlaceOnLeft || canPlaceOnRight
+
+        let maxRotation;
+        if (canPlaceOnSide) {
+            maxRotation = Math.min(degToRad(10), Math.atan2(17, textElementBoundingBox.height));
+        } else {
+            maxRotation = Math.min(degToRad(5), Math.atan2(17, textElementBoundingBox.height));
+        }
+
+        let randomRotation = random(index, 0) * maxRotation * 2 - maxRotation;
+        textElementParent.style.transform = "rotate(" + randomRotation + "rad)"
+
+        let rotatedNoteHeight = noteHeight + Math.max(0,Math.sin(randomRotation) * noteWidth);
+
+        let yOffset;
+        let ctx;
+        let leftSide;
+        if (canPlaceOnSide) {
+            yOffset = parentBoundRect.y - extraCanvasHeight / 2;
+            ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + extraCanvasHeight);
+
+            leftSide = random(index, 5) > 0.5;
+            let leftBound = spaceOnLeft;
+            let rightBound = window.innerWidth - spaceOnRight;
+            let maxRightBound = window.innerWidth - noteWidth - 60;
+            let topY = parentBoundRect.y - 30
+            textElementParent.style.top = (topY + Math.sin(randomRotation) * (noteWidth / 2)) + "px"
+
+            let centerness = boundingRect.x - leftBound - (rightBound - leftBound) / 2; // Where the note origin is based on it's parent bounds
+            if (Math.abs(centerness) > 50) {
+                leftSide = centerness < 0;
+            }
+
+            if (!canPlaceOnLeft) {
+                leftSide = false;
+            }
+
+            if (!canPlaceOnRight) {
+                leftSide = true;
+            }
+
+            if (leftSide) {
+                textElementParent.style.left = (spaceOnLeft - noteWidth - 30) + "px"
+            } else {
+                let noteBottomY = rotatedNoteHeight + topY + 25;
+                let spaceNeededBelow = rotatedNoteHeight;
+                let elem: Element | null = parent;
+                while (true) {
+                    if (!elem) break;
+                    let next : Element | null = null;
+                    if (elem instanceof HTMLUListElement || elem instanceof HTMLOListElement) {
+                        // traverse into the list
+                        next = elem.children[0];
+                    } else if (elem instanceof HTMLLIElement) {
+                        // traverse deeper in the list, all lists should have <span></span> inside them
+                        next = elem.children[0].children[0];
+                        if (!next || !(next instanceof HTMLLIElement)) {
+                            // no children, try next element
+                            next = elem.nextElementSibling;
+                        }
+                        if (!next) {
+                            // end of sublist traverse up
+                            let closest = elem.parentElement!.closest("li,ul,ol,p") as HTMLElement;
+                            next = closest!.nextElementSibling;
+                            console.log(next);
+                        }
+                    }
+                    if (!next) {
+                        next = elem.nextElementSibling;
+                    }
+
+                    while (next instanceof HTMLHRElement) {
+                        next = next.nextElementSibling;
+                    }
+                    elem = next;
+
+                    if (elem instanceof HTMLUListElement || elem instanceof HTMLOListElement) {
+                        continue;
+                    }
+                    if (!elem) break;
+                    // all of the elems should have a span inside them.
+                    let span = elem.children[0] as HTMLElement
+                    let needToStop = false;
+                    if (!span) {
+                        // We ran into something not surrounded by a span. Process this event and then stop
+                        span = elem as HTMLElement;
+                        needToStop = true;
+                    }
+
+                    let bounds = toGlobalBounds(span.getBoundingClientRect());
+
+
+                    if (bounds.top > noteBottomY) {
+                        spaceNeededBelow = 0;
+                        break;
+                    }
+                    if (rightBound < bounds.right || needToStop) {
+                        if (bounds.right > maxRightBound || needToStop) {
+                            spaceNeededBelow = noteBottomY - bounds.top;
+                            break;
+                        } else {
+                            rightBound = bounds.right;
+                        }
+                    }
+                }
+
+                if (spaceNeededBelow > 0) {
+                    parent.dataset.originalMarginBottom = parent.style.marginBottom;
+                    if (!parent.id) {
+                        parent.id = guidGenerator();
+                    }
+                    modifiedMarginsElementIds.push(parent.id);
+                    parent.style.marginBottom = (spaceNeededBelow) + "px";
+                }
+
+                let leftPos = lerp(rightBound + 25, Math.max(rightBound + 25, maxRightPos - noteWidth - 20), random(index, 6));
+
+                textElementParent.style.left = (leftPos) + "px"
+            }
+        } else {
+            document.body.removeChild(textElementParent);
+            parent.insertAdjacentElement("afterend", textElementParent);
+            textElementParent.style.position = "relative"
+
+            let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
+            let parentParentBoundRect = toGlobalBounds(parent.parentElement!.getBoundingClientRect());
+
+            let space = parentParentBoundRect.width - textElemParentBoundingBox.width - 2;
+
+            let placingRandomSpace = space * 0.25;
+            let leftOffset = boundingRect.x - parentParentBoundRect.x - textElemParentBoundingBox.width;
+
+            textElementParent.style.paddingLeft = (random(index, 5) * placingRandomSpace + leftOffset) + "px";
+
+            textElementParent.style.textAlign = "left";
+            ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElemParentBoundingBox.width + extraCanvasHeight);
+            yOffset = parentBoundRect.y - extraCanvasHeight / 2;
+        }
+
+
+
+
+        // modify the bounding box to be in the canvas space
+        boundingRect = new DOMRect(boundingRect.x,
+            boundingRect.y - yOffset,
+            boundingRect.width, boundingRect.height);
+
+        textElementBoundingBox = toGlobalBounds(textElement.getBoundingClientRect());
+        let teBB = new DOMRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
+
+        if (showBoundingBoxes) {
+            let textParentBoundRect = toGlobalBounds(textElementParent.getBoundingClientRect());
+            ctx.strokeStyle = "blue";
+            ctx.strokeRect(textParentBoundRect.x, textParentBoundRect.y - yOffset, textParentBoundRect.width, textParentBoundRect.height);
+            ctx.strokeStyle = "red";
+            ctx.strokeRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
+            ctx.strokeStyle = "orange";
+            ctx.strokeRect(boundingRect.x, boundingRect.y, boundingRect.width, boundingRect.height);
+            ctx.strokeStyle = STROKE_STYLE;
+        }
+
+        let topLeft;
+        let topRight;
+        let bottomLeft;
+        let bottomRight;
+
+        if (randomRotation > 0) {
+            topLeft = new Point(teBB.left + Math.sin(randomRotation) * noteHeight, teBB.top);
+        } else {
+            topLeft = new Point(teBB.left, teBB.top - Math.sin(randomRotation) * noteWidth);
+        }
+        topRight = topLeft.addAngle(noteWidth, 0, randomRotation);
+        bottomLeft = topLeft.addAngle(0, noteHeight, randomRotation);
+        bottomRight = topLeft.addAngle(noteWidth, noteHeight, randomRotation);
+
+        if (showBoundingBoxes) {
+            ctx.strokeStyle = "green"
+            ctx.beginPath();
+            ctx.moveTo(topLeft.x,topLeft.y);
+            ctx.lineTo(bottomLeft.x,bottomLeft.y);
+            ctx.lineTo(bottomRight.x,bottomRight.y);
+            ctx.lineTo(topRight.x, topRight.y);
+            ctx.closePath();
+            ctx.stroke()
+            ctx.strokeStyle = STROKE_STYLE;
+        }
+
+
+        let alpha = random(index, 6) * 0.5 + 0.15;
+        let endX;
+        let endY;
+        let rotationBias;
+        if (canPlaceOnSide) {
+            if (leftSide) {
+                let alpha2 = invLerp(topRight.y, bottomRight.y, parentBoundRect.bottom - yOffset + 30);
+                if (alpha2 < 1) {
+                    alpha = lerp(0, alpha2, alpha);
+                }
+                endX = lerp(topRight.x, bottomRight.x, alpha) + 3;
+                endY = lerp(topRight.y, bottomRight.y, alpha);
+            } else {
+                let alpha2 = invLerp(topLeft.y, bottomLeft.y, parentBoundRect.bottom - yOffset + 30);
+                if (alpha2 < 1) {
+                    alpha = lerp(0, alpha2, alpha);
+                }
+                endX = lerp(topLeft.x, bottomLeft.x, alpha);
+                endY = lerp(topLeft.y, bottomLeft.y, alpha);
+            }
+            rotationBias = Math.sign(randomRotation) * (Math.abs(randomRotation) + degToRad(5));
+        } else {
+            let avgY = (topLeft.y + topRight.y) / 2;
+            let maxDeltaX = (avgY - boundingRect.y + boundingRect.height / 2) * 0.75;
+            let minX = Math.max(topLeft.x, boundingRect.x - maxDeltaX);
+            let maxX = Math.min(topRight.x, boundingRect.x + maxDeltaX);
+
+            let minAlpha = invLerp(topLeft.x, topRight.x, minX);
+            let maxAlpha = invLerp(topLeft.x, topRight.x, maxX);
+
+            alpha = lerp(minAlpha, maxAlpha, alpha)
+            endX = lerp(minX, maxX, alpha);
+            endY = lerp(topLeft.y, topRight.y, alpha);
+            rotationBias = Math.atan2(boundingRect.y + boundingRect.height / 2 - endY, boundingRect.x - endX) - Math.PI / 2;
+        }
+        drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY, index, rotationBias, canPlaceOnSide);
+
+    })
+}
+
 document.addEventListener("DOMContentLoaded", function (event) {
 
     let canvas = getCanvas(1, 1, 1, 1);
@@ -26,278 +324,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // Main wrapper for the parts of the website we care about
     const pageContent = document.getElementsByClassName("page-content")[0];
 
-    const updateNoteElements = () => {
-        canvasElementIds.forEach(id => {
-            let element = document.getElementById(id);
-            if (!element) return;
-            element.remove();
-        });
-        canvasElementIds = [];
 
-        noteTextElementIds.forEach(id => {
-            let element = document.getElementById(id);
-            if (!element) return;
-            element.remove()
-        })
-        noteTextElementIds = []
-
-        modifiedMarginsElementIds.forEach(id => {
-            let element = document.getElementById(id);
-            if (!element) return;
-            element.style.marginBottom = <string>element.dataset.originalMarginBottom;
-        })
-
-        noteElementIds.forEach(function (noteElementId, index) {
-            let placedNotePos = new Map();
-            const noteElement = document.getElementById(noteElementId)
-            if (!noteElement) {
-                console.error("Couldn't find element: " + noteElementId);
-                return;
-            }
-            let boundingRect = toGlobalBounds(noteElement.getBoundingClientRect());
-            // Find a parent paragraph element
-            let parent: HTMLElement | null = noteElement.closest("p,li");
-            if (!parent) {
-                console.error("Couldn't find p parent for: " + noteElementId);
-                return;
-            }
-
-            let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
-
-            let parentForLeftSpacing = noteElement.closest("p,ul,ol")!;
-            let spaceOnLeft = toGlobalBounds(parentForLeftSpacing.getBoundingClientRect()).left -
-                parseFloat(<string>window.getComputedStyle(parentForLeftSpacing).marginLeft);
-            let spaceOnRight = window.innerWidth - toGlobalBounds(parent.children.item(0)!.getBoundingClientRect()).right;
-            let maxRightPos = parentBoundRect.right;
-
-            let textElementParent = document.createElement("div");
-            textElementParent.id = noteElementId + "-note-text";
-            textElementParent.style.position = "absolute";
-            textElementParent.className = noteTextClassName;
-            noteTextElementIds.push(textElementParent.id);
-            document.body.appendChild(textElementParent);
-
-            let textElement = document.createElement("span");
-            textElement.innerHTML = noteElement.getAttribute("data-note-text") as string;
-
-            textElementParent.appendChild(textElement);
-
-            let textElementBoundingBox = toGlobalBounds(textElement.getBoundingClientRect());
-            let noteWidth = textElementBoundingBox.width;
-            let noteHeight = textElementBoundingBox.height;
-
-            let canPlaceOnLeft = spaceOnLeft > noteWidth + 60;
-            let canPlaceOnRight = spaceOnRight > noteWidth + 60;
-            let canPlaceOnSide = canPlaceOnLeft || canPlaceOnRight
-
-            let maxRotation;
-            if (canPlaceOnSide) {
-                maxRotation = Math.min(degToRad(10), Math.atan2(17, textElementBoundingBox.height));
-            } else {
-                maxRotation = Math.min(degToRad(5), Math.atan2(17, textElementBoundingBox.height));
-            }
-
-            let randomRotation = random(index, 0) * maxRotation * 2 - maxRotation;
-            textElementParent.style.transform = "rotate(" + randomRotation + "rad)"
-
-            let rotatedNoteHeight = noteHeight + Math.max(0,Math.sin(randomRotation) * noteWidth);
-
-            let yOffset;
-            let ctx;
-            let leftSide;
-            if (canPlaceOnSide) {
-                yOffset = parentBoundRect.y - extraCanvasHeight / 2;
-                ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + extraCanvasHeight);
-
-                leftSide = random(index, 5) > 0.5;
-                let leftBound = spaceOnLeft;
-                let rightBound = window.innerWidth - spaceOnRight;
-                let maxRightBound = window.innerWidth - noteWidth - 60;
-                let topY = parentBoundRect.y - 30
-                textElementParent.style.top = (topY + Math.sin(randomRotation) * (noteWidth / 2)) + "px"
-
-                let centerness = boundingRect.x - leftBound - (rightBound - leftBound) / 2; // Where the note origin is based on it's parent bounds
-                if (Math.abs(centerness) > 50) {
-                    leftSide = centerness < 0;
-                }
-
-                if (!canPlaceOnLeft) {
-                    leftSide = false;
-                }
-
-                if (!canPlaceOnRight) {
-                    leftSide = true;
-                }
-                
-                if (leftSide) {
-                    textElementParent.style.left = (spaceOnLeft - noteWidth - 30) + "px"
-                } else {
-                    let noteBottomY = rotatedNoteHeight + topY + 25;
-                    let spaceNeededBelow = rotatedNoteHeight;
-                    let elem: Element | null = parent;
-                    while (true) {
-                        if (!elem) break;
-                        let next : Element | null = null;
-                        if (elem instanceof HTMLUListElement || elem instanceof HTMLOListElement) {
-                            // traverse into the list
-                            next = elem.children[0];
-                        } else if (elem instanceof HTMLLIElement) {
-                            // traverse deeper in the list, all lists should have <span></span> inside them
-                            let next: Element | null = elem.children[0].children[0];
-                            if (!next || !(next instanceof HTMLLIElement)) {
-                                // no children, try next element
-                                next = elem.nextElementSibling;
-                            }
-                            if (!next) {
-                                // end of sublist traverse up
-                                next = elem.closest("li, ul, ol, p")!.nextElementSibling;
-                            }
-                        }
-                        if (!next) {
-                            next = elem.nextElementSibling;
-                        }
-                        elem = next;
-
-                        if (elem instanceof HTMLUListElement || elem instanceof HTMLOListElement) {
-                            continue;
-                        }
-                        if (!elem) break;
-                        // all of the elems should have a span inside them.
-                        let span = elem.children[0] as HTMLElement
-                        let needToStop = false;
-                        if (!span) {
-                            // We ran into something not surronded by a span. Process this event and then stop
-                            span = elem as HTMLElement;
-                            needToStop = true;
-
-                        }
-
-                        let bounds = toGlobalBounds(span.getBoundingClientRect());
-
-
-                        if (bounds.top > noteBottomY) {
-                            spaceNeededBelow = 0;
-                            break;
-                        }
-                        if (rightBound < bounds.right || needToStop) {
-                            if (bounds.right > maxRightBound || needToStop) {
-                                spaceNeededBelow = noteBottomY - bounds.top;
-                                break;
-                            } else {
-                                rightBound = bounds.right;
-                            }
-                        }
-                    }
-
-                    if (spaceNeededBelow > 0) {
-                        parent.dataset.originalMarginBottom = parent.style.marginBottom;
-                        if (!parent.id) {
-                            parent.id = guidGenerator();
-                        }
-                        modifiedMarginsElementIds.push(parent.id);
-                        parent.style.marginBottom = (spaceNeededBelow) + "px";
-                    }
-
-                    let leftPos = lerp(rightBound + 25, Math.max(rightBound + 25, maxRightPos - noteWidth - 20), random(index, 6));
-
-                    textElementParent.style.left = (leftPos) + "px"
-                }
-            } else {
-                document.body.removeChild(textElementParent);
-                parent.insertAdjacentElement("afterend", textElementParent);
-                textElementParent.style.position = "relative"
-
-                let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
-                let parentParentBoundRect = toGlobalBounds(parent.parentElement!.getBoundingClientRect());
-
-                let space = parentParentBoundRect.width - textElemParentBoundingBox.width - 2;
-
-                let placingRandomSpace = space * 0.25;
-                let leftOffset = boundingRect.x - parentParentBoundRect.x - textElemParentBoundingBox.width;
-
-                textElementParent.style.paddingLeft = (random(index, 5) * placingRandomSpace + leftOffset) + "px";
-
-                textElementParent.style.textAlign = "left";
-                ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElemParentBoundingBox.width + extraCanvasHeight);
-                yOffset = parentBoundRect.y - extraCanvasHeight / 2;
-            }
-
-
-
-
-            // modify the bounding box to be in the canvas space
-            boundingRect = new DOMRect(boundingRect.x,
-                boundingRect.y - yOffset,
-                boundingRect.width, boundingRect.height);
-
-            textElementBoundingBox = toGlobalBounds(textElement.getBoundingClientRect());
-            let teBB = new DOMRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
-
-            //ctx.strokeRect(textElementBoundingBox.x, textElementBoundingBox.y - yOffset, textElementBoundingBox.width, textElementBoundingBox.height);
-
-            let topLeft;
-            let topRight;
-            let bottomLeft;
-            let bottomRight;
-
-            if (randomRotation > 0) {
-                topLeft = new Point(teBB.left + Math.sin(randomRotation) * noteHeight, teBB.top);
-            } else {
-                topLeft = new Point(teBB.left, teBB.top - Math.sin(randomRotation) * noteWidth);
-            }
-            topRight = topLeft.addAngle(noteWidth, 0, randomRotation);
-            bottomLeft = topLeft.addAngle(0, noteHeight, randomRotation);
-            bottomRight = topLeft.addAngle(noteWidth, noteHeight, randomRotation);
-
-
-            // ctx.beginPath();
-            // ctx.moveTo(topLeft.x,topLeft.y);
-            // ctx.lineTo(bottomLeft.x,bottomLeft.y);
-            // ctx.lineTo(bottomRight.x,bottomRight.y);
-            // ctx.lineTo(topRight.x, topRight.y);
-            // ctx.closePath();
-            // ctx.stroke()
-
-            let alpha = random(index, 6) * 0.5 + 0.15;
-            let endX;
-            let endY;
-            let rotationBias;
-            if (canPlaceOnSide) {
-                if (leftSide) {
-                    let alpha2 = invLerp(topRight.y, bottomRight.y, parentBoundRect.bottom - yOffset + 30);
-                    if (alpha2 < 1) {
-                        alpha = lerp(0, alpha2, alpha);
-                    }
-                    endX = lerp(topRight.x, bottomRight.x, alpha) + 3;
-                    endY = lerp(topRight.y, bottomRight.y, alpha);
-                } else {
-                    let alpha2 = invLerp(topLeft.y, bottomLeft.y, parentBoundRect.bottom - yOffset + 30);
-                    if (alpha2 < 1) {
-                        alpha = lerp(0, alpha2, alpha);
-                    }
-                    endX = lerp(topLeft.x, bottomLeft.x, alpha) ;
-                    endY = lerp(topLeft.y, bottomLeft.y, alpha);
-                }
-                rotationBias = Math.sign(randomRotation) * (Math.abs(randomRotation) + degToRad(5));
-            } else {
-                let avgY = (topLeft.y + topRight.y) / 2;
-                let maxDeltaX = (avgY - boundingRect.y + boundingRect.height / 2) * 0.75;
-                let minX = Math.max(topLeft.x, boundingRect.x - maxDeltaX);
-                let maxX = Math.min(topRight.x, boundingRect.x + maxDeltaX);
-
-                let minAlpha = invLerp(topLeft.x, topRight.x, minX);
-                let maxAlpha = invLerp(topLeft.x, topRight.x, maxX);
-
-                alpha = lerp(minAlpha, maxAlpha, alpha)
-                endX = lerp(minX, maxX, alpha);
-                endY = lerp(topLeft.y, topRight.y, alpha);
-                rotationBias = Math.atan2(boundingRect.y + boundingRect.height / 2 - endY, boundingRect.x - endX) - Math.PI / 2;
-            }
-
-            drawArrow(ctx, boundingRect.x, boundingRect.y + boundingRect.height / 2, endX, endY, index, rotationBias, canPlaceOnSide);
-
-        })
-    };
 
     // Callback function to execute when mutations are observed
     const callback = (mutationList: MutationRecord[], observer: MutationObserver) => {
@@ -396,7 +423,7 @@ function getCanvasCtx(x: number, y: number, height: number) {
     canvas.width = (width - canvasWidthShrink) * pixelRatio;
     canvas.height = height * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
-    ctx.strokeStyle = "706b67";
+    ctx.strokeStyle = STROKE_STYLE;
 
     ctx.lineWidth = 1.2;
     return ctx;
