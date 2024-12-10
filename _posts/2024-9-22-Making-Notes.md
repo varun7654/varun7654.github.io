@@ -122,13 +122,59 @@ I also added support for using typescript and migrated all the code I'd previous
 I also added tooling to minify %$This turned out to be a massive headache since a lot of the preexisting tools are broken in subtle ways$%
 everything on my website and migrated to using Cloudflare Pages. 
 
+## Arrows
+
+With our bounding boxes we can finally start drawing arrows. 
+For now I'm creating a canvas and placing it behind all the text so I can draw with it. 
+There isn't too much to say here except that we're using a bezier curve and that almost every value used in rendering the arrow 
+has some sort of random jitter.
+
+This is an area where I can see room for quite a bit of improvement. Some sort of system to try and keep arrows between lines
+and better prevent them from overlapping text would be quite nice.
+
 ## Strap in, we're about dive into some really cursed code
 
 At this point, everything was (mostly) working and I started writing this blog. I was using the note system, fixing the 
 few bugs that popped up and it was seeming like the end of this project was near.
 
+That was until I made the list of requirements at the beginning of this article and noticed that the notes would awkwardly
+place themselves all the way in the right margin *even when actual content on the page didn't expand all the way to it*.
 
+I wanted my notes to stay close to the text to help exemplify that annotating paper article or book feeling. 
 
+Here's what I did to allow notes to place inside the content (instead of just the margin):
+
+1. When building the site we now warp all the text in spans. 
+    - When I say "all the text", I mean all the headings elements, paragraph elements, and list elements. This was needed 
+      because we can only get the actual width of the content by querying the bounding box of the span. (Same idea from [earlier](#using-the-bounding-boxes))
+2. We start by generating the note and getting the bounding boxes. %$This step is actually unchanged$%
+3. We calculate how much space there is from the parent element (the element which the arrow is pointing from) to the edge of the screen.
+4. If we calculate that there isn't enough space on either side we fallback to mobile rendering (placing notes below the paragraph).
+5. Using that information we decide on a side to place the note on (which ever side will cause a shorter arrow).
+6. If we've decided to place on the right side we now need to check if there is enough vertical space.
+   - We iterate though the elements on the page below this element until we either: 
+     - Have found enough space. During the iteration we've also kept track of the widest element. 
+       - Using the known width of the note and available space we randomly place the note somewhere in the text.
+         If the page is sufficiently wide (i.e there is plenty of extra space in the margin) we'll always go though this 
+         code path as we can always scoot the note more into the margin.
+     - We've found an element below that is too wide. 
+       - We now add padding to the parent element to make enough room to place our notes without overlapping the pages' content
+   - This is the part that has the terrible code. Because we've wrapped everything in spans and because we need to special case lists we get 
+     [this nightmare of code](https://github.com/varun7654/varun7654.github.io/blob/b79df98f920087189784045d3adc695a4a9dafc7/_ts/src/notes.ts#L136-L193).
+     I can't tell you how many subtle bugs have been in here, and how many infinite loops I caused during development.
+7. Render arrows like normal
+
+If you want you can play with and see how this all works by resizing this window. (Opening and resizing the dev console may be easier.)
+The start of this article shows off pretty much all the behavior!
+
+--- 
+
+And that's about it! If you have a better way to do the above (please) 
+[open an issue on github](https://github.com/varun7654/varun7654.github.io/issues/new) with your ideas!
+
+... I've just realized 
+[how long](https://github.com/varun7654/varun7654.github.io/compare/4b84de4...b79df98f920087189784045d3adc695a4a9dafc7)%$Includes a healthy does of being distracted tho!$% 
+this project has taken me to finish.
 
 
 

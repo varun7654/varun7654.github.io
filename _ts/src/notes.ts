@@ -2,6 +2,8 @@
 
 const extraCanvasHeight = 100;
 const noteTextClassName = "note-text-rendered"
+const noteTextWideClassName = "note-text-wide-rendered"
+
 
 const STROKE_STYLE = "#706b67";
 
@@ -150,7 +152,6 @@ function updateNoteElements() {
                             // end of sublist traverse up
                             let closest = elem.parentElement!.closest("li,ul,ol,p") as HTMLElement;
                             next = closest!.nextElementSibling;
-                            console.log(next);
                         }
                     }
                     if (!next) {
@@ -209,6 +210,7 @@ function updateNoteElements() {
             document.body.removeChild(textElementParent);
             parent.insertAdjacentElement("afterend", textElementParent);
             textElementParent.style.position = "relative"
+            textElementParent.className = noteTextWideClassName;
 
             let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
             let parentParentBoundRect = toGlobalBounds(parent.parentElement!.getBoundingClientRect());
@@ -332,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         for (const mutation of mutationList) {
             if (mutation.type === "childList") {
                 // @ts-ignore
-                let hasNonTextNode = Array.from(mutation.addedNodes).some(node => node.className !== noteTextClassName)
+                let hasNonTextNode = Array.from(mutation.addedNodes).some(node => node.className !== noteTextClassName && node.className !== noteTextWideClassName);
                 if (hasNonTextNode) {
                     updateNoteElements();
                 }
