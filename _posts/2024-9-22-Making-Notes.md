@@ -173,7 +173,7 @@ And that's about it! If you have a better way to do the above (please)
 [open an issue on github](https://github.com/varun7654/varun7654.github.io/issues/new) with your ideas!
 
 ... I've just realized 
-[how long](https://github.com/varun7654/varun7654.github.io/compare/4b84de4...b79df98f920087189784045d3adc695a4a9dafc7)%$Includes a healthy does of being distracted tho!$% 
+[how long](https://github.com/varun7654/varun7654.github.io/compare/4b84de4...b2579f8c6ab6c980af3dfef0e2af2c4f9c015a94)%$Includes a healthy does of being distracted tho!$% 
 this project has taken me to finish.
 
 
