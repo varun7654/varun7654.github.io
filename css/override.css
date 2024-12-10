@@ -74,6 +74,8 @@ body {
 .post-content h1:hover,h2:hover,h3:hover,h4:hover,h5:hover,h6:hover {
   .headingLink {
     visibility: visible;
+    text-decoration: none;
+    color: inherit;
   }
 }
 
@@ -85,13 +87,7 @@ body {
   padding-right: 0;
   margin-right: 0;
   padding-left: 0.5em;
-  text-underline: none;
+  text-decoration: none;
+  color: inherit;
 }
 
-.post-content {
-  .headingLink {
-    a:link, a:visited, a:hover, a:active {
-      text-decoration: none;
-    }
-  }
-}
