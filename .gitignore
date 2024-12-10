@@ -4,3 +4,4 @@ oauth.json
 .idea/workspace.xml
 /node_modules/
 .idea/workspace.xml
+.tsbuildinfo

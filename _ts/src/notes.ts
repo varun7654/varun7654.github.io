@@ -62,9 +62,9 @@ function updateNoteElements() {
 
         let parentBoundRect = toGlobalBounds(parent.getBoundingClientRect());
 
-        let parentForLeftSpacing = noteElement.closest("p,ul,ol")!;
-        let spaceOnLeft = toGlobalBounds(parentForLeftSpacing.getBoundingClientRect()).left -
-            parseFloat(<string>window.getComputedStyle(parentForLeftSpacing).marginLeft);
+        let parentForRightSpacing = noteElement.closest("p,ul,ol")!;
+        let spaceOnLeft = toGlobalBounds(parentForRightSpacing.getBoundingClientRect()).left -
+            parseFloat(<string>window.getComputedStyle(parentForRightSpacing).marginLeft);
         let spaceOnRight = window.innerWidth - toGlobalBounds(parent.children.item(0)!.getBoundingClientRect()).right;
         let maxRightPos = parentBoundRect.right;
 
