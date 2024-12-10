@@ -118,13 +118,15 @@ To get my jekyll plugins to work I had to switch to the actions version for depl
 The classic version is simpler, but it uses an old version of jekyll and is limited in how much you can customize it. 
 Since I was already messing around with build tooling I took the time to polish it up a bit more.
 
-I added support for using typescript and migrated all the code I'd previously written to it (What can I say a girl likes her types).
+I also added support for using typescript and migrated all the code I'd previously written to it (what can I say a girl likes her types).
 I also added tooling to minify %$This turned out to be a massive headache since a lot of the preexisting tools are broken in subtle ways$%
-everything on my website and migrated to using Cloudflare Pages.
+everything on my website and migrated to using Cloudflare Pages. 
 
-## Shit is about to get so cursed
+## Strap in, we're about dive into some really cursed code
 
-At this point things were working
+At this point, everything was (mostly) working and I started writing this blog. I was using the note system, fixing the 
+few bugs that popped up and it was seeming like the end of this project was near.
+
 
 
 

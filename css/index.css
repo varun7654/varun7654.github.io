@@ -120,3 +120,14 @@ span.dacubeking {
 .post-title {
     margin-bottom: 1em;
 }
+
+.social-media-list {
+    .svg-icon {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .username {
+        display: inline-block;
+        vertical-align: middle; 
+    }
+}
