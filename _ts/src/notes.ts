@@ -111,8 +111,8 @@ function updateNoteElements() {
             let leftBound = spaceOnLeft;
             let rightBound = window.innerWidth - spaceOnRight;
             let maxRightBound = window.innerWidth - noteWidth - 60;
-            let topY = parentBoundRect.y - 30
-            textElementParent.style.top = (topY + Math.sin(randomRotation) * (noteWidth / 2)) + "px"
+            let topY = parentBoundRect.y - 40;
+            textElementParent.style.top = (topY + Math.abs(Math.sin(randomRotation) * (noteWidth / 2))) + "px"
 
             let centerness = boundingRect.x - leftBound - (rightBound - leftBound) / 2; // Where the note origin is based on it's parent bounds
             if (Math.abs(centerness) > 50) {

@@ -168,6 +168,7 @@ DEPENDENCIES
   jekyll-gist
   jekyll-minifier!
   jekyll-paginate
+  jekyll-sass-converter
   jekyll-sitemap
   jekyll-theme-minimal
   minima

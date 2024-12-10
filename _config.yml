@@ -54,3 +54,8 @@ exclude:
 
 keep_files:
   - ts_out
+
+
+sass:
+  style: compressed
+  sass_dir: _sass

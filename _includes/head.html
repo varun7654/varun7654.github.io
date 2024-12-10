@@ -28,5 +28,20 @@
   <link rel="preload" href="/css/override.css" as="style">
   <link rel="preload" href="/assets/main.css" as="style">
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+      const linkContent = '🔗';
+      for (const heading of headings) {
+        const linkIcon = document.createElement('a');
+        linkIcon.setAttribute('href', `#${heading.id}`);
+        linkIcon.innerHTML = linkContent;
+        linkIcon.className = "headingLink"
+        heading.appendChild(linkIcon);
+        linkIcon.style.marginRight = -linkIcon.getBoundingClientRect().width + "px";
+      }
+    });
+  </script>
+
   <script type="text/javascript" src="/ts_out/notes.js"></script>
 </head>

@@ -70,3 +70,24 @@ body {
     font-size: 34px;
   }
 }
+
+.post-content h1:hover,h2:hover,h3:hover,h4:hover,h5:hover,h6:hover {
+  .headingLink {
+    visibility: visible;
+  }
+}
+
+.post-content .headingLink {
+  display: inline-block;
+  font-size: 1.2rem;
+  vertical-align: middle;
+  visibility: hidden;
+  padding-right: 0;
+  margin-right: 0;
+  padding-left: 0.5em;
+  text-underline: none;
+}
+
+.post-content .headingLink a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+}
