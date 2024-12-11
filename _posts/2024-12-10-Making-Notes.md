@@ -1,6 +1,11 @@
 ---
 layout: post
 title: Making Little Handwritten Notes on My Website!
+excerpt: I wanted try adding some handwritten-like margin notes to my website. Creating a few of these probably wouldn't have been that hard.
+  A little bit of html and css with some svg images I created beforehand would do.
+
+  But since I like programming and don't really want to write a bunch of css and html I created a system that turns the following
+  markdown ish syntax into a note on my website.
 ---
 
 <head>
