@@ -94,6 +94,11 @@ function updateNoteElements() {
         if (canPlaceOnSide) {
             maxRotation = Math.min(degToRad(10), Math.atan2(17, textElementBoundingBox.height));
         } else {
+            textElementParent.className = noteTextWideClassName;
+            let textElementBoundingBox = toGlobalBounds(textElement.getBoundingClientRect());
+            noteWidth = textElementBoundingBox.width;
+            noteHeight = textElementBoundingBox.height;
+
             maxRotation = Math.min(degToRad(5), Math.atan2(17, textElementBoundingBox.height));
         }
 
@@ -210,7 +215,6 @@ function updateNoteElements() {
             document.body.removeChild(textElementParent);
             parent.insertAdjacentElement("afterend", textElementParent);
             textElementParent.style.position = "relative"
-            textElementParent.className = noteTextWideClassName;
 
             let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
             let parentParentBoundRect = toGlobalBounds(parent.parentElement!.getBoundingClientRect());
