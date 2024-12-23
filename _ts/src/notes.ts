@@ -219,12 +219,16 @@ function updateNoteElements() {
             let textElemParentBoundingBox = toGlobalBounds(textElementParent.getBoundingClientRect());
             let parentParentBoundRect = toGlobalBounds(parent.parentElement!.getBoundingClientRect());
 
-            let space = parentParentBoundRect.width - textElemParentBoundingBox.width - 2;
+            let maxBoundX = window.innerWidth - textElemParentBoundingBox.width - Math.sin(randomRotation) * noteHeight - 20;
+            let minBoundX = 0;
 
-            let placingRandomSpace = space * 0.25;
-            let leftOffset = boundingRect.x - parentParentBoundRect.x - textElemParentBoundingBox.width;
+            let randomScale = textElemParentBoundingBox.width * 0.8
+            let randomXOffset = random(index, 5) * randomScale;
+            let xPos = boundingRect.x - (textElemParentBoundingBox.width / 2) // centered
+                - (randomScale / 2) + randomXOffset; //randomness
+            xPos = Math.max(minBoundX, Math.min(maxBoundX, xPos));
 
-            textElementParent.style.paddingLeft = (random(index, 5) * placingRandomSpace + leftOffset) + "px";
+            textElementParent.style.paddingLeft = (xPos - parentParentBoundRect.x) + "px";
 
             textElementParent.style.textAlign = "left";
             ctx = getCanvasCtx(0, parentBoundRect.y - extraCanvasHeight / 2, parentBoundRect.height + textElemParentBoundingBox.width + extraCanvasHeight);
