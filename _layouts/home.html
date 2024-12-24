@@ -49,8 +49,7 @@
             </p>
             <p>
                 When I'm not working or coding, you might find me watching a rom-com, listening to a lecture on a niche topic, or reading a novel.
-                <span id="currentlyReading"> </span>
-                See what else I've read <a href="/reading">here</a>.
+                <span id="currentlyReading">Take a look at my reading list <a href="/reading">here</a> to see what I've recently read.</span>
             </p>
             <p>
                 If I'm not doing the above, you'll likely find me playing video games.
@@ -70,7 +69,8 @@
                     })
                     .then(function (html) {
                         if (html.length > 0) {
-                            document.getElementById("currentlyReading").innerHTML += html + "."
+                            document.getElementById("currentlyReading").innerHTML = html + ". "
+                            document.getElementById("currentlyReading").innerHTML += "See everything else <a href='/reading'>here</a>."
                         }
                     })
             </script>
