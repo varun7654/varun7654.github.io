@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Using Cloudflare Tunnels to Proxy Minecraft Server Traffic (For Free!)
+excerpt: For a while now I've been hosting my own Minecraft server at home.
+  Compared to using another free service (for instance, Hypixel or Aternos) my server (even running on one of my old laptops) has much better performance. 
 ---
 
 # Why

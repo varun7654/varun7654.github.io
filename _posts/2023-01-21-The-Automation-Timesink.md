@@ -1,6 +1,8 @@
 ---
 layout: post
 title: The Automation Timesink
+excerpt: When I first saw this comic, I don't think there was anything that related to me more as a programmer. My reality is almost exactly like the reality portion of the XKCD. I start writing code; it doesn't work. I debug; I realize could do this in a better way AND fix this bug if I rewrote this. Put all that in a `while (true)` loop and you've got me.
+
 ---
 
 ![xkcd1319](https://imgs.xkcd.com/comics/automation.png)

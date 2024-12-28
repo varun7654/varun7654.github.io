@@ -2,7 +2,11 @@
 layout: post
 title: My Programming Projects
 ---
-# My Programming Projects
+
+As a 20 year old, I've been programming for over a decade (yes half my life!). 
+It started with little projects and games [I made on Scratch](https://scratch.mit.edu/users/vxa1527/), but has slowly evolved into larger and more complex projects,
+some of which are listed below: 
+
 
 - [WeCode](https://github.com/varun7654/ai-coding-tutor): A website utilizing LLMs to help you learn to code
 
@@ -23,7 +27,7 @@ title: My Programming Projects
 #### **Some Minecraft Mods/Plugins:**
 - Client Side Noteblocks. [Modrinth](https://modrinth.com/mod/clientsidenoteblocks), [Curseforge](https://www.curseforge.com/minecraft/mc-mods/client-side-noteblocks)
     - A Minecraft mod to reduce audio latency when playing noteblocks in Minecraft. Works by processing inputs on the client instead of waiting for the server to play the sound.
-    - 300k+ downloads
+    - 350k+ downloads
 - To Do List. [Spigot](https://www.spigotmc.org/resources/to-do-list.94596/)
     - Simple Plugin for Spigot that holds a To Do List on your Minecraft server.
 - Quick Report [Hypixel](https://hypixel.net/threads/forge-1-8-9-quickreport-a-mod-for-quickly-reporting-cheaters-on-hypixel.3428305/)
