@@ -42,7 +42,7 @@ defaults:
       tags: Other
 
 header_pages:
-  - reading.md
+  - reading.html
   - archive.md
 
 jekyll-minifier:

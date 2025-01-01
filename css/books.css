@@ -1,6 +1,7 @@
 .book img {
     width: 16em;
     padding-right: 1em;
+    aspect-ratio: 256 / 393;
 }
 
 .book {
