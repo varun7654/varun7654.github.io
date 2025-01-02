@@ -11,15 +11,12 @@ title: Reading Log (Edit Mode)
 <div id=books>
 </div>
 
-Thanks to the [Open Library](https://openlibrary.org/) for providing the data powering this page. The backend is run on Cloudflare Workers with the source [here](https://github.com/varun7654/Workers-Books-Api)
-
 <script>
     fetch(
 		'https://books.api.dacubeking.com/read',
 	)
-    .then(function(response) {
-        // When the page is loaded convert it to text
-        return response.json()
+    .then((response) => {
+        return response.json();
     })
     .then(function(json) {
         async function fetchImage(url) {
@@ -33,10 +30,10 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
 
         
         json.forEach(function(bookData) {
-            var authorHtml = 
+            let authorHtml =
                 bookData.authors.map(
                     (author, index) => `${author}`
-                )
+                );
 
             let imageLink = bookData.coverLink;
 
@@ -44,8 +41,8 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                 imageLink = imageLink + "&fife=w800"
             }
 
-            fetchImage(imageLink)
-            var html = `
+            fetchImage(imageLink);
+            let html = `
                 <div class="book">
                     <div style="display:inline-block;vertical-align:top;">
                         <a href="https://books.api.dacubeking.com/bestedition?workId=${bookData.workId}&render=true&bypassCache=true">
@@ -64,9 +61,15 @@ Thanks to the [Open Library](https://openlibrary.org/) for providing the data po
                         </div>
                     </div>
                 </div>
-            `
+            `;
 
             document.getElementById("books").innerHTML +=  html
         });
     })
 </script>
+
+<div>
+  Thanks to the <a href="https://openlibrary.org/">Open Library</a>
+  and <a href="https://books.google.com/">Google Books</a> for providing the data powering this page.
+  The backend is run on Cloudflare Workers with the source <a href="https://github.com/varun7654/Workers-Books-Api">here</a>.
+</div>
