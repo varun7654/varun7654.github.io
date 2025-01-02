@@ -86,19 +86,21 @@ body {
   .headingLink {
     visibility: visible;
     text-decoration: none;
-    color: inherit;
+    color: rebeccapurple;
   }
 }
 
 .headingLink {
   display: inline-block;
-  font-size: 1.2rem;
+  font-size: 0.8em;
   vertical-align: middle;
   visibility: hidden;
   padding-right: 0;
+  padding-bottom: 0.2em;
   margin-right: 0;
   padding-left: 0.5em;
   text-decoration: none;
-  color: inherit;
+  color: rebeccapurple;
+  font-weight: bold;
 }
 
