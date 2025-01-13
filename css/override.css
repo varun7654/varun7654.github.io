@@ -104,3 +104,7 @@ body {
   font-weight: bold;
 }
 
+blockquote p {
+  margin-bottom: 0.2em;
+}
+
