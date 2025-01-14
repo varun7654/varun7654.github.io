@@ -11,6 +11,7 @@ See the live version:
 4. With node.js installed, run `npm install` to install the node dependecies.
 5. Preview the site with `bundle exec jekyll serve`.
 
+Note: When running the site locally you may notice that some preloads will fail. This is expected and the resulting errors can be ignored. I'm using Cloudflare Fonts which automatically replaces Google Fonts with proxied version from Cloudfare on the production website. 
 ## Tech stack
 
 - Using Jekyll, with the minima theme.
