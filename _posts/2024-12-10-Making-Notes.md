@@ -106,7 +106,7 @@ This keeps the specific code path a note took from effecting the random of other
 # Adding Build Tooling
 
 At this point the project was mostly working. Yay! I however noticed that my preloads for some of my resources weren't working. 
-The browser was preloads the content like expected but wasn't actually using them.
+The browser was preloading the content like expected but wasn't actually using them.
 
 This was caused because of the way that I was searching for the notes in JS. 
 I was using regex to match the `%​$ ... $​%` pattern and then modified the html to replace the text with a span that had the text in a data field.
