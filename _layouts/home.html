@@ -6,6 +6,7 @@
     <link rel="preload" href="/css/index.css" as="style" fetchpriority="high">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="preload" href="/cf-fonts/v/dancing-script/5.0.16/latin/wght/normal.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high">
+    <link rel="preload" href="https://books.api.dacubeking.com/currentlyreading" crossorigin="anonymous" as="fetch" fetchpriority="high">
     <link rel="preload" href="/assets/home/20241126-APC_0013_lq.avif" as="image" fetchpriority="high">
 </head>
 
@@ -14,8 +15,8 @@
 
 
 <body>
-<div class="intro-bg" id="intro-bg" style="margin-bottom: 3em;">
-    <div class="intro-bg" id="intro-bg-2" style="background-image: url('/assets/home/20241126-APC_0013.avif');">
+<div class="intro-bg" id="intro-bg" style="margin-bottom: 3em; background-image: url('/assets/home/20241126-APC_0013_lq.avif')">
+    <div class="intro-bg" id="intro-bg-2" >
         <div class="intro">
             <div class="inner-intro">
                 <div>
@@ -98,18 +99,18 @@
     <script>
       fetch(
         'https://books.api.dacubeking.com/currentlyreading',
-      )
-        .then(function (response) {
-          // When the page is loaded convert it to text
+        {priority: 'high'}
+      ).then(function (response) {
+          // When the page is loaded, convert it to text
           return response.text()
-        })
-        .then(function (html) {
+      }).then(function (html) {
           if (html.length > 0) {
             document.getElementById("currentlyReading").innerHTML = html + ". "
           } else {
             document.getElementById("currentlyReading").textContent = "";
           }
-        })
+      })
+      document.getElementById("intro-bg-2").style.backgroundImage = "url('/assets/home/20241126-APC_0013.avif')"
     </script>
 </div>
 

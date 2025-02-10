@@ -5,7 +5,6 @@
 
 .intro-bg {
     min-height: calc(100vh - 22em);
-    background-image: url("/assets/home/20241126-APC_0013_lq.avif");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
