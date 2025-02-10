@@ -11,7 +11,6 @@
     background-size: cover;
     position: relative;
     overflow: hidden;
-    margin-bottom: 3em;
 }
 
 span.dacubeking {
@@ -87,6 +86,7 @@ span.dacubeking {
     color: white;
     z-index: 1;
     display: grid;
+    font-size: 1.2em;
 }
 
 .intro::after {

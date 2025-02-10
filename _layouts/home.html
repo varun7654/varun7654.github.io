@@ -3,13 +3,11 @@
 {%- include head.html -%}
 
 <head>
-    <link rel="preload" href="/css/index.css" as="style">
+    <link rel="preload" href="/css/index.css" as="style" fetchpriority="high">
     <link rel="stylesheet" href="/css/index.css">
-    <link rel="preload" href="/cf-fonts/v/dancing-script/5.0.16/latin/wght/normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="https://books.api.dacubeking.com/currentlyreading" as="fetch" crossorigin="anonymous">
-    <link rel="preload" href="/assets/home/20241126-APC_0013_lq.avif" as="image">
-
-
+    <link rel="preload" href="/cf-fonts/v/dancing-script/5.0.16/latin/wght/normal.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high">
+    <link rel="preload" href="https://books.api.dacubeking.com/currentlyreading" as="fetch" crossorigin="anonymous" fetchpriority="high">
+    <link rel="preload" href="/assets/home/20241126-APC_0013_lq.avif" as="image" fetchpriority="high">
 </head>
 
 <html lang="{{ page.lang | default: site.lang | default: 'en' }}">
@@ -17,70 +15,72 @@
 
 
 <body>
-<div class="intro-bg asyncImage" id="intro-bg" data-src="/assets/home/20241126-APC_0013.avif">
-    <div class="intro">
-        <div class="inner-intro">
-            <div>
-                <p class="intro-title" style="line-height: 0.8">
-                    <span class="dacubeking">Heyo!</span>
-                    <span class="dacubeking">
+<div class="intro-bg" id="intro-bg" style="margin-bottom: 3em;">
+    <div class="intro-bg" id="intro-bg-2" style="background-image: url('/assets/home/20241126-APC_0013.avif');">
+        <div class="intro">
+            <div class="inner-intro">
+                <div>
+                    <p class="intro-title" style="line-height: 0.8">
+                        <span class="dacubeking">Heyo!</span>
+                        <span class="dacubeking">
                         <span class="dacubeking">I'm</span>
                         <span class="dacubeking">Da​Cube​King.</span>
                     </span>
+                    </p>
+                    <p style="margin-top: -0.1em">
+                        That's my pen name, irl people know me as <span class="trans">Adalie</span>.
+                    </p>
+                </div>
+                <p></p>
+                <p>
+                    I'm a 20-year-old college student from California who loves programming and tinkering with computers.
+                    I love tinkering with and exploring the things that make me curious—it's what led to
+                    <a href=https://github.com/varun7654/varun7654.github.io>this website</a> and many of
+                    <a href="/2022/12/01/My-Programming-Projects.html">my other projects</a>.
                 </p>
-                <p style="margin-top: -0.1em">
-                    That's my pen name, irl people know me as <span class="trans">Adalie</span>.
+                <p>
+                    I'm majoring in Computer Science with a Math minor, but outside of coding,
+                    I also dabble in video production, photography, and editing.
                 </p>
-            </div>
-            <p></p>
-            <p>
-                I'm a 20-year-old college student from California who loves programming and tinkering with computers.
-                I love tinkering with and exploring the things that make me curious—it's what led to
-                <a href=https://github.com/varun7654/varun7654.github.io>this website</a> and many of
-                <a href="/2022/12/01/My-Programming-Projects.html">my other projects</a>.
-            </p>
-            <p>
-                I'm majoring in Computer Science with a Math minor, but outside of coding,
-                I also dabble in video production, photography, and editing.
-            </p>
-            <p>
-                In high school, I was the programming lead for the First Robotics Competition Team,
-                where I earned several programming awards and competition wins.
-                I also spent a good amount of time making <a href="/yt.html">YouTube videos</a>, mainly focused on Minecraft,
-                which became a fun outlet for my more creative and artistic side.
-            </p>
-            <p>
-                When I'm not working or coding, you might find me watching a rom-com, listening to a lecture on a niche topic, or reading a novel.
-                <span id="currentlyReading">Take a look at my reading list <a href="/reading">here</a> to see what I've recently read.</span>
-            </p>
-            <p>
-                If I'm not doing the above, you'll likely find me playing video games.
-                I recently finished playing through <a href="https://www.alanwake.com/">Alan Wake 2</a>
-                and am now working my way through <a href="https://www.celestegame.com/">Celeste</a>.
-                I also continue to enjoy playing <a href="https://dynmap.dacubeking.com/">Minecraft</a> and <a href="https://playvalorant.com/">Valorant</a>.
-            </p>
+                <p>
+                    In high school, I was the programming lead for the First Robotics Competition Team,
+                    where I earned several programming awards and competition wins.
+                    I also spent a good amount of time making <a href="/yt.html">YouTube videos</a>, mainly focused on Minecraft,
+                    which became a fun outlet for my more creative and artistic side.
+                </p>
+                <p>
+                    When I'm not working or coding, you might find me watching a rom-com, listening to a lecture on a niche topic, or reading a novel.
+                    <span id="currentlyReading">Take a look at my reading list <a href="/reading">here</a> to see what I've recently read.</span>
+                </p>
+                <p>
+                    If I'm not doing the above, you'll likely find me playing video games.
+                    I recently finished playing through <a href="https://www.alanwake.com/">Alan Wake 2</a>
+                    and am now working my way through <a href="https://www.celestegame.com/">Celeste</a>.
+                    I also continue to enjoy playing <a href="https://dynmap.dacubeking.com/">Minecraft</a> and <a href="https://playvalorant.com/">Valorant</a>.
+                </p>
 
 
-            <script>
-                fetch(
+                <script>
+                  fetch(
                     'https://books.api.dacubeking.com/currentlyreading',
-                )
+                  )
                     .then(function (response) {
-                        // When the page is loaded convert it to text
-                        return response.text()
+                      // When the page is loaded convert it to text
+                      return response.text()
                     })
                     .then(function (html) {
-                        if (html.length > 0) {
-                            document.getElementById("currentlyReading").innerHTML = html + ". "
-                            document.getElementById("currentlyReading").innerHTML += "See everything else <a href='/reading'>here</a>."
-                        }
+                      if (html.length > 0) {
+                        document.getElementById("currentlyReading").innerHTML = html + ". "
+                        document.getElementById("currentlyReading").innerHTML += "See everything else <a href='/reading'>here</a>."
+                      }
                     })
-            </script>
+                </script>
+            </div>
         </div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 62" class="intro-boarder" preserveAspectRatio="none">
+            <path fill="#fdfdfd" d="M 446.349 44.811 C 470.785 44.262 496.544 41.664 518.252 30.431 C 529.372 24.677 500.553 51.817 500.553 51.817 L 501.752 78.734 L -5.254 79.103 C -5.254 79.103 -13.948 10.919 -6.084 27.481 C -1.033 38.118 10.642 46.901 22.308 48.498 C 44.472 51.531 64.693 26.197 84.993 24.531 C 119.724 21.68 140.63 62.776 181.969 60.667 C 218.623 58.797 254.41 28.156 290.376 20.844 C 341.923 10.364 393.761 45.992 446.349 44.811 Z"></path>
+        </svg>
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 62" class="intro-boarder" preserveAspectRatio="none">
-        <path fill="#fdfdfd" d="M 446.349 44.811 C 470.785 44.262 496.544 41.664 518.252 30.431 C 529.372 24.677 500.553 51.817 500.553 51.817 L 501.752 78.734 L -5.254 79.103 C -5.254 79.103 -13.948 10.919 -6.084 27.481 C -1.033 38.118 10.642 46.901 22.308 48.498 C 44.472 51.531 64.693 26.197 84.993 24.531 C 119.724 21.68 140.63 62.776 181.969 60.667 C 218.623 58.797 254.41 28.156 290.376 20.844 C 341.923 10.364 393.761 45.992 446.349 44.811 Z"></path>
-    </svg>
 </div>
 
 <main class="page-content" aria-label="Content">
