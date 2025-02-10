@@ -61,7 +61,7 @@ span.dacubeking {
 .inner-intro {
     min-height: inherit;
     vertical-align: middle;
-    max-width: 40em;
+    max-width: 45em;
     a {
         color: #cef0fd;
         text-decoration: none;
@@ -80,13 +80,13 @@ span.dacubeking {
 .intro {
     min-height: inherit;
     position: relative;
-    max-width: 65em;
+    max-width: 70em;
     margin-left: 0;
     height: 100%;
     color: white;
     z-index: 1;
     display: grid;
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
 .intro::after {
@@ -96,16 +96,17 @@ span.dacubeking {
     inset: 0;
     z-index: -1;
     backdrop-filter: brightness(60%) blur(5px);
+    --fade-off-start: 48em;
     mask: linear-gradient(
             to right,
-            #000000FF 44em,
-            #000000F7 46em,
-            #000000E6 48em,
-            #000000A6 52em,
-            #00000059 56em,
-            #0000001A 60em,
-            #00000008 62em,
-            #00000000 64em
+            #000000FF calc(var(--fade-off-start) + 0em),
+            #000000F7 calc(var(--fade-off-start) + 2em),
+            #000000E6 calc(var(--fade-off-start) + 4em),
+            #000000A6 calc(var(--fade-off-start) + 8em),
+            #00000059 calc(var(--fade-off-start) + 12em),
+            #0000001A calc(var(--fade-off-start) + 16em),
+            #00000008 calc(var(--fade-off-start) + 18em),
+            #00000000 calc(var(--fade-off-start) + 20em)
     );
 }
 
@@ -119,6 +120,14 @@ span.dacubeking {
 
 .post-title {
     margin-bottom: 1em;
+}
+
+p + ul {
+    margin-top: -0.8em;
+}
+
+p + li {
+    margin-top: -0.8em;
 }
 
 .social-media-list {
