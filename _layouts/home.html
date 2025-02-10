@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="preload" href="/cf-fonts/v/dancing-script/5.0.16/latin/wght/normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="https://books.api.dacubeking.com/currentlyreading" as="fetch" crossorigin="anonymous">
-    <link rel="preload" href="/assets/home/index_bg_lq.webp" as="image">
+    <link rel="preload" href="/assets/home/20241126-APC_0013_lq.avif" as="image">
+
+
 </head>
 
 <html lang="{{ page.lang | default: site.lang | default: 'en' }}">
@@ -15,7 +17,7 @@
 
 
 <body>
-<div class="intro-bg" id="intro-bg">
+<div class="intro-bg asyncImage" id="intro-bg" data-src="/assets/home/20241126-APC_0013.avif">
     <div class="intro">
         <div class="inner-intro">
             <div>
@@ -80,22 +82,6 @@
         <path fill="#fdfdfd" d="M 446.349 44.811 C 470.785 44.262 496.544 41.664 518.252 30.431 C 529.372 24.677 500.553 51.817 500.553 51.817 L 501.752 78.734 L -5.254 79.103 C -5.254 79.103 -13.948 10.919 -6.084 27.481 C -1.033 38.118 10.642 46.901 22.308 48.498 C 44.472 51.531 64.693 26.197 84.993 24.531 C 119.724 21.68 140.63 62.776 181.969 60.667 C 218.623 58.797 254.41 28.156 290.376 20.844 C 341.923 10.364 393.761 45.992 446.349 44.811 Z"></path>
     </svg>
 </div>
-
-<script>
-    window.addEventListener("load", (event) => {
-        // Preload the high-quality background image
-        const highQualityImage = new Image();
-        highQualityImage.src = "/assets/home/index_bg_hq.webp";
-
-        // Once the high-quality image is fully loaded, use it directly as a background
-        highQualityImage.onload = function() {
-            const introBgElement = document.getElementById("intro-bg");
-
-            // Set the background image using the preloaded image as a data URL
-            introBgElement.style.backgroundImage = `url(${highQualityImage.src})`;
-        };
-    });
-</script>
 
 <main class="page-content" aria-label="Content">
     <div class="wrapper">
@@ -166,7 +152,26 @@
 </main>
 
 {%- include footer.html -%}
-
+<script>
+  (() => {
+    // src: https://medium.com/front-end-weekly/how-to-optimize-image-loading-on-your-website-855020fb41ae
+    'use strict';
+    // Page is loaded
+    const objects = document.getElementsByClassName('asyncImage');
+    Array.from(objects).map((item) => {
+      // Start loading image
+      const img = new Image();
+      img.src = item.dataset.src;
+      // Once image is loaded replace the src of the HTML element
+      img.onload = () => {
+        item.classList.remove('asyncImage');
+        return item.nodeName === 'IMG' ?
+          item.src = item.dataset.src :
+          item.style.backgroundImage = `url(${item.dataset.src})`;
+      };
+    });
+  })();
+</script>
 </body>
 
 </html>
