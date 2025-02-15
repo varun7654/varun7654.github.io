@@ -1,35 +1,83 @@
 .book img {
-    width: 16em;
-    padding-right: 1em;
     aspect-ratio: 256 / 393;
+    width: 100%;
+}
+
+.book a {
+    width: 100%;
+}
+
+
+.books {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1rem;
+    grid-row-gap: .5rem;
+    grid-column-gap: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100rem;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    padding: 1rem;
+}
+
+@media screen and (max-width: 50rem) {
+    .books {
+        grid-template-columns: repeat(auto-fit, minmax(5rem, 33rem));
+
+    }
 }
 
 .book {
+    display: grid;
     margin-bottom: 1.5em;
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+    gap: 0;
+}
+
+.book-image {
+    grid-row: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end; /* Pushes the image to the bottom of the container */
 }
 
 .currently-reading {
+    grid-row: 5;
     font-weight: lighter;
     font-size: large;
     line-height: 1em;
+    text-align: left;
 }
+
 .book-title {
+    grid-row: 2;
     margin-top: 0.1em;
     font-weight: bold;
     font-size: x-large;
     line-height: 1em;
+    align-content: center;
 }
 .author {
+    grid-row: 3;
     margin-top: 0.1em;
     font-weight: normal;
     font-size: x-large;
     line-height: 1em;
+    align-content: center;
 }
 .published {
+    grid-row: 4;
     margin-top: 0.1em;
     font-weight: normal;
     font-size: large;
     line-height: 1em;
+    align-content: center;
+
 }
 
 .book a {

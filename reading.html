@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: nowrapper
 title: Reading Log
 ---
 
@@ -11,14 +11,15 @@ title: Reading Log
     <script type="text/javascript" src="assets/reading.js"></script>
 </head>
 
-<div id=books>
+<div id=books class="books">
 </div>
-<div>
+<div class="books-bottom-material">
     Thanks to the <a href="https://openlibrary.org/">Open Library</a>
     and <a href="https://books.google.com/">Google Books</a> for providing the data powering this page.
     The backend is run on Cloudflare Workers with the source <a href="https://github.com/varun7654/Workers-Books-Api">here</a>.
+    <div>
+        <a href="/readingedit/reading">Edit This</a>
+    </div>
 </div>
 
-<div>
-    <a href="/readingedit/reading">Edit This</a>
-</div>
+

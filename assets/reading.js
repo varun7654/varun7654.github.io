@@ -10,7 +10,7 @@ fetch(
         json.forEach(function(bookData) {
             let imageLink = bookData.coverLink;
             let imageSources = "";
-            for (size of sizes) {
+            for (let size of sizes) {
                 if (imageLink.includes("books.google.com")) {
                     imageSources += imageLink + "&fife=w" + size + " " + size + "w, "
                 }
@@ -20,7 +20,7 @@ fetch(
             div.className = "book";
 
             let imageDiv = document.createElement("div");
-            imageDiv.style = "display:inline-block;vertical-align:top;min-h";
+            imageDiv.className = "book-image";
 
             let imgLink = document.createElement("a");
             imgLink.href = bookData.link;
@@ -28,7 +28,7 @@ fetch(
             let img = document.createElement("img");
             img.src = imageLink;
             img.srcset = imageSources;
-            img.sizes = "(max-width: 16em) 100vw, 16em";
+            img.sizes = "(max-width: 35rem) calc(100vw - 2rem), (max-width: 51rem) 33rem, (max-width: 71rem) calc((100vw - 3rem) / 2), (max-width: 94rem) calc((100vw - 4rem) / 3), (max-width: 103rem) calc((100vw - 5rem) / 4), 25rem";
             img.loading = "lazy";
             img.alt = `Book Cover for: ${bookData.name}`;
             img.addEventListener("load", () => {
@@ -40,32 +40,29 @@ fetch(
 
             div.appendChild(imageDiv);
 
-            let infoDiv = document.createElement("div");
-            infoDiv.style = "display:inline-block;vertical-align:bottom; width:20em; margin-top:0.3em";
 
             if (bookData.list === "Currently Reading") {
                 let currReadingDiv = document.createElement("div");
                 currReadingDiv.className = "currently-reading";
                 currReadingDiv.textContent = `Currently Reading - ${Math.round(bookData.percentComplete * 100)}%`
-                infoDiv.appendChild(currReadingDiv);
+                div.appendChild(currReadingDiv);
             }
 
             let titleDiv = document.createElement("div");
             titleDiv.className = "book-title";
             titleDiv.href = bookData.link;
             titleDiv.textContent = bookData.name;
-            infoDiv.appendChild(titleDiv);
+            div.appendChild(titleDiv);
 
             let authorDiv = document.createElement("div");
             authorDiv.className = "author";
             authorDiv.textContent = bookData.authors.join(", ");
-            infoDiv.appendChild(authorDiv);
+            div.appendChild(authorDiv);
 
             let publishedDiv = document.createElement("div");
             publishedDiv.className = "published";
             publishedDiv.textContent = bookData.published;
-            infoDiv.appendChild(publishedDiv);
-            div.appendChild(infoDiv);
+            div.appendChild(publishedDiv);
 
             document.getElementById("books").appendChild(div);
         });
