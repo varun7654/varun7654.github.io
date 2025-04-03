@@ -134,4 +134,8 @@ blockquote p {
   transition: background-position 0.8s ease, font-weight 0.6s ease;
 }
 
+.wrapper {
+  max-width: 50em;
+}
+
 
