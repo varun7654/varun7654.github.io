@@ -80,7 +80,8 @@
                         Also, <a href="https://dynmap.dacubeking.com/">Minecraft</a> and
                         <a href="https://playvalorant.com/">Valorant</a> remain my trusty go-to’s.
                     </li>
-                    <li><strong>Writing</strong> Occasionally I'll get the itch to write, and you'll find the fruits of that below.
+                    <li><strong>Vibing to some music! </strong><span id="favoriteSong" aria-live="polite">Loading favorite song...</span></li>
+                    <li><strong>Writing!</strong> Occasionally I'll get the itch to write, and you'll find the fruits of that below.
                     </li>
 
                 </ul>
@@ -102,18 +103,88 @@
         </svg>
     </div>
     <script>
+      /** @typedef {object} homepageInfo
+       * @property {object} favoriteTrack
+       * @property {object} favoriteTrack.streamable
+       * @property {string} favoriteTrack.streamable.fulltrack
+       * @property {string} favoriteTrack.streamable.#text
+       * @property {string} favoriteTrack.mbid
+       * @property {string} favoriteTrack.name
+       * @property {object[]} favoriteTrack.image
+       * @property {string} favoriteTrack.image.size
+       * @property {string} favoriteTrack.image.#text
+       * @property {object} favoriteTrack.artist
+       * @property {string} favoriteTrack.artist.url
+       * @property {string} favoriteTrack.artist.name
+       * @property {string} favoriteTrack.artist.mbid
+       * @property {string} favoriteTrack.url
+       * @property {string} favoriteTrack.duration
+       * @property {object} favoriteTrack.@attr
+       * @property {string} favoriteTrack.@attr.rank
+       * @property {string} favoriteTrack.playcount
+       * @property {object[]} readingBooks
+       * @property {string} readingBooks.name
+       * @property {string} readingBooks.link
+       * @property {string[]} readingBooks.authors
+       * @property {string[]} readingBooks.authorLinks
+       * @property {string} readingBooks.published
+       * @property {string} readingBooks.coverLink
+       * @property {string} readingBooks.workId
+       * @property {string} readingBooks.list
+       * @property {string} readingBooks.pages
+       * @property {string} readingBooks.percentComplete
+       */
+
+
+      function combineList(list) {
+        let out = '';
+        // combine all the elements into a nicely formatted string with commas and an "&"
+        // be sure not to add "&" if there is only one element in the list
+        for (let i = 0; i < list.length; i++) {
+          if (i === 0) {
+            out += list[i];
+          } else if (i === list.length - 1) {
+            out += " & " + list[i];
+          } else {
+            out += ", " + list[i];
+          }
+        }
+        return out;
+      }
       fetch(
-        'https://books.api.dacubeking.com/currentlyreading',
+        'https://books.api.dacubeking.com/homepageinfo',
         {priority: 'high'}
       ).then(function (response) {
-          // When the page is loaded, convert it to text
-          return response.text()
-      }).then(function (html) {
-          if (html.length > 0) {
-            document.getElementById("currentlyReading").innerHTML = html + ". "
-          } else {
-            document.getElementById("currentlyReading").textContent = "";
-          }
+        // When the page is loaded, convert it to text
+        /**
+         * @type Promise<homepageInfo>
+         */
+        let json = response.json();
+        return json;
+      }).then(function (json) {
+        if (json.readingBooks.length > 0) {
+          let booksList = json.readingBooks.map((book) => {
+            const percentComplete = book.percentComplete;
+
+            return `<a href="${book.link}">${book.name}</a> by ${combineList(
+                book.authors
+            )} <span class="reading-percentage">(${Math.round(
+                percentComplete * 100
+              )}% done!)</span>`;
+          });
+          document.getElementById("currentlyReading").innerHTML = "Currently, I'm reading " + combineList(booksList) + ".";
+        } else {
+          document.getElementById("currentlyReading").textContent = "";
+        }
+
+        if (json.favoriteTrack) {
+          let track = json.favoriteTrack;
+          document.getElementById("favoriteSong").innerHTML = `
+            My current favorite is <a href=${track.url}>${track.name}</a> by <a href=${track.artist.url}>${track.artist.name}</a>.
+          `
+        }
+
+
       })
       document.getElementById("intro-bg-2").style.backgroundImage = "url('/assets/home/20241126-APC_0013.avif')"
     </script>
