@@ -124,8 +124,8 @@ blockquote p {
 }
 
 :root {
-  --trans-blue: #5BCEFA;
-  --trans-pink: #F5A9B8;
+  --trans-blue: oklab(from #5BCEFA);
+  --trans-pink: oklab(from #F5A9B8 ) ;
 }
 
 .trans:hover {

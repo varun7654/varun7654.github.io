@@ -3,6 +3,11 @@
     font-style: italic;
 }
 
+:root {
+    --trans-blue: #5BCEFA;
+    --trans-pink: #F5A9B8;
+}
+
 .intro-bg {
     min-height: calc(100vh - 22em);
     background-position: center;
@@ -17,10 +22,59 @@ span.dacubeking {
     margin-top: 10px;
 }
 
+@property --rotation { /* coral/orange */
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 70deg;
+}
+
 .intro-title {
     font-family: 'Dancing Script', serif;
-    font-weight: 700;
+    font-weight: 1000;
+    /* Here, we design a gradient that repeats seamlessly by repeating the first color at the end */
+    background-image: repeating-linear-gradient(in oklab var(--rotation),
+            var(--trans-pink),
+            var(--trans-blue),
+            var(--trans-pink),
+            var(--trans-blue),
+            var(--trans-pink) 95%
+
+    );
+    background-repeat: no-repeat;
+    /* Expand the background size to give room for movement */
+    background-size: 200% 200%;
+    -webkit-background-clip: text; /* For Chrome/Safari */
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 2rem;
+    backdrop-filter: opacity(70%);
+
+    /* Use a continuous scrolling animation */
+    animation: scrollingGradient 20s linear infinite, gradientRotation 100s linear infinite;
 }
+
+@keyframes scrollingGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes gradientRotation {
+    0% {
+        --rotation: 0deg
+    }
+    50% {
+        --rotation: 180deg
+    }
+    100% {
+        --rotation: 360deg
+    }
+}
+
+
 
 @media screen and (min-width: 800px) {
     .intro-bg {
